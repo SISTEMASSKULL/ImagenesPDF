@@ -1,0 +1,88 @@
+schema_version: "1.0.0"
+generated_at: "2025-08-14T00:00:00Z"
+source_note: "Relación simple tag ↔ código DEPO (exacto, prefijo o patrón). Sin lógica extra: todo lo demás lo resuelve dims.yaml."
+
+# Cómo matchear (orden sugerido): exacto > prefijo > patrón > por partes (A/B/C).
+matching_priority: ["code_exact", "code_prefix", "code_pattern", "parts"]
+
+# Campos que tu app puede rellenar con los tags encontrados.
+indexing_fields:
+  add_to_description: true # si true, los tags se pueden insertar al final de la descripción
+  add_to_keywords: true # si true, los tags se agregan al índice de búsqueda
+
+# =========================
+#  TAGS → SELECTORES
+# =========================
+tags:
+  # Ejemplo: jerga local "LOBITO" (Hiace en Bolivia).
+  # Lo asociamos a códigos TOYOTA (B=12) y a grupos típicos de luces (C=11/19/20)
+  - tag: "LOBITO"
+    normalized: "LOBITO"
+    targets:
+      # 1) Prefijos: 312-11* (TOYOTA + HEAD LAMP), 312-19* (TAIL LAMP), 312-20* (FOG LAMP)
+      - code_prefix: "312-11"
+      - code_prefix: "312-19"
+      - code_prefix: "312-20"
+      # 2) Patrón genérico (por si no quieres mantener muchos prefijos):
+      - code_pattern: "^312-(11|19|20)\\d{2}-[A-Z0-9]{1,4}$"
+      # 3) Por partes del código (A=3, B=12, C∈{11,19,20})
+      - parts:
+          {
+            A_country: "3",
+            B_maker: "12",
+            C_product_type_any: ["11", "19", "20"],
+          }
+    add_to_description: true
+    add_to_keywords: true
+    notes: "Asocia TOYOTA (B=12) en faro/tail/niebla; no fija años ni bulbos."
+
+  # Ejemplo: “media luz” (luz baja). Minimalista: atamos el tag a códigos C=11 (HEAD LAMP)
+  - tag: "MEDIA LUZ"
+    normalized: "MEDIA LUZ"
+    targets:
+      - parts: { C_product_type_any: ["11"] } # todos los HEAD LAMP
+    add_to_description: true
+    add_to_keywords: true
+
+  # Marca genérica: TOYOTA (por B=12). Útil para búsquedas por marca.
+  - tag: "TOYOTA"
+    normalized: "TOYOTA"
+    targets:
+      - parts: { B_maker: "12" } # cualquier producto TOYOTA
+    add_to_description: false
+    add_to_keywords: true
+
+  # Modelo genérico: HIACE (mismo criterio que LOBITO, pero sin jerga)
+  - tag: "HIACE"
+    normalized: "HIACE"
+    targets:
+      - code_prefix: "312-11"
+      - code_prefix: "312-19"
+      - code_prefix: "312-20"
+      - code_pattern: "^312-(11|19|20)\\d{2}-"
+    add_to_description: false
+    add_to_keywords: true
+
+  # Ejemplo concreto del código que diste: 312-1909-AS
+  # Así agregas tags SOLO a ese ítem exacto (por si necesitas precisión absoluta).
+  - tag: "HIACE 90s TAIL"
+    normalized: "HIACE 90s TAIL"
+    targets:
+      - code_exact: "312-1909-AS"
+    add_to_description: false
+    add_to_keywords: true
+
+  # Puedes crear tags por línea de producto o uso común:
+  - tag: "FARO DELANTERO"
+    normalized: "FARO DELANTERO"
+    targets:
+      - parts: { C_product_type_any: ["11"] }
+    add_to_description: false
+    add_to_keywords: true
+
+  - tag: "FARO NIEBLA"
+    normalized: "FARO NIEBLA"
+    targets:
+      - parts: { C_product_type_any: ["20"] }
+    add_to_description: false
+    add_to_keywords: true

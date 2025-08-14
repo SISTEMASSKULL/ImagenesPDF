@@ -1,588 +1,501 @@
-POWER_FOLDING:
-        code: "POWER_FOLDING"
-        name: "Power Folding"
-        description: "Plegado eléctrico automático"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["folding", "electric_folding", "auto_fold"]
-        
-      POWER_ADJUSTMENT:
-        code: "POWER_ADJUSTMENT"
-        name: "Power Adjustment"
-        description: "Ajuste eléctrico de posición"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["electric_adjustment", "power_adjust", "motorized"]
-        
-      MANUAL_ADJUSTMENT:
-        code: "MANUAL_ADJUSTMENT"
-        name: "Manual Adjustment"
-        description: "Ajuste manual de posición"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["manual", "manual_adjust", "hand_adjust"]
+schema_version: "1.1.0"
+generated_at: "2025-08-14T00:00:00Z"
+source_note: "Features alineado con dims.yaml v1.3.0. Manejo robusto de años, OEM y near-OEM (extracción, normalización, vinculación, validación, plantillas)."
 
-  SECURITY_FEATURES:
-    name: "Security & Access Features"
-    description: "Características de seguridad y acceso"
-    icon: "🔐"
+dependencies:
+  dims_version_expected: ">=1.3.0"
+  refs:
+    sides: "dims.dimensions.sides"
+    drives: "dims.dimensions.drives"
+    bulbs: "dims.dimensions.bulbs"
+    certs: "dims.numbering.G_product_certification.map"
+    base_code: "dims.numbering.H_base_code.map"
+    lens_i: "dims.numbering.I_lens_variation.map"
+    lens_j: "dims.numbering.J_additional_lens_color.map"
+    product_group: "dims.numbering.C_product_type.map"
+    makers_canonical: "dims.dimensions.vehicle_makers"
+    models: "dims.vehicle_models"
+
+# ==========================================================
+# 0) EXTRACCIÓN Y NORMALIZACIÓN ESPECIALIZADA
+# ==========================================================
+extraction:
+  model_header:
+    # Busca encabezados tipo: "REPLACEMENT FOR CAMRY 01~03" o "FOR TOYOTA COROLLA 1998–2000"
+    patterns:
+      - '(?i)REPLACEMENT\\s+FOR\\s+(?P<model>[A-Z0-9\\-\\./\\s]+?)\\s+(?P<years>\\d{2}\\s*[~\\-–]\\s*\\d{2})'
+      - '(?i)FOR\\s+(?P<model>[A-Z0-9\\-\\./\\s]+?)\\s+(?P<years>\\d{4}\\s*[~\\-–]\\s*\\d{4})'
+      - '(?i)REPLACEMENT\\s+FOR\\s+(?P<model>[A-Z0-9\\-\\./\\s]+?)' # sin años (opcional)
+  year_parsing:
+    # Convierte rangos "95~97" → 1995–1997; "01~03" → 2001–2003
+    # Regla de pivote: 00..30 => 2000..2030 ; 31..99 => 1931..1999 (ajústalo si lo necesitas)
+    pivot_two_digit: 30
+    normalize:
+      collapse_spaces: true
+      dash_chars: ["-", "–", "—", "~"]
+    validation:
+      min_year: 1980
+      max_year: 2035
+  oem_codes:
+    normalization:
+      uppercase: true
+      strip_spaces: true
+      unify_separator: "-" # convierte espacios o otros separadores a '-'
+      allowed_chars: "A-Z0-9-" # filtra lo que no cumpla
+      trim_leading_zeros_in_blocks: false
+    # Si hay múltiples OEM en un bloque, el primero será propuesto como primario (puedes cambiar esta heurística)
+    primary_selection: "first"
+  near_oem_codes:
+    normalization:
+      uppercase: true
+      strip_spaces: true
+      unify_separator: "-"
+      allowed_chars: "A-Z0-9-/"
+    linkage:
+      # Cómo intentamos vincular near-OEM → OEM:
+      strategies:
+        - "exact_match" # near == uno de los OEM normalizados
+        - "prefix_match" # 'XXXXX-123' = 'XXXXX123' o variantes con/ sin '-'
+        - "token_overlap" # comparten bloques relevantes (>=2 tokens)
+      prefer_oem_from_same_item: true
+      confidence_labels: ["exact", "high", "medium", "low"]
+
+# ==========================================================
+# 1) DERIVACIÓN DIRECTA DESDE CÓDIGO (A–J → features)
+# ==========================================================
+derived_from_code:
+  mapping:
+    E_position.side:
+      from: "E"
+      enum_ref: "dims.dimensions.sides"
+      description: "Lado de instalación o presentación del set."
+    F_classification.kind:
+      from: "F"
+      enum_ref: "dims.numbering.F_classification.map"
+      description: "Unit/Assembly/Only socket/Only bulb/…"
+    G_certification.primary:
+      from: "G"
+      enum_ref: "dims.numbering.G_product_certification.map"
+      allow_blank: true
+      description: "S/E/Q/C/D o blanco."
+    H_base_code.base:
+      from: "H"
+      enum_ref: "dims.numbering.H_base_code.map"
+      description: "Base (color/estilo/socket)."
+    I_lens.variant_i:
+      from: "I"
+      enum_ref: "dims.numbering.I_lens_variation.map"
+    J_lens.variant_j:
+      from: "J"
+      enum_ref: "dims.numbering.J_additional_lens_color.map"
+
+  addendum_headlamps_only:
+    F_overrides:
+      from: "F"
+      enum_ref: "dims.addendum_headlamps_only.F_assembly_spec.map"
+      applies_when: 'C == "11"'
+    G_overrides:
+      from: "G"
+      enum_ref: "dims.addendum_headlamps_only.G_classification.map"
+      applies_when: 'C == "11"'
+    H_overrides:
+      from: "H"
+      enum_ref: "dims.addendum_headlamps_only.H_product_certification.map"
+      applies_when: 'C == "11"'
+    IJK_submodel:
+      from: "variant_tail"
+      enum_ref: "dims.addendum_headlamps_only.IJK_submodel_variation.map"
+      multi: true
+      applies_when: 'C == "11"'
+
+# ==========================================================
+# 2) CAMPOS COMUNES (incluye años, OEM y near-OEM robusto)
+# ==========================================================
+common:
+  identity:
+    product_group_code:
+      type: "string"
+      enum_ref: "dims.numbering.C_product_type.map"
+      required: true
+    maker_canonical:
+      type: "string"
+      enum_ref: "dims.dimensions.vehicle_makers"
+    model_canonical:
+      type: "string"
+      enum_ref: "dims.vehicle_models[<maker>]"
+    model_years:
+      type: "object"
+      properties:
+        from: { type: "integer", minimum: 1950, maximum: 2100 }
+        to: { type: "integer", nullable: true, maximum: 2100 }
+      description: "Rango de años normalizado desde encabezado o celda."
+
+  fitment:
+    side: { type: "string", enum_ref: "dims.dimensions.sides" }
+    drive: { type: "string", enum_ref: "dims.dimensions.drives" }
+    body_style:
+      type: "string"
+      enum:
+        [
+          "SEDAN",
+          "HATCHBACK",
+          "WAGON",
+          "SUV",
+          "PICKUP",
+          "VAN",
+          "COUPE",
+          "CONVERTIBLE",
+          "MPV",
+          "OTHER",
+        ]
+    doors:
+      type: "integer"
+      minimum: 2
+      maximum: 6
+
+  optics_electrical:
+    voltage: { type: "integer", enum: [12, 24] }
+    connector_pins: { type: "integer", minimum: 2, maximum: 12 }
+    socket_features:
+      type: "array"
+      items: { enum_ref: "dims.dimensions.socket_features" }
+    bulbs:
+      type: "object"
+      properties:
+        low_beam: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        high_beam: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        drl: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        turn_signal: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        parking: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        stop: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        tail: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        reverse: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+        rear_fog: { type: "string", enum_ref: "dims.dimensions.bulbs" }
+
+  compliance:
+    certification:
+      type: "string"
+      enum_ref: "dims.numbering.G_product_certification.map"
+      allow_blank: true
+    capa_grade:
+      type: "string"
+      enum: ["CAPA", "NON_CAPA", "N/A"]
+    waterproof_rating:
+      type: "string"
+      enum: ["IP54", "IP55", "IP56", "IP67", "IP68", "UNKNOWN"]
+
+  packaging:
+    units_per_ctn: { type: "integer", minimum: 1, maximum: 100 }
+    cft: { type: "number", minimum: 0.01, maximum: 50.0 }
+    net_weight_kg: { type: "number", minimum: 0.1, maximum: 50.0 }
+    gross_weight_kg: { type: "number", minimum: 0.1, maximum: 60.0 }
+
+  references:
+    # OEM normalizados
+    oem_primary:
+      {
+        type: "string",
+        description: "OEM principal sugerido (heurística configurable).",
+      }
+    oem_all:
+      type: "array"
+      description: "Lista de todos los OEM detectados (normalizados y deduplicados)."
+      items: { type: "string" }
+    # near-OEM normalizados + vínculo a OEM
+    near_oem_all:
+      type: "array"
+      description: "Lista de near-OEM detectados (normalizados)."
+      items: { type: "string" }
+    near_oem_links:
+      type: "array"
+      description: "Relaciones near-OEM → OEM con nivel de confianza."
+      items:
+        type: "object"
+        properties:
+          near_oem: { type: "string" }
+          maps_to_oem: { type: "string", nullable: true }
+          confidence:
+            {
+              type: "string",
+              enum: ["exact", "high", "medium", "low", "unmatched"],
+            }
+          notes: { type: "string", maxLength: 200 }
+    # Otros
+    notes: { type: "array", items: { type: "string", maxLength: 400 } }
+
+# ==========================================================
+# 3) FEATURES POR CATEGORÍA
+# ==========================================================
+by_category:
+  "11:HEAD LAMP":
     features:
-      WITH_KEYHOLE:
-        code: "WITH_KEYHOLE"
-        name: "With Keyhole"
-        description: "Incluye cerradura con llave"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["keyhole", "key_hole", "lock_cylinder", "with_lock"]
-        
-      WITHOUT_KEYHOLE:
-        code: "WITHOUT_KEYHOLE"
-        name: "Without Keyhole"
-        description: "Sin cerradura de llave"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["no_keyhole", "no_key_hole", "keyless"]
-        
-      CENTRAL_LOCKING:
-        code: "CENTRAL_LOCKING"
-        name: "Central Locking"
-        description: "Sistema de cierre centralizado"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["central_lock", "remote_lock", "power_lock"]
-        
-      ANTI_THEFT:
-        code: "ANTI_THEFT"
-        name: "Anti-theft Feature"
-        description: "Función anti-robo"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["antitheft", "security", "theft_protection"]
+      light_source:
+        { type: "string", enum: ["HALOGEN", "LED", "HID", "MIXED", "UNKNOWN"] }
+      beam_type:
+        {
+          type: "string",
+          enum: ["REFLECTOR", "PROJECTOR", "MATRIX", "UNKNOWN"],
+        }
+      with_leveling_motor: { type: "boolean" }
+      with_afs: { type: "boolean" }
+      with_ahb: { type: "boolean" }
+      with_drl: { type: "boolean" }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
+      classification:
+        {
+          type: "string",
+          enum_ref: "dims.addendum_headlamps_only.G_classification.map",
+        }
+      certification:
+        {
+          type: "string",
+          enum_ref: "dims.addendum_headlamps_only.H_product_certification.map",
+        }
+      submodel_flags:
+        {
+          type: "array",
+          items:
+            {
+              enum_ref: "dims.addendum_headlamps_only.IJK_submodel_variation.map",
+            },
+        }
+    required: [light_source, classification, certification]
 
-  OPTICAL_FEATURES:
-    name: "Optical & Vision Features"
-    description: "Características ópticas y de visión"
-    icon: "👁️"
+  "19:TAIL LAMP":
     features:
-      WIDE_ANGLE:
-        code: "WIDE_ANGLE"
-        name: "Wide Angle View"
-        description: "Vista gran angular"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["wide_view", "panoramic", "extended_view"]
-        
-      CONVEX_MIRROR:
-        code: "CONVEX_MIRROR"
-        name: "Convex Mirror"
-        description: "Espejo convexo para mayor visión"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["convex", "curved_mirror", "fish_eye"]
-        
-      PROJECTOR_LENS:
-        code: "PROJECTOR_LENS"
-        name: "Projector Lens"
-        description: "Lente tipo proyector"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["projector", "focused_beam", "hid_projector"]
-        
-      REFLECTOR_TYPE:
-        code: "REFLECTOR_TYPE"
-        name: "Reflector Type"
-        description: "Tipo reflector tradicional"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["reflector", "parabolic", "traditional"]
-        
-      CLEAR_LENS:
-        code: "CLEAR_LENS"
-        name: "Clear Lens"
-        description: "Lente transparente/cristalino"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["clear", "transparent", "crystal"]
-        
-      SMOKE_LENS:
-        code: "SMOKE_LENS"
-        name: "Smoke Lens"
-        description: "Lente ahumado/oscuro"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["smoke", "dark", "tinted", "smoked"]
+      with_sequential_turn: { type: "boolean" }
+      with_led_bar: { type: "boolean" }
+      with_rear_fog: { type: "boolean" }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
+      classification:
+        { type: "string", enum_ref: "dims.numbering.F_classification.map" }
+      certification:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.G_product_certification.map",
+          allow_blank: true,
+        }
 
-  ELECTRICAL_FEATURES:
-    name: "Electrical Features"
-    description: "Características eléctricas"
-    icon: "⚡"
+  "20:FOG LAMP":
     features:
-      ELEC:
-        code: "ELEC"
-        name: "Electrical Connection"
-        description: "Requiere conexión eléctrica"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["electric", "electrical", "wired"]
-        
-      WITH_BULB:
-        code: "WITH_BULB"
-        name: "Bulb Included"
-        description: "Incluye bombilla/bulbo"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["bulb_included", "with_lamp", "lamp_included"]
-        
-      WITHOUT_BULB:
-        code: "WITHOUT_BULB"
-        name: "Bulb Not Included"
-        description: "No incluye bombilla/bulbo"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["no_bulb", "bulb_separate", "housing_only"]
-        
-      PLUG_AND_PLAY:
-        code: "PLUG_AND_PLAY"
-        name: "Plug and Play"
-        description: "Instalación directa sin modificaciones"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["plug_play", "direct_fit", "oem_connector"]
-        
-      WIRING_HARNESS:
-        code: "WIRING_HARNESS"
-        name: "Wiring Harness Included"
-        description: "Incluye arnés de cableado"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["harness", "wiring", "connector_kit"]
+      position_front_rear: { type: "string", enum: ["FRONT", "REAR"] }
+      light_source:
+        { type: "string", enum: ["HALOGEN", "LED", "HID", "UNKNOWN"] }
+      beam_pattern:
+        { type: "string", enum: ["FOG_WIDE", "FOG_PROJECTOR", "UNKNOWN"] }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
+      certification:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.G_product_certification.map",
+          allow_blank: true,
+        }
 
-  FINISH_STYLE:
-    name: "Finish & Style Features"
-    description: "Características de acabado y estilo"
-    icon: "🎨"
+  "13:BACK-UP LAMP":
     features:
-      BLACK_HOUSING:
-        code: "BLACK_HOUSING"
-        name: "Black Housing"
-        description: "Carcasa/housing negro"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["black", "matte_black", "textured_black"]
-        
-      CHROME_FINISH:
-        code: "CHROME_FINISH"
-        name: "Chrome Finish"
-        description: "Acabado cromado"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["chrome", "chromium", "polished_chrome"]
-        
-      CLEAR_HOUSING:
-        code: "CLEAR_HOUSING"
-        name: "Clear Housing"
-        description: "Carcasa transparente"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["clear", "transparent", "crystal_clear"]
-        
-      TEXTURED_FINISH:
-        code: "TEXTURED_FINISH"
-        name: "Textured Finish"
-        description: "Acabado texturizado"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["textured", "grain", "stippled"]
-        
-      PAINTED_FINISH:
-        code: "PAINTED_FINISH"
-        name: "Painted Finish"
-        description: "Acabado pintado"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["painted", "color_matched", "factory_paint"]
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
+      classification:
+        { type: "string", enum_ref: "dims.numbering.F_classification.map" }
 
-# Mapeos específicos por proveedor
-vendor_mappings:
-  depo:
-    # DEPO usa principalmente códigos simples
-    feature_patterns:
-      "ELEC": "ELEC"
-      "MOTOR": "MOTOR"
-      "LED": "LED"
-      "DRL": "LED_DRL"
-      "WITH BULB": "WITH_BULB"
-      "NO BULB": "WITHOUT_BULB"
-      
-  yuto:
-    # YUTO es más específico con features LED
-    feature_patterns:
-      "LED": "LED"
-      "LED DRL": "LED_DRL"
-      "LED Turn": "LED_TURN"
-      "Sequential": "SEQUENTIAL_TURN"
-      "Puddle": "LED_PUDDLE"
-      "Heat": "HEATED"
-      "Heated": "HEATED"
-      "CANBus": "CANBUS_READY"
-      "Error Free": "CANBUS_READY"
-      
-  hushan:
-    # HUSHAN se enfoca en espejos y manijas
-    feature_patterns:
-      "keyhole": "WITH_KEYHOLE"
-      "smart key": "SMART_KEY_SENSOR"
-      "heated": "HEATED_MIRROR"
-      "power": "POWER_ADJUSTMENT"
-      "folding": "POWER_FOLDING"
-      "memory": "MEMORY_FUNCTION"
-      "auto dim": "AUTO_DIMMING"
-      "blind spot": "BLIND_SPOT"
-      "Black": "BLACK_HOUSING"
-      "Chrome": "CHROME_FINISH"
-      "Clear": "CLEAR_HOUSING"
-
-# Reglas de validación y compatibilidad
-validation_rules:
-  # Features mutuamente excluyentes
-  mutually_exclusive:
-    - ["WITH_KEYHOLE", "WITHOUT_KEYHOLE"]
-    - ["WITH_BULB", "WITHOUT_BULB"] 
-    - ["POWER_ADJUSTMENT", "MANUAL_ADJUSTMENT"]
-    - ["BLACK_HOUSING", "CHROME_FINISH", "CLEAR_HOUSING"]
-    - ["CLEAR_LENS", "SMOKE_LENS"]
-    - ["PROJECTOR_LENS", "REFLECTOR_TYPE"]
-    
-  # Features que requieren otros features
-  dependencies:
-    SEQUENTIAL_TURN:
-      requires: ["LED_TURN"]
-    LED_DRL:
-      requires: ["LED"]
-    HEATED_MIRROR:
-      requires: ["HEATED"]
-    AUTO_DIMMING:
-      requires: ["POWER_ADJUSTMENT"]
-    MEMORY_FUNCTION:
-      requires: ["POWER_ADJUSTMENT"]
-      
-  # Features típicos por tipo de producto
-  product_type_features:
-    HEAD_LAMP:
-      common: ["LED", "LED_DRL", "PROJECTOR_LENS", "CLEAR_LENS"]
-      rare: ["LED", "HEATED", "MOTOR"]
-
-# Configuración de detección automática
-auto_detection:
-  # Patrones de texto para detectar features automáticamente
-  text_patterns:
-    LED:
-      patterns: ["LED", "Light Emitting Diode"]
-      confidence: 0.9
-      
-    LED_DRL:
-      patterns: ["DRL", "Daytime Running", "Running Light"]
-      confidence: 0.8
-      
-    HEATED:
-      patterns: ["Heat", "Heated", "Defrost", "Anti-fog"]
-      confidence: 0.8
-      
-    WITH_KEYHOLE:
-      patterns: ["with keyhole", "w/ keyhole", "key hole", "lock cylinder"]
-      confidence: 0.9
-      
-    SMART_KEY_SENSOR:
-      patterns: ["smart key", "proximity sensor", "keyless", "sensor"]
-      confidence: 0.7
-      
-    SEQUENTIAL_TURN:
-      patterns: ["sequential", "dynamic", "flowing", "progressive"]
-      confidence: 0.8
-      
-    POWER_FOLDING:
-      patterns: ["power fold", "electric fold", "auto fold", "motorized fold"]
-      confidence: 0.9
-      
-    CHROME_FINISH:
-      patterns: ["chrome", "chromium", "polished chrome"]
-      confidence: 0.9
-      
-    BLACK_HOUSING:
-      patterns: ["black housing", "matte black", "textured black"]
-      confidence: 0.8
-
-# Configuración de combinaciones comunes
-feature_combinations:
-  # Combinaciones frecuentes que van juntas
-  common_combinations:
-    led_package:
-      features: ["LED", "LED_DRL", "LED_TURN"]
-      description: "Paquete LED completo"
-      
-    smart_mirror:
-      features: ["HEATED_MIRROR", "POWER_ADJUSTMENT", "MEMORY_FUNCTION"]
-      description: "Espejo inteligente con todas las funciones"
-      
-    luxury_door_handle:
-      features: ["SMART_KEY_SENSOR", "CHROME_FINISH", "CENTRAL_LOCKING"]
-      description: "Manija de lujo con sensor"
-      
-    basic_door_handle:
-      features: ["WITH_KEYHOLE", "BLACK_HOUSING", "MANUAL_ADJUSTMENT"]
-      description: "Manija básica con llave"
-      
-    premium_headlamp:
-      features: ["LED", "LED_DRL", "PROJECTOR_LENS", "SEQUENTIAL_TURN"]
-      description: "Faro premium LED con proyector"
-
-# Configuración de scoring y prioridad
-scoring:
-  # Peso de cada feature para cálculos de similitud
-  feature_weights:
-    LED: 2.0
-    LED_DRL: 1.8
-    HEATED: 1.5
-    WITH_KEYHOLE: 1.5
-    SMART_KEY_SENSOR: 2.0
-    MOTOR: 1.8
-    SEQUENTIAL_TURN: 1.7
-    POWER_FOLDING: 1.6
-    CHROME_FINISH: 1.2
-    BLACK_HOUSING: 1.0
-    
-  # Features críticos que deben coincidir exactamente
-  critical_features:
-    - "WITH_KEYHOLE"
-    - "WITHOUT_KEYHOLE"
-    - "LED"
-    - "HEATED"
-    - "MOTOR"
-
-# Configuración de exportación/importación
-export_settings:
-  # Campos a incluir en exportaciones
-  include_in_export:
-    - "code"
-    - "name" 
-    - "description"
-    - "data_type"
-    - "category"
-    
-  # Formatos de export soportados
-  supported_formats:
-    - "json"
-    - "csv"
-    - "excel"
-    - "xml"
-    
-  # Configuración de aliases en export
-  export_aliases: true
-  flatten_categories: false
-
-# Configuración de localización
-localization:
-  supported_languages: ["en", "es", "fr", "de", "zh"]
-  default_language: "en"
-  
-  translations:
-    es:
-      LED: "LED"
-      HEATED: "Calefaccionado"
-      WITH_KEYHOLE: "Con cerradura"
-      SMART_KEY_SENSOR: "Sensor de llave inteligente"
-      POWER_FOLDING: "Plegado eléctrico"
-      
-# Configuración de migración y versioning
-versioning:
-  current_version: "1.0"
-  backward_compatible_versions: ["0.9", "0.8"]
-  
-  migration_rules:
-    "0.9_to_1.0":
-      renamed_features:
-        "KEYHOLE": "WITH_KEYHOLE"
-        "NO_KEYHOLE": "WITHOUT_KEYHOLE"
-        "ELECTRIC": "ELEC"
-      
-      new_features:
-        - "SEQUENTIAL_TURN"
-        - "CANBUS_READY"
-        - "BLIND_SPOT"
-
-# Configuración de cache y performance
-performance:
-  cache_enabled: true
-  cache_size_mb: 10
-  preload_common_features: true
-  
-  indexing:
-    index_by_code: true
-    index_by_alias: true
-    index_by_category: true
-    full_text_search: true
-
-# Configuración de logging específico
-logging:
-  log_feature_detection: true
-  log_validation_errors: true
-  log_performance_metrics: true
-  log_level: "INFO" ["HEATED", "WITH_KEYHOLE"]
-      
-    TAIL_LAMP:
-      common: ["LED", "LED_TURN", "SEQUENTIAL_TURN", "CLEAR_LENS"]
-      rare: ["HEATED", "MOTOR"]
-      
-    SIDE_MIRROR:
-      common: ["HEATED_MIRROR", "POWER_ADJUSTMENT", "TURN_SIGNAL"]
-      rare: ["LED_DRL", "PROJECTOR_LENS"]
-      
-    DOOR_HANDLE:
-      common: ["WITH_KEYHOLE", "SMART_KEY_SENSOR", "BLACK_HOUSING"]
-      rare:# Taxonomía de características (features) para ImagenesPDF
-# Sistema de procesamiento de catálogos PDF de autopartes
-
-metadata:
-  version: "1.0"
-  description: "Taxonomía completa de características de autopartes"
-  last_updated: "2024-01-15"
-  total_categories: 8
-  extensible: true
-
-# Categorías principales de features
-categories:
-  
-  LED_TECHNOLOGY:
-    name: "LED Technology Features"
-    description: "Características relacionadas con tecnología LED"
-    icon: "💡"
+  "14:SIDE LAMP":
     features:
-      LED:
-        code: "LED"
-        name: "LED Technology"
-        description: "Utiliza tecnología LED"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["led", "LED_TECH", "LED_TECHNOLOGY"]
-        
-      LED_DRL:
-        code: "LED_DRL" 
-        name: "LED Daytime Running Lights"
-        description: "Luces diurnas LED integradas"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["drl", "DRL", "daytime_running", "running_lights"]
-        
-      LED_TURN:
-        code: "LED_TURN"
-        name: "LED Turn Signals"
-        description: "Señales de giro LED"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["led_signal", "turn_led", "signal_led"]
-        
-      SEQUENTIAL_TURN:
-        code: "SEQUENTIAL_TURN"
-        name: "Sequential Turn Signal"
-        description: "Señal de giro secuencial/dinámica"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["sequential", "dynamic_turn", "flowing_turn"]
-        
-      LED_PUDDLE:
-        code: "LED_PUDDLE"
-        name: "LED Puddle Lamp"
-        description: "Lámpara LED de cortesía en piso"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["puddle_lamp", "courtesy_light", "ground_light"]
-        
-      CANBUS_READY:
-        code: "CANBUS_READY"
-        name: "CANBus Compatible"
-        description: "Compatible con sistema CANBus sin errores"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["canbus", "error_free", "no_error", "can_bus"]
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
 
-  HEATING_FEATURES:
-    name: "Heating Features"
-    description: "Características de calefacción"
-    icon: "🔥"
+  "15:CORNER LAMP":
     features:
-      HEATED:
-        code: "HEATED"
-        name: "Heated Function"
-        description: "Función de calefacción integrada"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["heated", "heating", "defrost"]
-        
-      HEATED_MIRROR:
-        code: "HEATED_MIRROR"
-        name: "Heated Mirror Glass"
-        description: "Cristal de espejo con desempañador"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["heated_glass", "defrost_mirror", "anti_fog"]
-        
-      HEATED_LENS:
-        code: "HEATED_LENS"
-        name: "Heated Lens"
-        description: "Lente con sistema de calefacción"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["lens_heating", "defrost_lens"]
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
 
-  SMART_FEATURES:
-    name: "Smart Technology Features"
-    description: "Características de tecnología inteligente"
-    icon: "🧠"
+  "16:FRONT LAMP":
     features:
-      SMART_KEY_SENSOR:
-        code: "SMART_KEY_SENSOR"
-        name: "Smart Key Sensor"
-        description: "Sensor para llave inteligente"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["smart_key", "proximity_sensor", "keyless_sensor"]
-        
-      AUTO_DIMMING:
-        code: "AUTO_DIMMING"
-        name: "Auto Dimming"
-        description: "Función de oscurecimiento automático"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["auto_dim", "electrochromic", "self_dimming"]
-        
-      MEMORY_FUNCTION:
-        code: "MEMORY_FUNCTION"
-        name: "Memory Function"
-        description: "Memoria de posiciones"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["memory", "position_memory", "recall_function"]
-        
-      BLIND_SPOT:
-        code: "BLIND_SPOT"
-        name: "Blind Spot Detection"
-        description: "Detección de punto ciego"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["blind_spot_detection", "bsd", "side_detection"]
+      with_drl: { type: "boolean" }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+      lens_j:
+        {
+          type: "string",
+          enum_ref: "dims.numbering.J_additional_lens_color.map",
+        }
+      base_code: { type: "string", enum_ref: "dims.numbering.H_base_code.map" }
 
-  MOTOR_FEATURES:
-    name: "Motor & Movement Features"
-    description: "Características de motor y movimiento"
-    icon: "⚙️"
+  "21:LICENSE LAMP":
     features:
-      MOTOR:
-        code: "MOTOR"
-        name: "Motor Included"
-        description: "Incluye motor eléctrico"
-        data_type: "boolean"
-        default_value: false
-        aliases: ["motor", "electric_motor", "actuator"]
-        
-      POWER_FOLDING:
-        code: "POWER_FOLDING
+      light_source: { type: "string", enum: ["HALOGEN", "LED", "UNKNOWN"] }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+
+  "29:REFLECTOR":
+    features:
+      reflectivity_grade: { type: "string", enum: ["STD", "HIGH", "UNKNOWN"] }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+
+  "34:THIRD BRAKE LAMP":
+    features:
+      light_source: { type: "string", enum: ["LED", "HALOGEN", "UNKNOWN"] }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+
+  "40:REAR FOG LAMP":
+    features:
+      light_source: { type: "string", enum: ["HALOGEN", "LED", "UNKNOWN"] }
+      lens_i:
+        { type: "string", enum_ref: "dims.numbering.I_lens_variation.map" }
+
+# ==========================================================
+# 4) PLANTILLAS DE DESCRIPCIÓN (incluyen años/OEM/near-OEM)
+# ==========================================================
+description_templates:
+  variables_doc: |
+    Variables disponibles:
+    - ${product_group_name}, ${side_label}, ${classification_label}, ${cert_label}
+    - ${base_label}, ${lens_i_label}, ${lens_j_label}
+    - ${maker_display}, ${model_display}, ${year_span}
+    - ${oem_primary}, ${oem_joined}, ${near_oem_joined}
+
+  defaults:
+    name: "${product_group_name} ${side_label}, ${classification_label}${cert_label?}, Base ${base_label}, Lens ${lens_i_label}${lens_j_label?}"
+    detail: "${maker_display} ${model_display} ${year_span} · ${product_group_name} ${side_label} · ${classification_label} · ${cert_label?} · Base ${base_label} · Lens ${lens_i_label}${lens_j_label?} · OEM ${oem_primary?}${oem_joined? · also: ${oem_joined}}${near_oem_joined? · near: ${near_oem_joined}}"
+
+  by_category:
+    "11:HEAD LAMP":
+      name: "Head Lamp ${side_label}, ${classification_label}${cert_label?}, ${beam_type?} ${light_source}"
+      detail: "${maker_display} ${model_display} ${year_span} · Head Lamp ${side_label} · ${light_source}${beam_type?} · ${with_drl?DRL} ${with_afs?AFS} ${with_leveling_motor?Leveling} · Base ${base_label} · Lens ${lens_i_label}${lens_j_label?} · OEM ${oem_primary?}${oem_joined? · also: ${oem_joined}}${near_oem_joined? · near: ${near_oem_joined}}"
+    "19:TAIL LAMP":
+      name: "Tail Lamp ${side_label}, ${classification_label}${cert_label?}, Lens ${lens_i_label}${lens_j_label?}"
+      detail: "${maker_display} ${model_display} ${year_span} · Tail Lamp ${side_label} · ${with_sequential_turn?Sequential} ${with_rear_fog?Rear Fog} · Base ${base_label} · Lens ${lens_i_label}${lens_j_label?} · OEM ${oem_primary?}${oem_joined? · also: ${oem_joined}}${near_oem_joined? · near: ${near_oem_joined}}"
+
+# ==========================================================
+# 5) VALIDACIÓN Y NORMALIZACIÓN (con OEM / near-OEM)
+# ==========================================================
+validation:
+  rules:
+    - id: "years-valid-range"
+      field: "common.identity.model_years"
+      custom: "years.from >= extraction.year_parsing.validation.min_year && (years.to == null || years.to <= extraction.year_parsing.validation.max_year)"
+      message: "Rango de años fuera de los límites configurados."
+    - id: "oem-format"
+      field: "common.references.oem_all"
+      pattern: "^[A-Z0-9\\-]{4,}$"
+      message: "Formato OEM inválido tras normalización."
+    - id: "near-oem-linkage"
+      field: "common.references.near_oem_links"
+      custom: "every(item => item.confidence in ['exact','high','medium','low','unmatched'])"
+      message: "Confianza de near-OEM → OEM inválida."
+    - id: "side-valid"
+      field: "common.fitment.side"
+      allowed_enum_ref: "dims.dimensions.sides"
+      message: "Lado inválido."
+    - id: "cert-known"
+      field: "common.compliance.certification"
+      allowed_enum_ref: "dims.numbering.G_product_certification.map"
+      message: "Certificación no reconocida."
+
+normalization:
+  text:
+    uppercase_fields:
+      [
+        "maker_canonical",
+        "model_canonical",
+        "classification",
+        "certification",
+        "side",
+      ]
+    trim_spaces: true
+    collapse_whitespace: true
+  assign_from_code:
+    - from: "derived.E_position.side"
+      to: "common.fitment.side"
+    - from: "derived.F_classification.kind"
+      to: "by_category.*.features.classification"
+    - from: "derived.G_certification.primary"
+      to: "common.compliance.certification"
+    - from: "derived.H_base_code.base"
+      to: "by_category.*.features.base_code"
+    - from: "derived.I_lens.variant_i"
+      to: "by_category.*.features.lens_i"
+    - from: "derived.J_lens.variant_j"
+      to: "by_category.*.features.lens_j"
+  oem_near_oem:
+    # Deduplicación y orden canónico
+    dedupe: true
+    sort: "alphanumeric"
+    # Cómo se decide el oem_primary si no está explícito:
+    primary_strategy: "first_non_empty" # first | longest | by_vendor_priority
+    # Vinculación programática de near-OEM → OEM:
+    link_near_to_oem: true
+    link_confidence_thresholds:
+      exact: 1.0
+      high: 0.9
+      medium: 0.7
+      low: 0.5
+
+# ==========================================================
+# 6) VÍNCULOS Y REGLAS DE PRECEDENCIA (OEM/near-OEM)
+# ==========================================================
+linkage:
+  precedence:
+    - "prefer_oem_from_same_item_block"
+    - "prefer_exact_match_between_near_oem_and_oem"
+    - "fallback_to_prefix_match"
+    - "fallback_to_token_overlap"
+  notes:
+    - "Si no hay OEM, pero existe near-OEM con 'exact' o 'high', promover near-OEM a 'oem_primary' marcado como 'derived'."
+    - "Mantener trazabilidad en near_oem_links[].notes."
+
+# ==========================================================
+# 7) ASISTENTES DE CATEGORIZACIÓN
+# ==========================================================
+category_binding:
+  "11": "11:HEAD LAMP"
+  "13": "13:BACK-UP LAMP"
+  "14": "14:SIDE LAMP"
+  "15": "15:CORNER LAMP"
+  "16": "16:FRONT LAMP"
+  "19": "19:TAIL LAMP"
+  "20": "20:FOG LAMP"
+  "21": "21:LICENSE LAMP"
+  "29": "29:REFLECTOR"
+  "34": "34:THIRD BRAKE LAMP"
+  "40": "40:REAR FOG LAMP"

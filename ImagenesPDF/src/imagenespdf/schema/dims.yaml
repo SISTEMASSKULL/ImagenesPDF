@@ -1,360 +1,698 @@
-# Catálogos y dimensiones de datos para ImagenesPDF
-# Sistema de procesamiento de catálogos PDF de autopartes
+schema_version: "1.3.0"
+generated_at: "2025-08-14T00:00:00Z"
+source_note: "Índice DEPO A–J + dimensiones complementarias + alias robusto y modelos por marca. Todas las claves y aliases son coherentes con makers canónicos."
 
-metadata:
-  version: "1.0"
-  description: "Catálogos maestros y tablas de dimensiones"
-  last_updated: "2024-01-15"
-  data_sources: ["industry_standards", "oem_specifications", "market_research"]
+# =========================
+#  ÍNDICE A–J (DEPO)
+# =========================
+numbering:
+  A_country:
+    digits: 1
+    map:
+      "1": "China"
+      "2": "Japan"
+      "3": "America"
+      "4": "Germany"
+      "5": "France"
+      "6": "Italy"
+      "7": "Sweden"
+      "8": "England"
+    description: "Código de país (1 dígito)."
 
-# Tabla de fabricantes de vehículos (dim_maker)
-makers:
-  ACURA: "Acura"
-  AUDI: "Audi AG"
-  BMW: "BMW Group"
-  BUICK: "Buick"
-  CADILLAC: "Cadillac"
-  CHEVROLET: "Chevrolet"
-  CHRYSLER: "Chrysler"
-  DODGE: "Dodge"
-  FIAT: "Fiat"
-  FORD: "Ford Motor Company"
-  GMC: "GMC"
-  HONDA: "Honda Motor Co."
-  HYUNDAI: "Hyundai Motor Company"
-  INFINITI: "Infiniti"
-  ISUZU: "Isuzu Motors"
-  JAGUAR: "Jaguar Land Rover"
-  JEEP: "Jeep"
-  KIA: "Kia Corporation"
-  LAND_ROVER: "Land Rover"
-  LEXUS: "Lexus"
-  LINCOLN: "Lincoln Motor Company"
-  MAZDA: "Mazda Motor Corporation"
-  MERCEDES: "Mercedes-Benz"
-  MITSUBISHI: "Mitsubishi Motors"
-  NISSAN: "Nissan Motor Co."
-  PONTIAC: "Pontiac"
-  PORSCHE: "Porsche AG"
-  RAM: "Ram Trucks"
-  SAAB: "Saab Automobile"
-  SATURN: "Saturn Corporation"
-  SCION: "Scion"
-  SUBARU: "Subaru Corporation"
-  SUZUKI: "Suzuki Motor Corporation"
-  TESLA: "Tesla, Inc."
-  TOYOTA: "Toyota Motor Corporation"
-  VOLKSWAGEN: "Volkswagen Group"
-  VOLVO: "Volvo Cars"
+  # B_maker: códigos de 2 dígitos del índice → marcas canónicas (puede haber varias)
+  B_maker:
+    digits: 2
+    map:
+      "11": { label: "DH", makers: [] }
+      "12": { label: "TY", makers: ["TOYOTA"] }
+      "13": { label: "IZ", makers: ["ISUZU"] }
+      "14": { label: "MB", makers: ["MERCEDES_BENZ"] }
+      "15": { label: "NS", makers: ["NISSAN"] }
+      "16": { label: "MZ", makers: ["MAZDA"] }
+      "17": { label: "HD", makers: ["HONDA"] }
+      "18": { label: "SZ", makers: ["SUZUKI"] }
+      "20": { label: "SB", makers: ["SUBARU"] }
+      "21": { label: "HY", makers: ["HYUNDAI"] }
+      "23": { label: "KA", makers: ["KIA"] }
+      "24": { label: "LX", makers: ["LEXUS"] }
+      "25": { label: "IF", makers: ["INFINITI"] }
+      "27": { label: "AC", makers: ["ACURA"] }
+      "30": { label: "FD", makers: ["FORD"] }
+      "31": { label: "LN/MC", makers: ["LINCOLN", "MERCURY"] }
+      "32":
+        {
+          label: "GM SERIES/CD/GO",
+          makers: ["GENERAL_MOTORS", "CADILLAC", "GEO"],
+        }
+      "33": { label: "CR SERIES/JP/EG", makers: ["CHRYSLER", "JEEP", "EAGLE"] }
+      "34": { label: "DG/RM/PM", makers: ["DODGE", "RAM", "PLYMOUTH"] }
+      "35": { label: "CV/GC/SN", makers: ["CHEVROLET", "GMC", "SATURN"] }
+      "36":
+        {
+          label: "BK/OM/PT/HM",
+          makers: ["BUICK", "OLDSMOBILE", "PONTIAC", "HUMMER"],
+        }
+      "40": { label: "M-BZ", makers: ["MERCEDES_BENZ"] }
+      "41": { label: "VN", makers: ["VOLKSWAGEN"] }
+      "44": { label: "BM", makers: ["BMW"] }
+      "46": { label: "AD", makers: ["AUDI"] }
+      "48": { label: "PS", makers: ["PORSCHE"] }
+      "50": { label: "PG", makers: ["PEUGEOT"] }
+      "61": { label: "FT", makers: ["FIAT"] }
+      "72": { label: "SA", makers: ["SAAB"] }
+      "73": { label: "VV", makers: ["VOLVO"] }
+      "82": { label: "MI", makers: ["MITSUBISHI"] }
+    description: "Fabricante/Marca (2 dígitos). 'makers' referencia claves canónicas en dimensions.vehicle_makers."
 
-# Tabla de países (dim_country)
-countries:
-  CN: "China"
-  TW: "Taiwan"
-  JP: "Japan"
-  KR: "South Korea"
-  DE: "Germany"
-  US: "United States"
-  MX: "Mexico"
-  CA: "Canada"
-  BR: "Brazil"
-  IN: "India"
-  TH: "Thailand"
-  MY: "Malaysia"
-  ID: "Indonesia"
-  VN: "Vietnam"
+  C_product_type:
+    digits: 2
+    map:
+      "11": "HEAD LAMP"
+      "12": "LIGHT CASE"
+      "13": "BACK-UP LAMP"
+      "14": "SIDE LAMP"
+      "15": "CORNER LAMP"
+      "16": "FRONT LAMP"
+      "17": "LIGHT HOUSING"
+      "18": "MARK (EMBLEM)"
+      "19": "TAIL LAMP"
+      "20": "FOG LAMP"
+      "21": "LICENSE LAMP"
+      "22": "SPEED APPEARANCE LAMP"
+      "23": "WIND PLATE"
+      "24": "GRILLE"
+      "25": "ORNAMENT PLATE"
+      "26": "FAN"
+      "27": "GENERAL"
+      "28": "SIDE BUMPER"
+      "29": "REFLECTOR"
+      "30": "ORNAMENT LAMP"
+      "31": "WHEEL CAP"
+      "32": "FAN SHROUD"
+      "33": "SAFETY CLIP"
+      "34": "THIRD BRAKE LAMP"
+      "36": "SPARE TANK"
+      "37": "HOOD MOULDING"
+      "38": "STEP PANEL"
+      "39": "STEERING COVER"
+      "40": "REAR FOG LAMP"
+      "50": "DOOR HANDLE"
+      "53": "WINDOW REGULATOR"
+      "55": "COOLING FAN"
+      "58": "BLOWER"
+      "59": "TAIL LAMP"
+    description: "Tipo de producto (2 dígitos)."
 
-# Jerarquía de tipos de productos (dim_product_type)
-product_types:
-  # Nivel 1 - Categorías principales
-  LIGHTING:
-    name: "Lighting Systems"
-    description: "All automotive lighting components"
-    parent_code: null
-    subcategories:
-      # Nivel 2 - Subcategorías
-      HEAD_LAMP:
-        name: "Head Lamps"
-        description: "Front lighting assemblies"
-        parent_code: "LIGHTING"
-        subcategories:
-          # Nivel 3 - Tipos específicos
-          HEAD_LAMP_HALOGEN:
-            name: "Halogen Head Lamps"
-            parent_code: "HEAD_LAMP"
-          HEAD_LAMP_LED:
-            name: "LED Head Lamps"
-            parent_code: "HEAD_LAMP"
-          HEAD_LAMP_HID:
-            name: "HID/Xenon Head Lamps"
-            parent_code: "HEAD_LAMP"
+  D_serial_number:
+    digits: 2
+    description: "Número de serie (2 dígitos)."
 
-      TAIL_LAMP:
-        name: "Tail Lamps"
-        description: "Rear lighting assemblies"
-        parent_code: "LIGHTING"
-        subcategories:
-          TAIL_LAMP_STANDARD:
-            name: "Standard Tail Lamps"
-            parent_code: "TAIL_LAMP"
-          TAIL_LAMP_LED:
-            name: "LED Tail Lamps"
-            parent_code: "TAIL_LAMP"
+  E_position:
+    digits: 1
+    map:
+      R: "Right"
+      L: "Left"
+      N: "Both sides"
+      P: "Pair (set)"
+      F: "4 pcs"
+      S: "6 pcs"
+    description: "Lado/Presentación (1 letra)."
 
-      FOG_LAMP:
-        name: "Fog Lamps"
-        description: "Auxiliary lighting for poor visibility"
-        parent_code: "LIGHTING"
-        subcategories:
-          FOG_LAMP_FRONT:
-            name: "Front Fog Lamps"
-            parent_code: "FOG_LAMP"
-          FOG_LAMP_REAR:
-            name: "Rear Fog Lamps"
-            parent_code: "FOG_LAMP"
+  F_classification:
+    digits: 1
+    map:
+      U: "Unit (Bulb & socket excluded)"
+      A: "Assembly (Bulb & socket included)"
+      W: "Only socket (Bulb excluded)"
+      B: "Only bulb (no wiring included)"
+      "-": "Neither bulb nor wiring required"
+      N: "New socket style"
+      O: "Old socket style"
+    description: "Clasificación / estilo de zócalo (1 letra)."
 
-      CORNER_LAMP:
-        name: "Corner Lamps"
-        description: "Side marker and corner lighting"
-        parent_code: "LIGHTING"
+  G_product_certification:
+    digits: 1
+    blank_allowed: true
+    map:
+      S: "DOT/SAE"
+      E: "E-mark (European)"
+      Q: "E-mark & SAE"
+      C: "CAPA (& SAE)"
+      D: "No standard (general)"
+    description: "Certificación del producto (1 letra o blanco)."
 
-      SIGNAL_LAMP:
-        name: "Signal Lamps"
-        description: "Turn signal indicators"
-        parent_code: "LIGHTING"
+  H_base_code:
+    digits: 1
+    alphanumeric: true
+    map:
+      "1": "Chrome"
+      "2": "Black"
+      "3": "Trim Chrome"
+      "4": "Orange/Red"
+      "5": "White"
+      "6": "Gray"
+      "7": "Other"
+      "8": "Yellow"
+      "9": "Other"
+      Z: "Socket: No hole"
+      O: "Socket: One hole"
+      T: "Socket: Two holes"
+      D: "Old housing base"
+      N: "New housing base"
+      B: "Big hole"
+      S: "Small hole"
+      "-": "No spec"
+    description: "Código de base (1 alfanumérico)."
 
-  BODY:
-    name: "Body Components"
-    description: "Exterior body parts and assemblies"
-    parent_code: null
-    subcategories:
-      DOOR_HANDLE:
-        name: "Door Handles"
-        description: "Interior and exterior door handles"
-        parent_code: "BODY"
-        subcategories:
-          DOOR_HANDLE_EXTERIOR:
-            name: "Exterior Door Handles"
-            parent_code: "DOOR_HANDLE"
-          DOOR_HANDLE_INTERIOR:
-            name: "Interior Door Handles"
-            parent_code: "DOOR_HANDLE"
+  I_lens_variation:
+    digits: 1
+    alphanumeric: true
+    map:
+      C: "Clear"
+      R: "Red"
+      Y: "Yellow"
+      S: "Smoke"
+      B: "Blue"
+      G: "Green"
+      A: "Amber"
+      L: "Additional lens process (requiere J)"
+    description: "Variación de lente (1 alfanumérico)."
 
-      MIRROR:
-        name: "Mirrors"
-        description: "Side and rear view mirrors"
-        parent_code: "BODY"
-        subcategories:
-          SIDE_MIRROR:
-            name: "Side Mirrors"
-            parent_code: "MIRROR"
-          MIRROR_GLASS:
-            name: "Mirror Glass"
-            parent_code: "MIRROR"
+  J_additional_lens_color:
+    digits: 1
+    alphanumeric: true
+    map:
+      C: "Clear"
+      R: "Red"
+      Y: "Yellow"
+      S: "Smoke"
+      B: "Blue"
+      G: "Green"
+      A: "Amber"
+      O: "No additional polishing"
+      D: "Dark Smoke"
+      "2": "Black trim"
+      "3": "Trim chrome"
+      "6": "Silver trim"
+    description: "Color/proceso adicional (1 alfanumérico)."
 
-      GRILLE:
-        name: "Grilles"
-        description: "Front grille assemblies"
-        parent_code: "BODY"
+addendum_headlamps_only:
+  notes: "Para HEAD LAMPS, F/G/H pueden cambiar; se añaden I/J/K para submodelos."
+  F_assembly_spec:
+    map:
+      M: "Power adjustment with motor"
+      "-": "No specification"
+  G_classification:
+    map:
+      U: "Unit"
+      A: "Assembly"
+  H_product_certification:
+    map:
+      S: "DOT/SAE"
+      C: "CAPA (& SAE)"
+  IJK_submodel_variation:
+    map:
+      D: "Old model"
+      N: "New model"
+      A: "AFS model"
+      H: "HID (Xenon)"
+      M: "Power adj. motor"
 
-      BUMPER:
-        name: "Bumpers"
-        description: "Front and rear bumper assemblies"
-        parent_code: "BODY"
+addendum_component:
+  notes: "Para componentes de head lamp, H=Component Code (2 dígitos)."
+  H_component_code:
+    digits: 2
+    map:
+      "00": "Lenses"
+      "09": "Headlamp support bracket - metal"
+      "17": "Headlamp support bracket - plastic"
+  color_codes_for_components:
+    "1": "Chrome"
+    "2": "Black"
+    "3": "Blue"
+    "6": "Gray"
+    "7": "Smoke"
+    "9": "Green"
 
-# Tabla de lados (dim_side)
-sides:
-  L: "Left"
-  R: "Right"
-  N: "Not Applicable"
+catalog_notes:
+  highlights:
+    light_green: "non_us_market"
+    red: "tba_availability"
+    blue: "tba_info"
+  layout_rules:
+    - "Orden: frontal → trasera."
+    - "Head lamps arriba; tail lamps al final de columna."
+    - "Espacios en blanco: sin disponibilidad al cierre."
 
-# Tabla de volante (dim_drive)
-drives:
-  LD: "Left Hand Drive"
-  RD: "Right Hand Drive"
+# =========================================
+#  DIMENSIONES COMPLEMENTARIAS
+# =========================================
+dimensions:
+  # 1) Marcas canónicas (fuente de verdad)
+  vehicle_makers:
+    ACURA: { display_name: "Acura" }
+    AUDI: { display_name: "Audi AG" }
+    BMW: { display_name: "BMW Group" }
+    BUICK: { display_name: "Buick" }
+    CADILLAC: { display_name: "Cadillac" }
+    CHEVROLET: { display_name: "Chevrolet" }
+    CHRYSLER: { display_name: "Chrysler" }
+    DODGE: { display_name: "Dodge" }
+    EAGLE: { display_name: "Eagle" }
+    FIAT: { display_name: "Fiat" }
+    FORD: { display_name: "Ford Motor Company" }
+    GENERAL_MOTORS: { display_name: "General Motors" }
+    GEO: { display_name: "Geo" }
+    GMC: { display_name: "GMC" }
+    HONDA: { display_name: "Honda Motor Co." }
+    HUMMER: { display_name: "Hummer" }
+    HYUNDAI: { display_name: "Hyundai Motor Company" }
+    INFINITI: { display_name: "Infiniti" }
+    ISUZU: { display_name: "Isuzu Motors" }
+    JAGUAR: { display_name: "Jaguar Land Rover" }
+    JEEP: { display_name: "Jeep" }
+    KIA: { display_name: "Kia Corporation" }
+    LAND_ROVER: { display_name: "Land Rover" }
+    LEXUS: { display_name: "Lexus" }
+    LINCOLN: { display_name: "Lincoln Motor Company" }
+    MAZDA: { display_name: "Mazda Motor Corporation" }
+    MERCEDES_BENZ: { display_name: "Mercedes-Benz" }
+    MERCURY: { display_name: "Mercury" }
+    MITSUBISHI: { display_name: "Mitsubishi Motors" }
+    NISSAN: { display_name: "Nissan Motor Co." }
+    OLDSMOBILE: { display_name: "Oldsmobile" }
+    PEUGEOT: { display_name: "Peugeot" }
+    PLYMOUTH: { display_name: "Plymouth" }
+    PONTIAC: { display_name: "Pontiac" }
+    PORSCHE: { display_name: "Porsche AG" }
+    RAM: { display_name: "Ram Trucks" }
+    SAAB: { display_name: "Saab Automobile" }
+    SATURN: { display_name: "Saturn Corporation" }
+    SCION: { display_name: "Scion" }
+    SUBARU: { display_name: "Subaru Corporation" }
+    SUZUKI: { display_name: "Suzuki Motor Corporation" }
+    TESLA: { display_name: "Tesla, Inc." }
+    TOYOTA: { display_name: "Toyota Motor Corporation" }
+    VOLKSWAGEN: { display_name: "Volkswagen Group" }
+    VOLVO: { display_name: "Volvo Cars" }
 
-# Tabla de clasificaciones (dim_classification)
-classifications:
-  U: "Universal"
-  A: "America"
-  W: "Europe"
-  B: "Both America and Europe"
-  "-": "Not Specified"
+  countries:
+    CN: "China"
+    TW: "Taiwan"
+    JP: "Japan"
+    KR: "South Korea"
+    DE: "Germany"
+    US: "United States"
+    MX: "Mexico"
+    CA: "Canada"
+    BR: "Brazil"
+    IN: "India"
+    TH: "Thailand"
+    MY: "Malaysia"
+    ID: "Indonesia"
+    VN: "Vietnam"
 
-# Tabla de certificaciones (dim_certification)
-certifications:
-  S: "SAE Compliant"
-  E: "ECE Approved"
-  Q: "Quality Certified"
-  C: "CE Marked"
-  D: "DOT Approved"
-  "": "No Certification"
+  sides:
+    R: "Right"
+    L: "Left"
+    N: "Both sides"
+    P: "Pair (set)"
+    F: "4 pcs"
+    S: "6 pcs"
 
-# Tabla de colores base (dim_base_color)
-base_colors:
-  1: "Clear"
-  2: "Amber"
-  3: "Red"
-  4: "Blue"
-  5: "Green"
-  6: "White"
-  7: "Black"
-  8: "Chrome"
-  9: "Smoke"
+  drives:
+    LHD: "Left Hand Drive"
+    RHD: "Right Hand Drive"
+    aliases:
+      LD: "LHD"
+      RD: "RHD"
 
-# Tabla de características de socket (dim_socket_feature)
-socket_features:
-  Z: "No Socket"
-  O: "Standard Socket"
-  T: "Twist Lock"
-  D: "Double Contact"
-  N: "LED Native"
-  B: "Bayonet"
-  S: "Special Socket"
-  "-": "Not Applicable"
+  classification_labels:
+    U: "Unit (sin bombillo/zócalo)"
+    A: "Assembly (incluye bombillo/zócalo)"
+    W: "Only socket"
+    B: "Only bulb"
+    "-": "Neither bulb nor wiring"
+    N: "New socket style"
+    O: "Old socket style"
 
-# Tabla de lente interior (dim_lens_i)
-lens_i:
-  C: "Clear"
-  R: "Red"
-  Y: "Yellow/Amber"
-  S: "Smoke"
-  B: "Blue"
-  G: "Green"
-  A: "All Clear"
-  L: "Light Smoke"
+  certifications_labels:
+    S: "SAE/DOT"
+    E: "ECE"
+    Q: "ECE & SAE"
+    C: "CAPA (& SAE)"
+    D: "No standard"
+    "": "No Certification"
 
-# Tabla de lente exterior (dim_lens_j)
-lens_j:
-  C: "Clear"
-  R: "Red"
-  Y: "Yellow/Amber"
-  S: "Smoke"
-  B: "Blue"
-  G: "Green"
-  A: "All Clear"
-  O: "Orange"
-  D: "Dark Smoke"
-  "2": "Two-tone"
-  "3": "Three-tone"
-  "6": "Six-sided"
+  lens_i:
+    C: "Clear"
+    R: "Red"
+    Y: "Yellow/Amber"
+    S: "Smoke"
+    B: "Blue"
+    G: "Green"
+    A: "Amber"
+    L: "Light Smoke / extra process"
 
-# Catálogo de bulbos (dim_bulb)
-bulbs:
-  # Bulbos halógenos estándar
-  H1: "H1 Halogen"
-  H3: "H3 Halogen"
-  H4: "H4 Halogen"
-  H7: "H7 Halogen"
-  H8: "H8 Halogen"
-  H9: "H9 Halogen"
-  H10: "H10 Halogen"
-  H11: "H11 Halogen"
-  H13: "H13 Halogen"
-  H16: "H16 Halogen"
-
-  # Bulbos HID/Xenon
-  D1S: "D1S HID"
-  D1R: "D1R HID"
-  D2S: "D2S HID"
-  D2R: "D2R HID"
-  D3S: "D3S HID"
-  D3R: "D3R HID"
-  D4S: "D4S HID"
-  D4R: "D4R HID"
-
-  # LEDs estándar
-  LED_H1: "LED H1 Replacement"
-  LED_H4: "LED H4 Replacement"
-  LED_H7: "LED H7 Replacement"
-  LED_H11: "LED H11 Replacement"
-
-  # Bulbos de señalización
-  1156: "1156 Turn Signal"
-  1157: "1157 Stop/Turn"
-  3157: "3157 Stop/Turn/Parking"
-  3156: "3156 Turn Signal"
-  T10: "T10 Parking/License"
-  T20: "T20 Turn Signal"
-
-  # Bulbos especiales
-  880: "880 Fog Light"
-  881: "881 Fog Light"
-  893: "893 Fog Light"
-  9005: "9005 High Beam"
-  9006: "9006 Low Beam"
-  9007: "9007 Dual Beam"
-  9012: "9012 Halogen"
-
-  # Sin bulbo
-  NONE: "No Bulb Required"
-  LED_INTEGRATED: "Integrated LED"
-
-# Estados de homologación basados en color del texto (dim_highlight_status)
-highlight_status:
-  # Colores que indican homologación
-  pink: "homologado"
-  rose: "homologado"
-  "#ff69b4": "homologado"
-  "#ffc0cb": "homologado"
-  "#ffb6c1": "homologado"
-
-  # Colores que indican no homologación
-  blue: "no_homologado"
-  cyan: "no_homologado"
-  "#0000ff": "no_homologado"
-  "#00ffff": "no_homologado"
-  "#1e90ff": "no_homologado"
-
-  # Estados especiales
-  red: "non_us"
-  "#ff0000": "non_us"
-  green: "tba"
-  "#008000": "tba"
-
-  # Sin clasificación
-  black: "unknown"
-  "#000000": "unknown"
-  gray: "unknown"
-  "#808080": "unknown"
-
-# Configuración de mapeo de aliases y variaciones
-aliases:
-  makers:
-    GM: "GMC"
-    GENERAL_MOTORS: "GMC"
-    BENZ: "MERCEDES"
-    MERCEDES_BENZ: "MERCEDES"
-    VW: "VOLKSWAGEN"
-    LANDROVER: "LAND_ROVER"
-    RANGE_ROVER: "LAND_ROVER"
-
-  product_types:
-    HEADLIGHT: "HEAD_LAMP"
-    HEADLAMP: "HEAD_LAMP"
-    TAILLIGHT: "TAIL_LAMP"
-    TAILLAMP: "TAIL_LAMP"
-    FOGLIGHT: "FOG_LAMP"
-    FOGLAMP: "FOG_LAMP"
-    TURN_SIGNAL: "SIGNAL_LAMP"
-    SIDE_MARKER: "CORNER_LAMP"
+  lens_j:
+    C: "Clear"
+    R: "Red"
+    Y: "Yellow/Amber"
+    S: "Smoke"
+    B: "Blue"
+    G: "Green"
+    A: "Amber"
+    O: "Orange / no extra polish"
+    D: "Dark Smoke"
+    "2": "Two-tone / black trim"
+    "3": "Three-tone / trim chrome"
+    "6": "Six-sided / silver trim"
 
   bulbs:
-    H4_LED: "LED_H4"
-    H7_LED: "LED_H7"
-    H11_LED: "LED_H11"
-    NO_BULB: "NONE"
+    H1: "H1 Halogen"
+    H3: "H3 Halogen"
+    H4: "H4 Halogen"
+    H7: "H7 Halogen"
+    H8: "H8 Halogen"
+    H9: "H9 Halogen"
+    H10: "H10 Halogen"
+    H11: "H11 Halogen"
+    H13: "H13 Halogen"
+    H16: "H16 Halogen"
+    D1S: "D1S HID"
+    D1R: "D1R HID"
+    D2S: "D2S HID"
+    D2R: "D2R HID"
+    D3S: "D3S HID"
+    D3R: "D3R HID"
+    D4S: "D4S HID"
+    D4R: "D4R HID"
+    LED_H1: "LED H1 Replacement"
+    LED_H4: "LED H4 Replacement"
+    LED_H7: "LED H7 Replacement"
+    LED_H11: "LED H11 Replacement"
+    "1156": "1156 Turn Signal"
+    "1157": "1157 Stop/Turn"
+    "3157": "3157 Stop/Turn/Parking"
+    "3156": "3156 Turn Signal"
+    T10: "T10 Parking/License"
+    T20: "T20 Turn Signal"
+    "880": "880 Fog Light"
+    "881": "881 Fog Light"
+    "893": "893 Fog Light"
+    "9005": "9005 High Beam"
+    "9006": "9006 Low Beam"
+    "9007": "9007 Dual Beam"
+    "9012": "9012 Halogen"
+    NONE: "No Bulb Required"
+    LED_INTEGRATED: "Integrated LED"
 
-# Validaciones y reglas de negocio
+# =========================
+#  ALIASES (→ claves canónicas)
+# =========================
+aliases:
+  makers:
+    # General Motors family & variantes
+    "GM": "GENERAL_MOTORS"
+    "GENERAL MOTORS": "GENERAL_MOTORS"
+    "G.M.": "GENERAL_MOTORS"
+    "GMC": "GMC"
+    "CHEVY": "CHEVROLET"
+    "CHEV": "CHEVROLET"
+    "CAD": "CADILLAC"
+    "CADDY": "CADILLAC"
+    "PONT": "PONTIAC"
+    "PONT.": "PONTIAC"
+    "OLDS": "OLDSMOBILE"
+    "OLDSMOBILE": "OLDSMOBILE"
+    "HUMMER": "HUMMER"
+    "SAT": "SATURN"
+    "SAT.": "SATURN"
+
+    # Mercedes-Benz
+    "BENZ": "MERCEDES_BENZ"
+    "MERCEDES": "MERCEDES_BENZ"
+    "MERCEDES BENZ": "MERCEDES_BENZ"
+    "MB": "MERCEDES_BENZ"
+    "M-B": "MERCEDES_BENZ"
+
+    # Volkswagen Group
+    "VW": "VOLKSWAGEN"
+    "VOLKSWAGEN": "VOLKSWAGEN"
+    "VOLKS WAGEN": "VOLKSWAGEN"
+    "VOLKS-WAGEN": "VOLKSWAGEN"
+
+    # Toyota/Lexus/Scion
+    "TOYO": "TOYOTA"
+    "TOYODA": "TOYOTA"
+    "LEX": "LEXUS"
+    "SCN": "SCION"
+
+    # Nissan/Infiniti
+    "NIS": "NISSAN"
+    "NISS": "NISSAN"
+    "INFI": "INFINITI"
+
+    # Honda/Acura
+    "HON": "HONDA"
+    "HOND": "HONDA"
+    "ACUR": "ACURA"
+
+    # Hyundai/Kia
+    "HYUN": "HYUNDAI"
+    "HYUNDAE": "HYUNDAI"
+    "KIA MOTORS": "KIA"
+
+    # Otros frecuentes
+    "BMV": "BMW"
+    "B.M.W.": "BMW"
+    "PORSCHE AG": "PORSCHE"
+    "PEUGEOT SA": "PEUGEOT"
+    "RANGE ROVER": "LAND_ROVER"
+    "LANDROVER": "LAND_ROVER"
+    "LR": "LAND_ROVER"
+
+  product_types:
+    "HEADLIGHT": "HEAD_LAMP"
+    "HEAD LAMP": "HEAD_LAMP"
+    "HEADLAMP": "HEAD_LAMP"
+    "FRONT LAMP": "FRONT LAMP"
+    "TAILLIGHT": "TAIL_LAMP"
+    "TAIL LAMP": "TAIL_LAMP"
+    "TAILLAMP": "TAIL_LAMP"
+    "FOG LIGHT": "FOG_LAMP"
+    "FOGLIGHT": "FOG_LAMP"
+    "FOGLAMP": "FOG_LAMP"
+    "TURN SIGNAL": "SIGNAL_LAMP"
+    "BLINKER": "SIGNAL_LAMP"
+    "SIDE MARKER": "SIDE LAMP"
+    "CORNERLIGHT": "CORNER_LAMP"
+    "DRL": "FRONT LAMP"
+
+  bulbs:
+    "HB3": "9005"
+    "HB4": "9006"
+    "HIR2": "9012"
+    "H4 LED": "LED_H4"
+    "H7 LED": "LED_H7"
+    "H11 LED": "LED_H11"
+
+  drives:
+    "LD": "LHD"
+    "RD": "RHD"
+
+# =========================
+#  MODELOS DE VEHÍCULO (semilla ampliable)
+# =========================
+vehicle_models:
+  TOYOTA:
+    COROLLA:
+      {
+        display_name: "Corolla",
+        aliases: ["TOYOTA COROLLA", "COROLLA"],
+        years: { from: 1966, to: null },
+      }
+    CAMRY:
+      {
+        display_name: "Camry",
+        aliases: ["TOYOTA CAMRY", "CAMRY"],
+        years: { from: 1982, to: null },
+      }
+    HILUX:
+      {
+        display_name: "Hilux",
+        aliases: ["TOYOTA HILUX", "HILUX"],
+        years: { from: 1968, to: null },
+      }
+    RAV4:
+      {
+        display_name: "RAV4",
+        aliases: ["TOYOTA RAV4", "RAV 4", "RAV-4"],
+        years: { from: 1994, to: null },
+      }
+
+  HONDA:
+    CIVIC:
+      {
+        display_name: "Civic",
+        aliases: ["HONDA CIVIC", "CIVIC"],
+        years: { from: 1972, to: null },
+      }
+    ACCORD:
+      {
+        display_name: "Accord",
+        aliases: ["HONDA ACCORD", "ACCORD"],
+        years: { from: 1976, to: null },
+      }
+    CRV:
+      {
+        display_name: "CR-V",
+        aliases: ["CRV", "CR-V", "HONDA CRV", "HONDA CR-V"],
+        years: { from: 1995, to: null },
+      }
+
+  NISSAN:
+    SENTRA:
+      {
+        display_name: "Sentra",
+        aliases: ["NISSAN SENTRA", "SENTRA"],
+        years: { from: 1982, to: null },
+      }
+    NAVARA:
+      {
+        display_name: "Navara/Frontier",
+        aliases: ["NAVARA", "FRONTIER", "NISSAN NAVARA", "NISSAN FRONTIER"],
+        years: { from: 1997, to: null },
+      }
+
+  HYUNDAI:
+    ELANTRA:
+      {
+        display_name: "Elantra/Avante",
+        aliases: ["ELANTRA", "AVANTE", "HYUNDAI ELANTRA"],
+        years: { from: 1990, to: null },
+      }
+    TUCSON:
+      {
+        display_name: "Tucson",
+        aliases: ["HYUNDAI TUCSON"],
+        years: { from: 2004, to: null },
+      }
+
+  KIA:
+    SPORTAGE:
+      {
+        display_name: "Sportage",
+        aliases: ["KIA SPORTAGE"],
+        years: { from: 1993, to: null },
+      }
+
+  MAZDA:
+    CX5:
+      {
+        display_name: "CX-5",
+        aliases: ["CX5", "MAZDA CX5", "MAZDA CX-5"],
+        years: { from: 2012, to: null },
+      }
+
+  VOLKSWAGEN:
+    GOLF:
+      {
+        display_name: "Golf",
+        aliases: ["VW GOLF", "VOLKSWAGEN GOLF"],
+        years: { from: 1974, to: null },
+      }
+    JETTA:
+      {
+        display_name: "Jetta/Vento",
+        aliases: ["JETTA", "VW JETTA", "VOLKSWAGEN JETTA", "VENTO"],
+        years: { from: 1979, to: null },
+      }
+
+  FORD:
+    F150:
+      {
+        display_name: "F-150",
+        aliases: ["F150", "F-150", "FORD F150", "FORD F-150"],
+        years: { from: 1975, to: null },
+      }
+    FOCUS:
+      {
+        display_name: "Focus",
+        aliases: ["FORD FOCUS"],
+        years: { from: 1998, to: null },
+      }
+
+  CHEVROLET:
+    SILVERADO:
+      {
+        display_name: "Silverado",
+        aliases: ["CHEVY SILVERADO", "CHEVROLET SILVERADO"],
+        years: { from: 1998, to: null },
+      }
+    CRUZE:
+      {
+        display_name: "Cruze",
+        aliases: ["CHEVROLET CRUZE"],
+        years: { from: 2008, to: 2019 },
+      }
+
+  BMW:
+    SERIES_3:
+      {
+        display_name: "3 Series",
+        aliases: ["3 SERIES", "E46", "E90", "F30", "G20"],
+        years: { from: 1975, to: null },
+      }
+
+  MERCEDES_BENZ:
+    C_CLASS:
+      {
+        display_name: "C-Class",
+        aliases: ["C CLASS", "W204", "W205", "W206"],
+        years: { from: 1993, to: null },
+      }
+
+  SUZUKI:
+    SWIFT:
+      {
+        display_name: "Swift",
+        aliases: ["SUZUKI SWIFT"],
+        years: { from: 1983, to: null },
+      }
+    VITARA:
+      {
+        display_name: "Vitara/Grand Vitara",
+        aliases: ["VITARA", "GRAND VITARA", "ESCUDO"],
+        years: { from: 1988, to: null },
+      }
+
+  SUBARU:
+    IMPREZA:
+      {
+        display_name: "Impreza",
+        aliases: ["SUBARU IMPREZA"],
+        years: { from: 1992, to: null },
+      }
+
+  VOLVO:
+    XC90:
+      {
+        display_name: "XC90",
+        aliases: ["VOLVO XC90"],
+        years: { from: 2002, to: null },
+      }
+
+# =========================
+#  VALIDACIONES / NORMALIZACIÓN
+# =========================
 validation_rules:
   year_ranges:
     min_year: 1980
     max_year: 2030
-
   part_codes:
-    depo_pattern: "^[A-J]\\d{2}-\\d{4}-[A-Z]{2,3}\\d*$"
-    max_length: 20
-
+    depo_pattern: "^[0-9]{3}-(?:[0-9]{4}|[0-9]{2}[A-Z][0-9])-[A-Z0-9]{1,8}(?:-[A-Z0-9]{1,4})?$"
+    max_length: 24
   measurements:
     weight_kg:
       min: 0.1
@@ -366,7 +704,6 @@ validation_rules:
       min: 1
       max: 100
 
-# Configuración de normalización
 normalization:
   text_cleanup:
     remove_chars: ["(", ")", "[", "]", '"', "'"]
@@ -376,38 +713,7 @@ normalization:
       " ": "_"
       "-": "_"
     uppercase_fields: ["maker_code", "product_type_code", "certification"]
-
   code_standardization:
     pad_zeros: true
     remove_spaces: true
     uppercase: true
-
-# Configuración específica por proveedor
-vendor_specific:
-  depo:
-    default_certification: "S" # SAE
-    default_country: "TW" # Taiwan
-    typical_bulbs: ["H1", "H4", "H7", "H11", "9005", "9006"]
-
-  yuto:
-    default_certification: "E" # ECE
-    default_country: "CN" # China
-    typical_bulbs: ["LED_H4", "LED_H7", "LED_H11", "LED_INTEGRATED"]
-
-  hushan:
-    default_certification: "" # No certification typical
-    default_country: "CN" # China
-    typical_features: ["with_keyhole", "smart_key_sensor", "heated"]
-
-# Configuración de cache y performance
-cache_settings:
-  enabled: true
-  max_entries: 5000
-  ttl_minutes: 60
-  preload_common_lookups: true
-
-# Configuración de logging
-logging:
-  log_normalization_changes: true
-  log_validation_errors: true
-  track_usage_statistics: true

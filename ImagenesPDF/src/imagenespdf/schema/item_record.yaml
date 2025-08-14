@@ -1,0 +1,138 @@
+schema_version: "1.0.0"
+generated_at: "2025-08-14T00:00:00Z"
+source_note: "Esquema de registro de ítem, minimalista pero robusto. Se apalanca en dims.yaml y features.yaml; tags.yaml solo relaciona código↔tags."
+
+dependencies:
+  dims_version_expected: ">=1.3.0"
+  features_version_expected: ">=1.1.0"
+  tags_version_expected: ">=1.0.0"
+
+item_record:
+  identity:
+    sku: "string" # Ej.: 312-1909-AS
+    vendor: "string" # Ej.: DEPO/YUTO/etc.
+    status:
+      enum: ["ACTIVE", "INACTIVE", "DISCONTINUED", "TBA"]
+
+  code_parts: # Partes A–J ya parseadas (según dims.numbering.*)
+    A_country: "string" # '1'..'8'
+    B_maker: "string" # '12' para TOYOTA, etc.
+    C_product_type: "string" # '11','19','20',...
+    D_serial_number: "string"
+    E_position: "string"
+    F_classification: "string"
+    G_certification: "string"
+    H_base_code: "string"
+    I_lens: "string"
+    J_lens: "string"
+
+  canonical: # Campos normalizados vía dims.yaml
+    product_group_code: "string" # = C_product_type
+    product_group_name: "string" # lookup en dims
+    maker_canonical: "string" # lookup B_maker→vehicle_makers
+    side: "string" # lookup E
+    classification: "string" # lookup F / addendum si C=11
+    certification: "string" # lookup G
+    base_label: "string" # lookup H
+    lens_i_label: "string" # lookup I
+    lens_j_label: "string" # lookup J
+
+  attributes: # Extraídos del PDF y validados con features.yaml + dims.yaml
+    bulbs:
+      low_beam: "string"
+      high_beam: "string"
+      drl: "string"
+      turn_signal: "string"
+      parking: "string"
+      stop: "string"
+      tail: "string"
+      reverse: "string"
+      rear_fog: "string"
+    electrical:
+      voltage:
+        enum: [12, 24]
+      connector_pins: "integer"
+    packaging:
+      units_per_ctn: "integer"
+      cft: "number"
+      net_weight_kg: "number"
+      gross_weight_kg: "number"
+
+  fitment: # Opcional (si del PDF se extraen modelo/años). 1→N soportado.
+    maker_canonical: "string"
+    models:
+      - model_canonical: "string"
+        years:
+          from: "integer"
+          to: "integer|null"
+
+  references:
+    oem_primary: "string|null"
+    oem_all: ["string"]
+    near_oem_all: ["string"]
+    near_oem_links:
+      - near_oem: "string"
+        maps_to_oem: "string|null"
+        confidence:
+          enum: ["exact", "high", "medium", "low", "unmatched"]
+
+  tags: # SOLO relación con el código (de tags.yaml). 1→N y N→1.
+    assigned:
+      - tag: "string" # ej.: LOBITO
+        normalized: "string"
+        source:
+          match_type:
+            enum: ["code_exact", "code_prefix", "code_pattern", "parts"]
+          selector: "string" # prefijo/regex/parts que disparó el match
+          locale: "string" # ej. es-BO
+        expose_in_description: "boolean"
+        expose_in_keywords: "boolean"
+
+  text:
+    name: "string" # generado con features.yaml
+    detail: "string" # generado con features.yaml
+    alt_names: ["string"]
+
+  search_projection: # Campos listos para indexado (DB/FTS)
+    keywords_visible: ["string"]
+    keywords_hidden: ["string"]
+    maker_tokens: ["string"] # ej.: ["TOYOTA"]
+    model_tokens: ["string"] # si se extrajo de fitment
+    oem_tokens: ["string"] # OEM normalizados
+
+  inventory: # Opcional (inventario/almacén)
+    barcode_ean: "string|null"
+    upc: "string|null"
+    supplier_sku: "string|null"
+    bin_location: "string|null"
+    stock_qty: "integer"
+    reorder_point: "integer"
+    lead_time_days: "integer"
+    cost_price: "number"
+    list_price: "number"
+    currency: "string"
+
+  media:
+    images:
+      - url: "string"
+        alt: "string"
+    pdf_source:
+      file: "string"
+      page: "integer"
+
+  audit:
+    created_at: "datetime"
+    updated_at: "datetime"
+    created_by: "string"
+    last_verified_at: "datetime"
+
+db_indexes_recommendations:
+  relational_core:
+    - "UNIQUE (sku)"
+    - "INDEX (maker_canonical, product_group_code, side)"
+    - "INDEX (product_group_code, classification, certification)"
+    - "INDEX (bin_location)"
+  jsonb_or_doc_store:
+    - "GIN on search_projection.keywords_visible"
+    - "GIN on search_projection.oem_tokens"
+    - "GIN on tags.assigned.tag"
