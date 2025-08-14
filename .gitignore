@@ -1,0 +1,27 @@
+# Entornos virtuales de Python
+.venv/
+venv/
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+
+# Variables de entorno
+.env
+.env.local
+
+# Directorios de builds y dependencias
+dist/
+build/
+vendor/
+
+# Archivos específicos a excluir (según tu pregunta anterior)
+run.bat
+build_exe.bat
+install_runtime.ps1
+tree.txt
+memory.txt
+
+# Sistema operativo (opcional)
+.DS_Store  # macOS
+Thumbs.db  # Windows

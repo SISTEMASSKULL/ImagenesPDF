@@ -1,0 +1,815 @@
+# Definición de layout Excel para ImagenesPDF
+# Sistema de procesamiento de catálogos PDF de autopartes
+
+metadata:
+  version: "1.1"
+  description: "Layout completo del archivo Excel maestro (unificado y con micro‑ajustes)"
+  last_updated: "2025-08-13"
+  workbook_name: "ImagenesPDF_Master.xlsx"
+  total_sheets: 50
+
+# Configuración general del workbook
+workbook_settings:
+  default_font: "Calibri"
+  default_font_size: 11
+  date_format: "YYYY-MM-DD"
+  number_format: "0.00"
+  currency_format: "$#,##0.00"
+  freeze_panes: true
+  auto_filter: true
+  print_settings:
+    orientation: "landscape"
+    fit_to_page: true
+    margins: [0.5, 0.5, 0.75, 0.75]
+
+# Definición de hojas del Excel
+sheets:
+
+  # ---------------------------------------------------------
+  # 1) Hoja principal con vista de oferta (resumen)
+  # ---------------------------------------------------------
+  items_master:
+    name: "Items Master"
+    description: "Vista principal con todos los ítems procesados"
+    order: 1
+    protected: false
+    columns:
+      item_id:             {header: "Item ID",           width: 12, data_type: "integer", format: "0", frozen: true}
+      supplier_name:       {header: "Supplier",          width: 15, data_type: "text",    format: "text", frozen: true}
+      supplier_sku:        {header: "Supplier SKU",      width: 18, data_type: "text",    format: "text"}
+      near_oem:            {header: "Near OEM",          width: 20, data_type: "text",    format: "text"}
+      product_type:        {header: "Product Type",      width: 18, data_type: "text",    format: "text"}
+      maker_model:         {header: "Make/Model",        width: 25, data_type: "text",    format: "text"}
+      year_range:          {header: "Year Range",        width: 15, data_type: "text",    format: "text"}
+      side_drive:          {header: "Side/Drive",        width: 12, data_type: "text",    format: "text"}
+      features_summary:    {header: "Key Features",      width: 30, data_type: "text",    format: "text"}
+      bulbs:               {header: "Bulbs",             width: 20, data_type: "text",    format: "text"}
+      pcs_default:         {header: "PCS",               width: 8,  data_type: "integer", format: "0"}
+      cft_default:         {header: "CFT",               width: 10, data_type: "decimal", format: "0.00"}
+      nw_kg:               {header: "N.W. (KG)",         width: 12, data_type: "decimal", format: "0.00"}
+      gw_kg:               {header: "G.W. (KG)",         width: 12, data_type: "decimal", format: "0.00"}
+      homologation_status:
+        header: "Homologation"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["homologado","no_homologado","non_us","tba","unknown"]}
+      source_method:
+        header: "Source Method"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["pdf_text","ocr","heuristic","manual"]}
+      confidence:
+        header: "Confidence"
+        width: 12
+        data_type: "decimal"
+        format: "0.00"
+      page:              {header: "Page Number",          width: 12, data_type: "integer"}
+      pdf_id:            {header: "PDF ID",               width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id"}
+      notes:             {header: "Notes",                width: 40, data_type: "text",    nullable: true}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        default_value: "ok"
+        validation: {type: "list", source: ["ok","needs_review","error"]}
+  # ---------------------------------------------------------
+  # 2) Ítems (normalizado / tabla base)
+  # ---------------------------------------------------------
+  items_detailed:
+    name: "Items Detailed"
+    description: "Tabla normalizada de ítems con todos los campos"
+    order: 2
+    protected: true
+    columns:
+      item_id:           {header: "Item ID",              width: 12, data_type: "integer", primary_key: true}
+      supplier_id:       {header: "Supplier ID",          width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      supplier_sku:      {header: "Supplier SKU",         width: 18, data_type: "text",    nullable: true}
+      near_oem:          {header: "Near OEM",             width: 20, data_type: "text",    nullable: true}
+      variant_code:      {header: "Variant Code",         width: 15, data_type: "text",    foreign_key: "dim_variant.variant_code", nullable: true}
+      side_code:         {header: "Side Code",            width: 8,  data_type: "text",    foreign_key: "dim_side.side_code"}
+      drive_code:        {header: "Drive Code",           width: 8,  data_type: "text",    foreign_key: "dim_drive.drive_code"}
+      maker_code:        {header: "Maker Code",           width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code"}
+      product_type_code: {header: "Product Type Code",    width: 18, data_type: "text",    foreign_key: "dim_product_type.product_type_code"}
+      country_code:      {header: "Country Code",         width: 12, data_type: "integer", foreign_key: "dim_country.country_code"}
+      class_code:        {header: "Classification Code",  width: 15, data_type: "text",    foreign_key: "dim_classification.class_code"}
+      cert_code:         {header: "Certification Code",   width: 15, data_type: "text",    foreign_key: "dim_certification.cert_code"}
+      base_code:         {header: "Base Color Code",      width: 12, data_type: "text",    foreign_key: "dim_base_color.base_code", nullable: true}
+      socket_code:       {header: "Socket Feature Code",  width: 15, data_type: "text",    foreign_key: "dim_socket_feature.socket_code", nullable: true}
+      lens_i:            {header: "Lens I",               width: 10, data_type: "text",    foreign_key: "dim_lens_i.lens_i", nullable: true}
+      lens_j:            {header: "Lens J",               width: 10, data_type: "text",    foreign_key: "dim_lens_j.lens_j", nullable: true}
+      with_motor_flag:   {header: "With Motor",           width: 12, data_type: "boolean", format: "TRUE/FALSE"}
+      elec_flag:         {header: "Electric",             width: 10, data_type: "boolean", format: "TRUE/FALSE"}
+      bulbs_raw:         {header: "Bulbs (raw)",          width: 24, data_type: "text",    nullable: true}
+      pcs_default:       {header: "PCS Default",          width: 12, data_type: "integer"}
+      cft_default:       {header: "CFT Default",          width: 12, data_type: "decimal", format: "0.000"}
+      nw_kg:             {header: "Net Weight (KG)",      width: 15, data_type: "decimal", format: "0.000", nullable: true}
+      gw_kg:             {header: "Gross Weight (KG)",    width: 15, data_type: "decimal", format: "0.000", nullable: true}
+      market_region:     {header: "Market Region",        width: 15, data_type: "text",    foreign_key: "dim_market.market_code", nullable: true}
+      availability:      {header: "Availability",         width: 15, data_type: "text",    nullable: true}
+      homologation_color:{header: "Homologation Color",   width: 18, data_type: "text",    foreign_key: "dim_highlight_status.pdf_text_color", nullable: true}
+      homologation_status:
+        header: "Homologation"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["homologado","no_homologado","non_us","tba","unknown"]}
+      source_method:
+        header: "Source Method"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["pdf_text","ocr","heuristic","manual"]}
+      confidence:        {header: "Confidence",           width: 12, data_type: "decimal", format: "0.00"}
+      page:              {header: "Page Number",          width: 12, data_type: "integer"}
+      pdf_id:            {header: "PDF ID",               width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id"}
+      notes:             {header: "Notes",                width: 40, data_type: "text",    nullable: true}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        default_value: "ok"
+        validation: {type: "list", source: ["ok","needs_review","error"]}
+
+  # ---------------------------------------------------------
+  # 3) Años expandidos por ítem
+  # ---------------------------------------------------------
+  item_years:
+    name: "Item Years"
+    description: "Años expandidos por ítem (relación muchos a muchos)"
+    order: 3
+    protected: true
+    columns:
+      item_id: {header: "Item ID", width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      year:
+        header: "Year"
+        width: 8
+        data_type: "integer"
+        primary_key: true
+        validation: {type: "whole", minimum: 1930, maximum: 2035}
+
+  # ---------------------------------------------------------
+  # 4) Códigos OEM por ítem
+  # ---------------------------------------------------------
+  item_oem:
+    name: "Item OEM Codes"
+    description: "Códigos OEM asociados a cada ítem"
+    order: 4
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      oem_code:    {header: "OEM Code",    width: 22, data_type: "text",    primary_key: true}
+      oem_code_normalized: {header: "OEM Code (Norm)", width: 22, data_type: "text", nullable: true}
+      side_code:   {header: "Side Code",   width: 8,  data_type: "text",    foreign_key: "dim_side.side_code", nullable: true, primary_key: true}
+      role:
+        header: "Role"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["main","related","alternate"]}
+
+  # ---------------------------------------------------------
+  # 5) Variantes de empaque
+  # ---------------------------------------------------------
+  item_pack:
+    name: "Item Packaging"
+    description: "Variantes de empaque por ítem"
+    order: 5
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:      {header: "Item ID",      width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      pack_variant: {header: "Pack Variant", width: 12, data_type: "text", foreign_key: "dim_pack_variant.pack_variant", primary_key: true, default_value: "DEFAULT"}
+      pcs:
+        header: "Pieces"
+        width: 10
+        data_type: "integer"
+        validation: {type: "whole", minimum: 1}
+      cft:   {header: "Cubic Feet",       width: 12, data_type: "decimal", format: "0.000"}
+      nw_kg: {header: "Net Weight (KG)",  width: 15, data_type: "decimal", format: "0.000", nullable: true}
+      gw_kg: {header: "Gross Weight (KG)",width: 15, data_type: "decimal", format: "0.000", nullable: true}
+
+  # ---------------------------------------------------------
+  # 6) Bulbos por ítem
+  # ---------------------------------------------------------
+  item_bulb:
+    name: "Item Bulbs"
+    description: "Bulbos asociados a cada ítem"
+    order: 6
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      bulb_code:   {header: "Bulb Code",   width: 15, data_type: "text",    foreign_key: "dim_bulb.bulb_code", primary_key: true}
+      present_flag:
+        header: "Present"
+        width: 10
+        data_type: "integer"
+        format: "0"
+        validation: {type: "list", source: [0,1]}
+
+  # ---------------------------------------------------------
+  # 7) Features por ítem
+  # ---------------------------------------------------------
+  item_feature:
+    name: "Item Features"
+    description: "Características asociadas a cada ítem"
+    order: 7
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:      {header: "Item ID",      width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      feature_code: {header: "Feature Code", width: 20, data_type: "text",    foreign_key: "dim_feature.feature_code", primary_key: true}
+      value_bool:   {header: "Boolean Value",width: 12, data_type: "boolean", format: "TRUE/FALSE", default_value: true}
+      value_int:    {header: "Int Value",    width: 12, data_type: "integer", nullable: true}
+      value_decimal:{header: "Decimal Value", width: 14, data_type: "decimal", format: "0.000", nullable: true}
+      value_text:   {header: "Text Value",   width: 24, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 8) Multimedia (repositorio normalizado)
+  # ---------------------------------------------------------
+  media_files:
+    name: "Media Files"
+    description: "Repositorio de multimedia (imagen/video/audio/doc/pdf/text)"
+    order: 8
+    protected: true
+    columns:
+      media_id:        {header: "Media ID",       width: 12, data_type: "integer", primary_key: true}
+      media_type:
+        header: "Media Type"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["image","video","audio","doc","pdf","text"]}
+      mime_type:       {header: "MIME Type",      width: 18, data_type: "text",  nullable: true}
+      file_path:       {header: "File Path",      width: 44, data_type: "text"}
+      flat_copy_path:  {header: "Flat Copy",      width: 44, data_type: "text",  nullable: true}
+      cdn_url:         {header: "CDN URL",        width: 60, data_type: "text",  nullable: true}
+      sha256:          {header: "SHA-256",        width: 68, data_type: "text",  nullable: true}
+      width_px:        {header: "Width (px)",     width: 12, data_type: "integer", nullable: true}
+      height_px:       {header: "Height (px)",    width: 12, data_type: "integer", nullable: true}
+      dpi:             {header: "DPI",            width: 8,  data_type: "integer", nullable: true}
+      duration_ms:     {header: "Duration (ms)",  width: 14, data_type: "integer", nullable: true}
+      pages:           {header: "Pages",          width: 8,  data_type: "integer", nullable: true}
+      language:        {header: "Language",       width: 12, data_type: "text",    nullable: true}
+      alt_text:        {header: "Alt Text",       width: 40, data_type: "text",    nullable: true}
+      visibility:
+        header: "Visibility"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["public","private"]}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["active","pending","deleted"]}
+      derivatives_json: {header: "Derivatives JSON", width: 60, data_type: "text", nullable: true}
+      metadata_json:    {header: "Metadata JSON",    width: 60, data_type: "text", nullable: true}
+      source_pdf_id:   {header: "Source PDF ID",  width: 12, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+      source_page:     {header: "Source Page #",  width: 12, data_type: "integer", nullable: true}
+      extraction_method:
+        header: "Extraction"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["render","crop","ocr","manual","external"]}
+      created_at:      {header: "Created At",     width: 20, data_type: "date",    nullable: true}
+      license:         {header: "License",        width: 24, data_type: "text",    nullable: true}
+      notes:           {header: "Notes",          width: 30, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 9) Relación ítem↔multimedia (roles y contexto)
+  # ---------------------------------------------------------
+  item_media:
+    name: "Item Media"
+    description: "Relación entre ítems y multimedia con contexto de variante y orden"
+    order: 9
+    protected: true
+    columns:
+      supplier_id:  {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:      {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      side_code:    {header: "Side Code",   width: 8,  data_type: "text",    foreign_key: "dim_side.side_code", nullable: true}
+      variant_code: {header: "Variant Code",width: 14, data_type: "text",    foreign_key: "dim_variant.variant_code", nullable: true}
+      media_id:     {header: "Media ID",    width: 12, data_type: "integer", foreign_key: "media_files.media_id",   primary_key: true}
+      role:
+        header: "Role"
+        width: 18
+        data_type: "text"
+        validation: {type: "list", source: ["primary","secondary","manual","installation","packaging","oem-proof","datasheet","catalog","exploded","wiring","label"]}
+      is_default:   {header: "Default",     width: 10, data_type: "boolean", format: "TRUE/FALSE", default_value: false}
+      view_angle:   {header: "View Angle",  width: 16, data_type: "text",    nullable: true}
+      caption:      {header: "Caption",     width: 30, data_type: "text",    nullable: true}
+      sort_order:   {header: "Sort Order",  width: 10, data_type: "integer", default_value: 0}
+
+  # ---------------------------------------------------------
+  # 11) Compatibilidades cruzadas
+  # ---------------------------------------------------------
+  item_compat:
+    name: "Item Compatibility"
+    description: "Compatibilidades deducidas por OEM/índice"
+    order: 11
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code",   primary_key: true}
+      model_name:  {header: "Model",       width: 20, data_type: "text",    primary_key: true}
+      year_from:   {header: "Year From",   width: 10, data_type: "integer"}
+      year_to:     {header: "Year To",     width: 10, data_type: "integer"}
+      source_oem:  {header: "Source OEM",  width: 22, data_type: "text",    primary_key: true}
+
+  item_compat_years:
+    name: "Item Compat Years"
+    description: "Compatibilidades a nivel de año"
+    order: 12
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code",   primary_key: true}
+      model_name:  {header: "Model",       width: 20, data_type: "text",    primary_key: true}
+      year:        {header: "Year",        width: 8,  data_type: "integer", primary_key: true}
+      source_oem:  {header: "Source OEM",  width: 22, data_type: "text",    primary_key: true}
+
+  # ---------------------------------------------------------
+  # 13) PDFs e índice (por página)
+  # ---------------------------------------------------------
+  pdfs:
+    name: "PDFs"
+    description: "Metadatos de archivos PDF procesados"
+    order: 13
+    protected: true
+    columns:
+      pdf_id:       {header: "PDF ID",     width: 10, data_type: "integer", primary_key: true}
+      supplier_id:  {header: "Supplier ID",width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      file_name:    {header: "File Name",  width: 36, data_type: "text"}
+      file_path:    {header: "File Path",  width: 48, data_type: "text", nullable: true}
+      sha256:       {header: "SHA-256",    width: 68, data_type: "text"}
+      created_at:   {header: "Created At", width: 20, data_type: "date",    nullable: true}
+      modified_at:  {header: "Modified At",width: 20, data_type: "date",    nullable: true}
+      processed_at: {header: "Processed At",width: 20, data_type: "date"}
+
+  pdf_index:
+    name: "PDF Index"
+    description: "Índice detectado (maker/model/years/page)"
+    order: 14
+    protected: true
+    columns:
+      supplier_id:  {header: "Supplier ID", width: 12, data_type: "text", foreign_key: "dim_supplier.supplier_id"}
+      maker_code:   {header: "Maker Code",  width: 12, data_type: "text", foreign_key: "dim_maker.maker_code"}
+      model_name:   {header: "Model",       width: 22, data_type: "text"}
+      variant_name: {header: "Variant",     width: 18, data_type: "text", nullable: true}
+      body_style:   {header: "Body Style",  width: 16, data_type: "text", nullable: true}
+      year_from:    {header: "Year From",   width: 10, data_type: "integer", nullable: true}
+      year_to:      {header: "Year To",     width: 10, data_type: "integer", nullable: true}
+      years:        {header: "Years (list)",width: 28, data_type: "text",   nullable: true}
+      page:         {header: "Page #",      width: 8,  data_type: "integer", nullable: true}
+      pdf_id:       {header: "PDF ID",      width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+
+  vehicle_index:
+    name: "Vehicle Index"
+    description: "Tabla consolidada de índice por vehículo"
+    order: 15
+    protected: true
+    columns:
+      vehicle_id:  {header: "Vehicle ID",  width: 12, data_type: "integer", primary_key: true}
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code"}
+      model_name:  {header: "Model",       width: 22, data_type: "text"}
+      variant_name:{header: "Variant",     width: 18, data_type: "text",    nullable: true}
+      body_style:  {header: "Body Style",  width: 16, data_type: "text",    nullable: true}
+      year_from:   {header: "Year From",   width: 10, data_type: "integer"}
+      year_to:     {header: "Year To",     width: 10, data_type: "integer"}
+      page:        {header: "Page #",      width: 8,  data_type: "integer", nullable: true}
+
+  vehicle_years:
+    name: "Vehicle Years"
+    description: "Años expandidos del índice"
+    order: 16
+    protected: true
+    columns:
+      vehicle_id: {header: "Vehicle ID", width: 12, data_type: "integer", foreign_key: "vehicle_index.vehicle_id", primary_key: true}
+      year:       {header: "Year",       width: 8,  data_type: "integer", primary_key: true}
+
+  # ---------------------------------------------------------
+  # 16) Estructura de códigos (multi-proveedor)
+  # ---------------------------------------------------------
+  code_dictionary:
+    name: "Code Dictionary"
+    description: "Diccionario de tokens de código por proveedor/sistema"
+    order: 17
+    protected: true
+    columns:
+      supplier_id:      {header: "Supplier ID",    width: 12, data_type: "text", foreign_key: "dim_supplier.supplier_id"}
+      code_system_code: {header: "Code System",    width: 16, data_type: "text", foreign_key: "dim_code_system.code_system_code"}
+      token_key:        {header: "Token Key",      width: 12, data_type: "text"}
+      token_value:      {header: "Token Value",    width: 18, data_type: "text"}
+      meaning_es:       {header: "Meaning (ES)",   width: 28, data_type: "text", nullable: true}
+      meaning_en:       {header: "Meaning (EN)",   width: 28, data_type: "text", nullable: true}
+      category:
+        header: "Category"
+        width: 18
+        data_type: "text"
+        validation: {type: "list", source: ["maker","product_type","position","classification","cert","base_color","socket","lens_i","lens_j","addendum","pack","feature","other"]}
+      example:          {header: "Example",        width: 22, data_type: "text", nullable: true}
+
+  # ---------------------------------------------------------
+  # 16) Estructura de códigos (multi-proveedor)
+  # ---------------------------------------------------------
+  code_structure:
+    name: "Code Structure"
+    description: "Desglose tokenizado por ítem/código"
+    order: 18
+    protected: true
+    columns:
+      item_id:          {header: "Item ID",        width: 12, data_type: "integer", foreign_key: "items_detailed.item_id"}
+      code_system_code: {header: "Code System",    width: 16, data_type: "text", foreign_key: "dim_code_system.code_system_code"}
+      code_type:
+        header: "Code Type"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["near_oem","supplier_sku"]}
+      code_value:       {header: "Code Value",     width: 26, data_type: "text"}
+      token_key:        {header: "Token Key",      width: 12, data_type: "text"}
+      token_value:      {header: "Token Value",    width: 18, data_type: "text"}
+      token_meaning:    {header: "Token Meaning",  width: 24, data_type: "text", nullable: true}
+      token_order:      {header: "Order",          width: 8,  data_type: "integer"}
+      validity:
+        header: "Validity"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["primary","derived","ambiguous"]}
+      page:             {header: "Page #",         width: 8,  data_type: "integer", nullable: true}
+      pdf_id:           {header: "PDF ID",         width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+      notes:            {header: "Notes",          width: 40, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 17) Calidad e histórico
+  # ---------------------------------------------------------
+  issues:
+    name: "Issues"
+    description: "Observaciones y problemas detectados"
+    order: 19
+    protected: true
+    columns:
+      item_id:    {header: "Item ID", width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", nullable: true}
+      field:      {header: "Field",   width: 18, data_type: "text"}
+      value:      {header: "Value",   width: 26, data_type: "text", nullable: true}
+      problem:    {header: "Problem", width: 30, data_type: "text"}
+      page:       {header: "Page #",  width: 8,  data_type: "integer", nullable: true}
+      suggestion: {header: "Suggestion", width: 30, data_type: "text", nullable: true}
+      created_at: {header: "Created At", width: 20, data_type: "date"}
+
+  history:
+    name: "History"
+    description: "Histórico de cambios de campos estructurados"
+    order: 20
+    protected: true
+    columns:
+      item_id:    {header: "Item ID",    width: 12, data_type: "integer", foreign_key: "items_detailed.item_id"}
+      field:      {header: "Field",      width: 18, data_type: "text"}
+      old_value:  {header: "Old Value",  width: 24, data_type: "text", nullable: true}
+      new_value:  {header: "New Value",  width: 24, data_type: "text", nullable: true}
+      pdf_id:     {header: "PDF ID",     width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+      changed_at: {header: "Changed At", width: 20, data_type: "date"}
+
+  # ---------------------------------------------------------
+  # 18) Dimensiones (catálogos)
+  # ---------------------------------------------------------
+  dim_supplier:
+    name: "00_Dim_Supplier"
+    order: 21
+    columns:
+      supplier_id:   {header: "Supplier ID",  width: 12, data_type: "text", primary_key: true}
+      supplier_name: {header: "Supplier",     width: 22, data_type: "text"}
+
+  dim_country:
+    name: "00_Dim_Country"
+    order: 22
+    columns:
+      country_code: {header: "Country Code", width: 12, data_type: "integer", primary_key: true}
+      country_name: {header: "Country",      width: 22, data_type: "text"}
+
+  dim_maker:
+    name: "00_Dim_Maker"
+    order: 23
+    columns:
+      maker_code: {header: "Maker Code", width: 12, data_type: "text", primary_key: true}
+      maker_name: {header: "Maker",      width: 22, data_type: "text"}
+
+  dim_product_type:
+    name: "00_Dim_Product_Type"
+    order: 24
+    columns:
+      product_type_code: {header: "Product Type Code", width: 18, data_type: "text", primary_key: true}
+      product_type_name: {header: "Product Type",      width: 26, data_type: "text"}
+      parent_code:       {header: "Parent Code",       width: 16, data_type: "text", nullable: true}
+
+  dim_side:
+    name: "00_Dim_Side"
+    order: 25
+    columns:
+      side_code: {header: "Side Code", width: 8,  data_type: "text", primary_key: true}
+      side_name: {header: "Side",      width: 12, data_type: "text"}
+
+  dim_drive:
+    name: "00_Dim_Drive"
+    order: 26
+    columns:
+      drive_code: {header: "Drive Code", width: 8,  data_type: "text", primary_key: true}
+      drive_name: {header: "Drive",      width: 12, data_type: "text"}
+
+  dim_classification:
+    name: "00_Dim_Classification"
+    order: 27
+    columns:
+      class_code: {header: "Class Code", width: 8,  data_type: "text", primary_key: true}
+      desc_es:    {header: "Description",width: 24, data_type: "text"}
+
+  dim_certification:
+    name: "00_Dim_Certification"
+    order: 28
+    columns:
+      cert_code:
+        header: "Cert Code"
+        width: 10
+        data_type: "text"
+        primary_key: true
+        validation: {type: "list", source: ["S","E","Q","C","D","-"]}
+      cert_desc: {header: "Description", width: 24, data_type: "text"}
+
+  dim_base_color:
+    name: "00_Dim_Base_Color"
+    order: 29
+    columns:
+      base_code:    {header: "Base Code", width: 8,  data_type: "text", primary_key: true}
+      base_desc_es: {header: "Description",width: 24, data_type: "text"}
+
+  dim_socket_feature:
+    name: "00_Dim_Socket_Feature"
+    order: 30
+    columns:
+      socket_code:    {header: "Socket Code", width: 8,  data_type: "text", primary_key: true}
+      socket_desc_es: {header: "Description", width: 24, data_type: "text"}
+
+  dim_lens_i:
+    name: "00_Dim_Lens_I"
+    order: 31
+    columns:
+      lens_i:  {header: "Lens I",    width: 8,  data_type: "text", primary_key: true}
+      desc_es: {header: "Description",width: 24, data_type: "text"}
+
+  dim_lens_j:
+    name: "00_Dim_Lens_J"
+    order: 32
+    columns:
+      lens_j:  {header: "Lens J",    width: 8,  data_type: "text", primary_key: true}
+      desc_es: {header: "Description",width: 24, data_type: "text"}
+
+  dim_bulb:
+    name: "00_Dim_Bulb"
+    order: 33
+    columns:
+      bulb_code: {header: "Bulb Code", width: 12, data_type: "text", primary_key: true}
+      bulb_name: {header: "Bulb Name", width: 24, data_type: "text"}
+
+  dim_feature:
+    name: "00_Dim_Feature"
+    order: 34
+    columns:
+      feature_code: {header: "Feature Code", width: 16, data_type: "text", primary_key: true}
+      feature_name: {header: "Feature",      width: 24, data_type: "text"}
+      category:
+        header: "Category"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["lighting","mirror","handle","generic"]}
+
+  dim_highlight_status:
+    name: "00_Dim_Highlight_Status"
+    order: 35
+    columns:
+      pdf_text_color:
+        header: "PDF Text Color"
+        width: 16
+        data_type: "text"
+        primary_key: true
+        validation: {type: "list", source: ["pink","blue","light_green","red","unknown"]}
+      homologation_status:
+        header: "Homologation"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["homologado","no_homologado","non_us","tba","unknown"]}
+      notes: {header: "Notes", width: 30, data_type: "text", nullable: true}
+
+  dim_code_system:
+    name: "00_Dim_Code_System"
+    order: 36
+    columns:
+      code_system_code: {header: "Code System", width: 18, data_type: "text", primary_key: true}
+      description:      {header: "Description", width: 30, data_type: "text"}
+
+
+  # ---------------------------------------------------------
+  # 40) Productos (e-commerce opcional)
+  # ---------------------------------------------------------
+  products:
+    name: "Products"
+    description: "Catálogo de productos del e-commerce (mapea a items si aplica)"
+    order: 40
+    protected: true
+    columns:
+      product_id:   {header: "Product ID",   width: 18, data_type: "text",    primary_key: true}
+      product_sku:  {header: "Product SKU",  width: 18, data_type: "text",    nullable: true}
+      product_name: {header: "Product Name", width: 30, data_type: "text"}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["active","inactive","draft"]}
+      created_at:   {header: "Created At",   width: 20, data_type: "date",    nullable: true}
+      notes:        {header: "Notes",        width: 30, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 41) Mapeo Product ↔ Item (roles visuales)
+  # ---------------------------------------------------------
+  product_item_map:
+    name: "Product↔Item Map"
+    description: "Asociación de productos de e-commerce con items normalizados"
+    order: 41
+    protected: true
+    columns:
+      product_id:  {header: "Product ID",  width: 18, data_type: "text",    foreign_key: "products.product_id",      primary_key: true}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id",   primary_key: true}
+      role_uso:
+        header: "Role Uso"
+        width: 18
+        data_type: "text"
+        validation: {type: "list", source: ["portada","galeria","especificaciones","repuesto","alterno"]}
+      sort_order:  {header: "Sort Order",  width: 10, data_type: "integer", default_value: 0}
+      is_primary:  {header: "Primary",     width: 10, data_type: "boolean", format: "TRUE/FALSE", default_value: false}
+
+  # ---------------------------------------------------------
+  # 42) Reseñas de clientes (con multimedia)
+  # ---------------------------------------------------------
+  reviews:
+    name: "Reviews"
+    description: "Reseñas/valoraciones de clientes aplicables a productos y/o items"
+    order: 42
+    protected: true
+    columns:
+      review_id:           {header: "Review ID",        width: 12, data_type: "integer", primary_key: true}
+      product_id:          {header: "Product ID",       width: 18, data_type: "text",    foreign_key: "products.product_id",      nullable: true}
+      item_id:             {header: "Item ID",          width: 12, data_type: "integer", foreign_key: "items_detailed.item_id",   nullable: true}
+      user_id:             {header: "User ID",          width: 18, data_type: "text"}
+      rating:
+        header: "Rating"
+        width: 8
+        data_type: "integer"
+        validation: {type: "whole", minimum: 1, maximum: 5}
+      comment:             {header: "Comment",          width: 50, data_type: "text",    nullable: true}
+      moderation_status:
+        header: "Moderation"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["pending","approved","rejected"]}
+      likes_count:         {header: "Likes",            width: 10, data_type: "integer", default_value: 0}
+      reports_count:       {header: "Reports",          width: 10, data_type: "integer", default_value: 0}
+      helpful_count:       {header: "Helpful",          width: 10, data_type: "integer", default_value: 0}
+      created_at:          {header: "Created At",       width: 20, data_type: "date"}
+
+  review_media:
+    name: "Review Media"
+    description: "Relación reseña↔multimedia (múltiples adjuntos por reseña)"
+    order: 43
+    protected: true
+    columns:
+      review_id:  {header: "Review ID", width: 12, data_type: "integer", foreign_key: "reviews.review_id",      primary_key: true}
+      media_id:   {header: "Media ID",  width: 12, data_type: "integer", foreign_key: "media_files.media_id",   primary_key: true}
+      role:
+        header: "Role"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["principal","galeria","evidencia"]}
+      sort_order: {header: "Sort Order", width: 10, data_type: "integer", default_value: 0}
+
+  # ---------------------------------------------------------
+  # 44) Métricas de uso (agregadas por día)
+  # ---------------------------------------------------------
+  media_metrics_daily:
+    name: "Media Metrics Daily"
+    description: "Métricas de consumo/engagement por media y día (para reporting)"
+    order: 44
+    protected: true
+    columns:
+      media_id:     {header: "Media ID",   width: 12, data_type: "integer", foreign_key: "media_files.media_id", primary_key: true}
+      date:         {header: "Date",       width: 14, data_type: "date",    primary_key: true}
+      views:        {header: "Views",      width: 10, data_type: "integer", default_value: 0}
+      clicks:       {header: "Clicks",     width: 10, data_type: "integer", default_value: 0}
+      downloads:    {header: "Downloads",  width: 12, data_type: "integer", default_value: 0}
+      likes:        {header: "Likes",      width: 10, data_type: "integer", default_value: 0}
+      bandwidth_mb: {header: "Bandwidth (MB)", width: 16, data_type: "decimal", format: "0.00", nullable: true}
+
+
+  # ---------------------------------------------------------
+  # 37) Dimensión de Mercados
+  # ---------------------------------------------------------
+  dim_market:
+    name: "00_Dim_Market"
+    order: 37
+    columns:
+      market_code: {header: "Market Code", width: 12, data_type: "text", primary_key: true}
+      market_name: {header: "Market",      width: 22, data_type: "text"}
+
+  # ---------------------------------------------------------
+  # 38) Dimensión de Variantes (SKU/visual)
+  # ---------------------------------------------------------
+  dim_variant:
+    name: "00_Dim_Variant"
+    order: 38
+    columns:
+      variant_code: {header: "Variant Code", width: 14, data_type: "text", primary_key: true}
+      variant_name: {header: "Variant Name", width: 24, data_type: "text", nullable: true}
+      category:
+        header: "Category"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["pack","trim","lens","electrical","other"]}
+
+  # ---------------------------------------------------------
+  # 39) Dimensión de Pack Variants
+  # ---------------------------------------------------------
+  dim_pack_variant:
+    name: "00_Dim_Pack_Variant"
+    order: 39
+    columns:
+      pack_variant: {header: "Pack Variant", width: 12, data_type: "text", primary_key: true}
+      description:  {header: "Description",  width: 24, data_type: "text", nullable: true}
+
+  # ---------------------------------------------------------
+  # 45) Producto Ranking
+  # ---------------------------------------------------------
+  product_ranking:
+    name: "Product Ranking"
+    description: "Puntaje dinámico para posicionamiento (0-100)"
+    order: 45
+    protected: true
+    columns:
+      product_id:       {header: "Product ID",     width: 18, data_type: "text",    foreign_key: "products.product_id", primary_key: true}
+      score_ranking:    {header: "Score Ranking",  width: 14, data_type: "decimal", format: "0.00"}
+      rotation_weekly:  {header: "Weekly Rotation",width: 14, data_type: "integer", nullable: true}
+      conversion_rate:  {header: "Conversion Rate",width: 16, data_type: "decimal", format: "0.000", nullable: true}
+      returns_rate:     {header: "Returns Rate",   width: 14, data_type: "decimal", format: "0.000", nullable: true}
+      updated_at:       {header: "Updated At",     width: 20, data_type: "date",    nullable: true}
+      
+
+  # ---------------------------------------------------------
+  # 46) Producto Recomendaciones (ML)
+  # ---------------------------------------------------------
+  product_recommendations:
+    name: "Product Recommendations"
+    description: "Relaciones producto→producto con puntaje de confianza"
+    order: 46
+    protected: true
+    columns:
+      product_id:             {header: "Product ID",         width: 18, data_type: "text", foreign_key: "products.product_id", primary_key: true}
+      recommended_product_id: {header: "Recommended Product", width: 22, data_type: "text", foreign_key: "products.product_id", primary_key: true}
+      score_confidence:       {header: "Score Confidence",   width: 16, data_type: "decimal", format: "0.000", default_value: 0.90}
+      rationale:              {header: "Rationale",          width: 40, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 47) User Preferences (personalización)
+  # ---------------------------------------------------------
+  user_preferences:
+    name: "User Preferences"
+    description: "Preferencias y señales de usuario para personalización"
+    order: 47
+    protected: true
+    columns:
+      user_id:               {header: "User ID",            width: 18, data_type: "text", primary_key: true}
+      search_history_json:   {header: "Search History JSON",width: 60, data_type: "text", nullable: true}
+      recent_purchases_json: {header: "Recent Purchases JSON", width: 60, data_type: "text", nullable: true}
+      last_updated:          {header: "Last Updated",       width: 20, data_type: "date", nullable: true}
+
+  # ---------------------------------------------------------
+  # 48) Dim Maker Alias (reconciliación)
+  # ---------------------------------------------------------
+  dim_maker_alias:
+    name: "00_Dim_Maker_Alias"
+    order: 48
+    columns:
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text", foreign_key: "dim_maker.maker_code", primary_key: true}
+      maker_alias: {header: "Maker Alias", width: 22, data_type: "text", primary_key: true}
+
+  # ---------------------------------------------------------
+  # 49) Dim Model Alias (reconciliación)
+  # ---------------------------------------------------------
+  dim_model_alias:
+    name: "00_Dim_Model_Alias"
+    order: 49
+    columns:
+      maker_code:   {header: "Maker Code",   width: 12, data_type: "text", foreign_key: "dim_maker.maker_code", primary_key: true}
+      model_alias:  {header: "Model Alias",  width: 24, data_type: "text", primary_key: true}
+      model_name:   {header: "Model",        width: 24, data_type: "text"}
+      alias_type:
+        header: "Alias Type"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["exact","spacing","case","language","synonym","typo"]}
+      confidence:   {header: "Confidence",   width: 12, data_type: "decimal", format: "0.00", nullable: true}
+      source:       {header: "Source",       width: 24, data_type: "text",    nullable: true}
+      notes:        {header: "Notes",        width: 30, data_type: "text",    nullable: true}

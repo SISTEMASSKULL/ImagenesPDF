@@ -1,0 +1,23 @@
+# Lectura/parseo PDF e imágenes
+PyMuPDF==1.24.9
+pdfplumber==0.11.0
+pypdfium2==4.30.0
+Pillow==10.4.0
+opencv-python-headless==4.10.0.84
+
+# Datos y Excel
+pandas==2.2.2
+openpyxl==3.1.5
+XlsxWriter==3.2.0
+
+# CLI, YAML, logs
+typer==0.12.3
+rich==13.7.1
+PyYAML==6.0.2
+structlog==24.4.0
+
+# OCR (opcional)
+pytesseract==0.3.10
+
+# Empaquetado (dev)
+pyinstaller==6.9.0

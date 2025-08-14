@@ -1,0 +1,413 @@
+# Catálogos y dimensiones de datos para ImagenesPDF
+# Sistema de procesamiento de catálogos PDF de autopartes
+
+metadata:
+  version: "1.0"
+  description: "Catálogos maestros y tablas de dimensiones"
+  last_updated: "2024-01-15"
+  data_sources: ["industry_standards", "oem_specifications", "market_research"]
+
+# Tabla de fabricantes de vehículos (dim_maker)
+makers:
+  ACURA: "Acura"
+  AUDI: "Audi AG"
+  BMW: "BMW Group"
+  BUICK: "Buick"
+  CADILLAC: "Cadillac"
+  CHEVROLET: "Chevrolet"
+  CHRYSLER: "Chrysler"
+  DODGE: "Dodge"
+  FIAT: "Fiat"
+  FORD: "Ford Motor Company"
+  GMC: "GMC"
+  HONDA: "Honda Motor Co."
+  HYUNDAI: "Hyundai Motor Company"
+  INFINITI: "Infiniti"
+  ISUZU: "Isuzu Motors"
+  JAGUAR: "Jaguar Land Rover"
+  JEEP: "Jeep"
+  KIA: "Kia Corporation"
+  LAND_ROVER: "Land Rover"
+  LEXUS: "Lexus"
+  LINCOLN: "Lincoln Motor Company"
+  MAZDA: "Mazda Motor Corporation"
+  MERCEDES: "Mercedes-Benz"
+  MITSUBISHI: "Mitsubishi Motors"
+  NISSAN: "Nissan Motor Co."
+  PONTIAC: "Pontiac"
+  PORSCHE: "Porsche AG"
+  RAM: "Ram Trucks"
+  SAAB: "Saab Automobile"
+  SATURN: "Saturn Corporation"
+  SCION: "Scion"
+  SUBARU: "Subaru Corporation"
+  SUZUKI: "Suzuki Motor Corporation"
+  TESLA: "Tesla, Inc."
+  TOYOTA: "Toyota Motor Corporation"
+  VOLKSWAGEN: "Volkswagen Group"
+  VOLVO: "Volvo Cars"
+
+# Tabla de países (dim_country)
+countries:
+  CN: "China"
+  TW: "Taiwan"
+  JP: "Japan"
+  KR: "South Korea"
+  DE: "Germany"
+  US: "United States"
+  MX: "Mexico"
+  CA: "Canada"
+  BR: "Brazil"
+  IN: "India"
+  TH: "Thailand"
+  MY: "Malaysia"
+  ID: "Indonesia"
+  VN: "Vietnam"
+
+# Jerarquía de tipos de productos (dim_product_type)
+product_types:
+  # Nivel 1 - Categorías principales
+  LIGHTING:
+    name: "Lighting Systems"
+    description: "All automotive lighting components"
+    parent_code: null
+    subcategories:
+      # Nivel 2 - Subcategorías
+      HEAD_LAMP:
+        name: "Head Lamps"
+        description: "Front lighting assemblies"
+        parent_code: "LIGHTING"
+        subcategories:
+          # Nivel 3 - Tipos específicos
+          HEAD_LAMP_HALOGEN:
+            name: "Halogen Head Lamps"
+            parent_code: "HEAD_LAMP"
+          HEAD_LAMP_LED:
+            name: "LED Head Lamps"
+            parent_code: "HEAD_LAMP"
+          HEAD_LAMP_HID:
+            name: "HID/Xenon Head Lamps"
+            parent_code: "HEAD_LAMP"
+
+      TAIL_LAMP:
+        name: "Tail Lamps"
+        description: "Rear lighting assemblies"
+        parent_code: "LIGHTING"
+        subcategories:
+          TAIL_LAMP_STANDARD:
+            name: "Standard Tail Lamps"
+            parent_code: "TAIL_LAMP"
+          TAIL_LAMP_LED:
+            name: "LED Tail Lamps"
+            parent_code: "TAIL_LAMP"
+
+      FOG_LAMP:
+        name: "Fog Lamps"
+        description: "Auxiliary lighting for poor visibility"
+        parent_code: "LIGHTING"
+        subcategories:
+          FOG_LAMP_FRONT:
+            name: "Front Fog Lamps"
+            parent_code: "FOG_LAMP"
+          FOG_LAMP_REAR:
+            name: "Rear Fog Lamps"
+            parent_code: "FOG_LAMP"
+
+      CORNER_LAMP:
+        name: "Corner Lamps"
+        description: "Side marker and corner lighting"
+        parent_code: "LIGHTING"
+
+      SIGNAL_LAMP:
+        name: "Signal Lamps"
+        description: "Turn signal indicators"
+        parent_code: "LIGHTING"
+
+  BODY:
+    name: "Body Components"
+    description: "Exterior body parts and assemblies"
+    parent_code: null
+    subcategories:
+      DOOR_HANDLE:
+        name: "Door Handles"
+        description: "Interior and exterior door handles"
+        parent_code: "BODY"
+        subcategories:
+          DOOR_HANDLE_EXTERIOR:
+            name: "Exterior Door Handles"
+            parent_code: "DOOR_HANDLE"
+          DOOR_HANDLE_INTERIOR:
+            name: "Interior Door Handles"
+            parent_code: "DOOR_HANDLE"
+
+      MIRROR:
+        name: "Mirrors"
+        description: "Side and rear view mirrors"
+        parent_code: "BODY"
+        subcategories:
+          SIDE_MIRROR:
+            name: "Side Mirrors"
+            parent_code: "MIRROR"
+          MIRROR_GLASS:
+            name: "Mirror Glass"
+            parent_code: "MIRROR"
+
+      GRILLE:
+        name: "Grilles"
+        description: "Front grille assemblies"
+        parent_code: "BODY"
+
+      BUMPER:
+        name: "Bumpers"
+        description: "Front and rear bumper assemblies"
+        parent_code: "BODY"
+
+# Tabla de lados (dim_side)
+sides:
+  L: "Left"
+  R: "Right"
+  N: "Not Applicable"
+
+# Tabla de volante (dim_drive)
+drives:
+  LD: "Left Hand Drive"
+  RD: "Right Hand Drive"
+
+# Tabla de clasificaciones (dim_classification)
+classifications:
+  U: "Universal"
+  A: "America"
+  W: "Europe"
+  B: "Both America and Europe"
+  "-": "Not Specified"
+
+# Tabla de certificaciones (dim_certification)
+certifications:
+  S: "SAE Compliant"
+  E: "ECE Approved"
+  Q: "Quality Certified"
+  C: "CE Marked"
+  D: "DOT Approved"
+  "": "No Certification"
+
+# Tabla de colores base (dim_base_color)
+base_colors:
+  1: "Clear"
+  2: "Amber"
+  3: "Red"
+  4: "Blue"
+  5: "Green"
+  6: "White"
+  7: "Black"
+  8: "Chrome"
+  9: "Smoke"
+
+# Tabla de características de socket (dim_socket_feature)
+socket_features:
+  Z: "No Socket"
+  O: "Standard Socket"
+  T: "Twist Lock"
+  D: "Double Contact"
+  N: "LED Native"
+  B: "Bayonet"
+  S: "Special Socket"
+  "-": "Not Applicable"
+
+# Tabla de lente interior (dim_lens_i)
+lens_i:
+  C: "Clear"
+  R: "Red"
+  Y: "Yellow/Amber"
+  S: "Smoke"
+  B: "Blue"
+  G: "Green"
+  A: "All Clear"
+  L: "Light Smoke"
+
+# Tabla de lente exterior (dim_lens_j)
+lens_j:
+  C: "Clear"
+  R: "Red"
+  Y: "Yellow/Amber"
+  S: "Smoke"
+  B: "Blue"
+  G: "Green"
+  A: "All Clear"
+  O: "Orange"
+  D: "Dark Smoke"
+  "2": "Two-tone"
+  "3": "Three-tone"
+  "6": "Six-sided"
+
+# Catálogo de bulbos (dim_bulb)
+bulbs:
+  # Bulbos halógenos estándar
+  H1: "H1 Halogen"
+  H3: "H3 Halogen"
+  H4: "H4 Halogen"
+  H7: "H7 Halogen"
+  H8: "H8 Halogen"
+  H9: "H9 Halogen"
+  H10: "H10 Halogen"
+  H11: "H11 Halogen"
+  H13: "H13 Halogen"
+  H16: "H16 Halogen"
+
+  # Bulbos HID/Xenon
+  D1S: "D1S HID"
+  D1R: "D1R HID"
+  D2S: "D2S HID"
+  D2R: "D2R HID"
+  D3S: "D3S HID"
+  D3R: "D3R HID"
+  D4S: "D4S HID"
+  D4R: "D4R HID"
+
+  # LEDs estándar
+  LED_H1: "LED H1 Replacement"
+  LED_H4: "LED H4 Replacement"
+  LED_H7: "LED H7 Replacement"
+  LED_H11: "LED H11 Replacement"
+
+  # Bulbos de señalización
+  1156: "1156 Turn Signal"
+  1157: "1157 Stop/Turn"
+  3157: "3157 Stop/Turn/Parking"
+  3156: "3156 Turn Signal"
+  T10: "T10 Parking/License"
+  T20: "T20 Turn Signal"
+
+  # Bulbos especiales
+  880: "880 Fog Light"
+  881: "881 Fog Light"
+  893: "893 Fog Light"
+  9005: "9005 High Beam"
+  9006: "9006 Low Beam"
+  9007: "9007 Dual Beam"
+  9012: "9012 Halogen"
+
+  # Sin bulbo
+  NONE: "No Bulb Required"
+  LED_INTEGRATED: "Integrated LED"
+
+# Estados de homologación basados en color del texto (dim_highlight_status)
+highlight_status:
+  # Colores que indican homologación
+  pink: "homologado"
+  rose: "homologado"
+  "#ff69b4": "homologado"
+  "#ffc0cb": "homologado"
+  "#ffb6c1": "homologado"
+
+  # Colores que indican no homologación
+  blue: "no_homologado"
+  cyan: "no_homologado"
+  "#0000ff": "no_homologado"
+  "#00ffff": "no_homologado"
+  "#1e90ff": "no_homologado"
+
+  # Estados especiales
+  red: "non_us"
+  "#ff0000": "non_us"
+  green: "tba"
+  "#008000": "tba"
+
+  # Sin clasificación
+  black: "unknown"
+  "#000000": "unknown"
+  gray: "unknown"
+  "#808080": "unknown"
+
+# Configuración de mapeo de aliases y variaciones
+aliases:
+  makers:
+    GM: "GMC"
+    GENERAL_MOTORS: "GMC"
+    BENZ: "MERCEDES"
+    MERCEDES_BENZ: "MERCEDES"
+    VW: "VOLKSWAGEN"
+    LANDROVER: "LAND_ROVER"
+    RANGE_ROVER: "LAND_ROVER"
+
+  product_types:
+    HEADLIGHT: "HEAD_LAMP"
+    HEADLAMP: "HEAD_LAMP"
+    TAILLIGHT: "TAIL_LAMP"
+    TAILLAMP: "TAIL_LAMP"
+    FOGLIGHT: "FOG_LAMP"
+    FOGLAMP: "FOG_LAMP"
+    TURN_SIGNAL: "SIGNAL_LAMP"
+    SIDE_MARKER: "CORNER_LAMP"
+
+  bulbs:
+    H4_LED: "LED_H4"
+    H7_LED: "LED_H7"
+    H11_LED: "LED_H11"
+    NO_BULB: "NONE"
+
+# Validaciones y reglas de negocio
+validation_rules:
+  year_ranges:
+    min_year: 1980
+    max_year: 2030
+
+  part_codes:
+    depo_pattern: "^[A-J]\\d{2}-\\d{4}-[A-Z]{2,3}\\d*$"
+    max_length: 20
+
+  measurements:
+    weight_kg:
+      min: 0.1
+      max: 50.0
+    volume_cft:
+      min: 0.1
+      max: 10.0
+    pieces:
+      min: 1
+      max: 100
+
+# Configuración de normalización
+normalization:
+  text_cleanup:
+    remove_chars: ["(", ")", "[", "]", '"', "'"]
+    replace_chars:
+      "&": "AND"
+      "/": "_"
+      " ": "_"
+      "-": "_"
+    uppercase_fields: ["maker_code", "product_type_code", "certification"]
+
+  code_standardization:
+    pad_zeros: true
+    remove_spaces: true
+    uppercase: true
+
+# Configuración específica por proveedor
+vendor_specific:
+  depo:
+    default_certification: "S" # SAE
+    default_country: "TW" # Taiwan
+    typical_bulbs: ["H1", "H4", "H7", "H11", "9005", "9006"]
+
+  yuto:
+    default_certification: "E" # ECE
+    default_country: "CN" # China
+    typical_bulbs: ["LED_H4", "LED_H7", "LED_H11", "LED_INTEGRATED"]
+
+  hushan:
+    default_certification: "" # No certification typical
+    default_country: "CN" # China
+    typical_features: ["with_keyhole", "smart_key_sensor", "heated"]
+
+# Configuración de cache y performance
+cache_settings:
+  enabled: true
+  max_entries: 5000
+  ttl_minutes: 60
+  preload_common_lookups: true
+
+# Configuración de logging
+logging:
+  log_normalization_changes: true
+  log_validation_errors: true
+  track_usage_statistics: true

@@ -1,0 +1,323 @@
+# Configuración de firmas para detección automática de proveedores
+# ImagenesPDF - Sistema de procesamiento de catálogos PDF
+
+metadata:
+  version: "1.0"
+  description: "Firmas de detección automática de proveedores de autopartes"
+  last_updated: "2024-01-15"
+  supported_vendors: ["depo", "yuto", "hushan", "generic"]
+
+# Configuración global de detección
+detection_settings:
+  confidence_threshold: 0.5
+  max_pages_to_analyze: 10
+  cache_enabled: true
+  fallback_to_generic: true
+
+# Firmas específicas por proveedor
+vendors:
+  depo:
+    name: "DEPO International Co., Ltd."
+    country: "Taiwan"
+    description: "Proveedor taiwanés especializado en iluminación automotriz"
+
+    signatures:
+      - name: "depo_main_signature"
+        weight: 1.5
+        required_patterns:
+          - "DEPO"
+          - "[A-J]\\d{2}[-\\s]\\d{4}[-\\s][A-Z]{2,3}\\d*" # Códigos A-J característicos
+
+        optional_patterns:
+          - "Taiwan"
+          - "Made\\s+in\\s+Taiwan"
+          - "DEPO\\s+International"
+          - "OEM\\s*:?\\s*\\d{3}[-\\s]\\d{5}[-\\s][A-Z]{2}\\d*"
+          - "ELEC\\s*[=:]\\s*YES"
+          - "MOTOR\\s*[=:]\\s*YES"
+          - "PCS\\s*[=:]\\s*\\d+"
+          - "CFT\\s*[=:]\\s*\\d+\\.?\\d*"
+          - "LED\\s+(?:HEAD|TAIL)\\s+(?:LAMP|LIGHT)"
+          - "DOT\\s+(?:approved|certified)"
+          - "SAE\\s+(?:approved|certified)"
+
+        exclusion_patterns:
+          - "YUTO"
+          - "HUSHAN"
+          - "Made\\s+in\\s+China"
+          - "Manufactured\\s+in\\s+China"
+
+        metadata_patterns:
+          title: ["DEPO", "Taiwan"]
+          creator: ["DEPO"]
+          producer: ["Taiwan"]
+
+        expected_structure:
+          has_index: true
+          typical_pages: [50, 200]
+          image_heavy: true
+
+      - name: "depo_secondary_signature"
+        weight: 1.0
+        required_patterns:
+          - "(?:A|B|C|D|E|F|G|H|I|J)\\d{2}-\\d{4}-[A-Z]{2,3}"
+
+        optional_patterns:
+          - "Head\\s+Lamp"
+          - "Tail\\s+Lamp"
+          - "Corner\\s+Lamp"
+          - "Fog\\s+Lamp"
+          - "Signal\\s+Lamp"
+          - "Replacement"
+          - "Assembly"
+
+  yuto:
+    name: "YUTO Auto Parts"
+    country: "China"
+    description: "Proveedor chino de partes automotrices con enfoque en LED"
+
+    signatures:
+      - name: "yuto_main_signature"
+        weight: 1.3
+        required_patterns:
+          - "YUTO"
+          - "[LR]HD?\\s+(?:LED|LAMP|LIGHT)" # LHD/RHD característico de YUTO
+
+        optional_patterns:
+          - "China"
+          - "Made\\s+in\\s+China"
+          - "YUTO\\s+Auto\\s+Parts"
+          - "LED\\s+(?:DRL|Puddle|Heat|Turn)"
+          - "USA\\s+type"
+          - "Non[-\\s]US"
+          - "Europe\\s+type"
+          - "PCS\\s*:?\\s*\\d+"
+          - "CFT\\s*:?\\s*\\d+\\.?\\d*"
+          - "N\\.W\\.\\s*:?\\s*\\d+\\.?\\d*\\s*KG"
+          - "G\\.W\\.\\s*:?\\s*\\d+\\.?\\d*\\s*KG"
+          - "Carton\\s+Size"
+          - "Master\\s+Carton"
+          - "Left\\s+Hand\\s+Drive"
+          - "Right\\s+Hand\\s+Drive"
+
+        exclusion_patterns:
+          - "DEPO"
+          - "HUSHAN"
+          - "Taiwan"
+          - "Made\\s+in\\s+Taiwan"
+
+        metadata_patterns:
+          title: ["YUTO", "China", "LED"]
+          creator: ["YUTO"]
+
+      - name: "yuto_led_signature"
+        weight: 1.1
+        required_patterns:
+          - "LED\\s+(?:Headlight|Taillight|DRL)"
+
+        optional_patterns:
+          - "Sequential\\s+Turn"
+          - "Dynamic\\s+Signal"
+          - "Amber\\s+Turn"
+          - "White\\s+DRL"
+          - "Red\\s+Tail"
+          - "Projector\\s+Lens"
+          - "High\\s+Beam"
+          - "Low\\s+Beam"
+          - "Canbus\\s+Ready"
+          - "Error\\s+Free"
+
+  hushan:
+    name: "HUSHAN Auto Parts"
+    country: "China"
+    description: "Proveedor chino especializado en espejos y manijas"
+
+    signatures:
+      - name: "hushan_main_signature"
+        weight: 1.2
+        required_patterns:
+          - "HUSHAN"
+          - "(?:Black|Chrome|Clear|Textured)\\s+(?:Housing|Finish|Style|Color)"
+
+        optional_patterns:
+          - "China"
+          - "Made\\s+in\\s+China"
+          - "HUSHAN\\s+Auto\\s+Parts"
+          - "with\\s+keyhole"
+          - "smart\\s+key\\s+sensor"
+          - "heated\\s+(?:mirror|glass)"
+          - "power\\s+(?:folding|adjustment)"
+          - "turn\\s+signal"
+          - "puddle\\s+lamp"
+          - "memory\\s+function"
+          - "auto\\s+dimming"
+          - "blind\\s+spot"
+          - "wide\\s+angle"
+          - "convex\\s+mirror"
+          - "Door\\s+Handle"
+          - "Side\\s+Mirror"
+          - "Mirror\\s+Glass"
+
+        exclusion_patterns:
+          - "DEPO"
+          - "YUTO"
+          - "Taiwan"
+          - "Made\\s+in\\s+Taiwan"
+
+        expected_structure:
+          typical_pages: [20, 100]
+          has_detailed_specs: true
+
+      - name: "hushan_mirror_signature"
+        weight: 1.0
+        required_patterns:
+          - "(?:Side|Door|Rear)\\s+Mirror"
+
+        optional_patterns:
+          - "Manual\\s+Adjustment"
+          - "Electric\\s+Adjustment"
+          - "Heated\\s+Function"
+          - "Signal\\s+Function"
+          - "Memory\\s+Function"
+          - "Folding\\s+Function"
+          - "Left\\s+Side"
+          - "Right\\s+Side"
+          - "Driver\\s+Side"
+          - "Passenger\\s+Side"
+
+  generic:
+    name: "Generic/Unknown Vendor"
+    country: "Various"
+    description: "Fallback para proveedores no identificados específicamente"
+
+    signatures:
+      - name: "generic_auto_parts_signature"
+        weight: 0.5
+        required_patterns:
+          - "(?:OEM|OE|Original)\\s*:?\\s*[A-Z0-9\\-]+"
+          - "(?:Part|Model|Item)\\s*(?:Number|No\\.?|#)\\s*:?\\s*[A-Z0-9\\-]+"
+
+        optional_patterns:
+          - "Automotive"
+          - "Auto\\s+Parts"
+          - "Car\\s+Parts"
+          - "Vehicle\\s+Parts"
+          - "Compatible\\s+with"
+          - "Fits\\s+\\d{4}[-\\s]\\d{4}"
+          - "Replacement\\s+Part"
+          - "Aftermarket"
+          - "Quality\\s+Assured"
+          - "ISO\\s+(?:9001|certified)"
+          - "CE\\s+(?:marked|certified)"
+          - "DOT\\s+(?:approved|certified)"
+          - "SAE\\s+(?:approved|certified)"
+          - "Year\\s*:?\\s*\\d{4}"
+          - "Make\\s*:?\\s*[A-Z]+"
+          - "Model\\s*:?\\s*[A-Z0-9\\-\\s]+"
+
+        exclusion_patterns: [] # Generic no excluye nada
+
+        expected_structure:
+          min_pages: 5
+          has_part_numbers: true
+
+# Configuraciones adicionales por proveedor
+vendor_specific_settings:
+  depo:
+    color_classification:
+      homologated_colors: ["pink", "rose", "#ff69b4", "#ffc0cb"]
+      non_homologated_colors: ["blue", "cyan", "#0000ff", "#00ffff"]
+
+    code_structure:
+      pattern: "[A-J]\\d{2}-\\d{4}-[A-Z]{2,3}\\d*"
+      segments:
+        - name: "series"
+          position: 0
+          pattern: "[A-J]"
+          description: "Serie del producto (A-J)"
+        - name: "model"
+          position: 1
+          pattern: "\\d{2}"
+          description: "Modelo de 2 dígitos"
+        - name: "part_number"
+          position: 2
+          pattern: "\\d{4}"
+          description: "Número de parte de 4 dígitos"
+        - name: "variant"
+          position: 3
+          pattern: "[A-Z]{2,3}\\d*"
+          description: "Variante y sufijos"
+
+    typical_features:
+      - "ELEC"
+      - "MOTOR"
+      - "WITH_BULB"
+      - "DOT_APPROVED"
+      - "SAE_COMPLIANT"
+
+  yuto:
+    color_classification:
+      market_indicators:
+        usa_type: ["blue", "#0000ff"]
+        europe_type: ["green", "#00ff00"]
+        universal: ["black", "#000000"]
+
+    drive_indicators:
+      lhd: ["Left Hand Drive", "LHD"]
+      rhd: ["Right Hand Drive", "RHD"]
+
+    typical_features:
+      - "LED_DRL"
+      - "LED_TURN"
+      - "PUDDLE_LAMP"
+      - "HEATED"
+      - "SEQUENTIAL"
+      - "CANBUS_READY"
+
+  hushan:
+    color_classification:
+      finish_types:
+        black: ["Black Housing", "Textured Black"]
+        chrome: ["Chrome Finish", "Chrome Housing"]
+        clear: ["Clear Housing", "Transparent"]
+
+    typical_features:
+      - "WITH_KEYHOLE"
+      - "SMART_KEY_SENSOR"
+      - "HEATED_MIRROR"
+      - "POWER_FOLDING"
+      - "TURN_SIGNAL"
+      - "PUDDLE_LAMP"
+      - "MEMORY_FUNCTION"
+      - "AUTO_DIMMING"
+
+# Patrones de validación comunes
+common_patterns:
+  year_ranges:
+    - "\\d{4}[-~]\\d{4}" # 2010-2015
+    - "'\\d{2}[-~]'\\d{2}" # '10-'15
+    - "\\d{2}[-~]\\d{4}" # 10-2015
+
+  oem_numbers:
+    - "\\d{3}[-\\s]\\d{5}[-\\s][A-Z]{2}\\d*" # DEPO style
+    - "[A-Z]{2,4}\\d{4,6}[-\\s][A-Z]{1,3}\\d*" # Generic style
+    - "\\d{8,12}" # Simple numeric
+
+  measurements:
+    - "\\d+\\.?\\d*\\s*(?:MM|CM|INCH)"
+    - "\\d+\\.?\\d*\\s*(?:KG|LBS)"
+    - "\\d+\\.?\\d*\\s*(?:CFT|M3)"
+
+# Configuración de logging específico para detección
+logging:
+  level: "INFO"
+  log_matches: true
+  log_false_positives: true
+  performance_tracking: true
+
+# Configuración de cache
+cache_settings:
+  enabled: true
+  max_entries: 1000
+  ttl_hours: 24
+  cleanup_interval_hours: 6

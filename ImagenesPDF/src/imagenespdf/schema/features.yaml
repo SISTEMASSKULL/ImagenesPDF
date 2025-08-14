@@ -1,0 +1,588 @@
+POWER_FOLDING:
+        code: "POWER_FOLDING"
+        name: "Power Folding"
+        description: "Plegado eléctrico automático"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["folding", "electric_folding", "auto_fold"]
+        
+      POWER_ADJUSTMENT:
+        code: "POWER_ADJUSTMENT"
+        name: "Power Adjustment"
+        description: "Ajuste eléctrico de posición"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["electric_adjustment", "power_adjust", "motorized"]
+        
+      MANUAL_ADJUSTMENT:
+        code: "MANUAL_ADJUSTMENT"
+        name: "Manual Adjustment"
+        description: "Ajuste manual de posición"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["manual", "manual_adjust", "hand_adjust"]
+
+  SECURITY_FEATURES:
+    name: "Security & Access Features"
+    description: "Características de seguridad y acceso"
+    icon: "🔐"
+    features:
+      WITH_KEYHOLE:
+        code: "WITH_KEYHOLE"
+        name: "With Keyhole"
+        description: "Incluye cerradura con llave"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["keyhole", "key_hole", "lock_cylinder", "with_lock"]
+        
+      WITHOUT_KEYHOLE:
+        code: "WITHOUT_KEYHOLE"
+        name: "Without Keyhole"
+        description: "Sin cerradura de llave"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["no_keyhole", "no_key_hole", "keyless"]
+        
+      CENTRAL_LOCKING:
+        code: "CENTRAL_LOCKING"
+        name: "Central Locking"
+        description: "Sistema de cierre centralizado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["central_lock", "remote_lock", "power_lock"]
+        
+      ANTI_THEFT:
+        code: "ANTI_THEFT"
+        name: "Anti-theft Feature"
+        description: "Función anti-robo"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["antitheft", "security", "theft_protection"]
+
+  OPTICAL_FEATURES:
+    name: "Optical & Vision Features"
+    description: "Características ópticas y de visión"
+    icon: "👁️"
+    features:
+      WIDE_ANGLE:
+        code: "WIDE_ANGLE"
+        name: "Wide Angle View"
+        description: "Vista gran angular"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["wide_view", "panoramic", "extended_view"]
+        
+      CONVEX_MIRROR:
+        code: "CONVEX_MIRROR"
+        name: "Convex Mirror"
+        description: "Espejo convexo para mayor visión"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["convex", "curved_mirror", "fish_eye"]
+        
+      PROJECTOR_LENS:
+        code: "PROJECTOR_LENS"
+        name: "Projector Lens"
+        description: "Lente tipo proyector"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["projector", "focused_beam", "hid_projector"]
+        
+      REFLECTOR_TYPE:
+        code: "REFLECTOR_TYPE"
+        name: "Reflector Type"
+        description: "Tipo reflector tradicional"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["reflector", "parabolic", "traditional"]
+        
+      CLEAR_LENS:
+        code: "CLEAR_LENS"
+        name: "Clear Lens"
+        description: "Lente transparente/cristalino"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["clear", "transparent", "crystal"]
+        
+      SMOKE_LENS:
+        code: "SMOKE_LENS"
+        name: "Smoke Lens"
+        description: "Lente ahumado/oscuro"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["smoke", "dark", "tinted", "smoked"]
+
+  ELECTRICAL_FEATURES:
+    name: "Electrical Features"
+    description: "Características eléctricas"
+    icon: "⚡"
+    features:
+      ELEC:
+        code: "ELEC"
+        name: "Electrical Connection"
+        description: "Requiere conexión eléctrica"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["electric", "electrical", "wired"]
+        
+      WITH_BULB:
+        code: "WITH_BULB"
+        name: "Bulb Included"
+        description: "Incluye bombilla/bulbo"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["bulb_included", "with_lamp", "lamp_included"]
+        
+      WITHOUT_BULB:
+        code: "WITHOUT_BULB"
+        name: "Bulb Not Included"
+        description: "No incluye bombilla/bulbo"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["no_bulb", "bulb_separate", "housing_only"]
+        
+      PLUG_AND_PLAY:
+        code: "PLUG_AND_PLAY"
+        name: "Plug and Play"
+        description: "Instalación directa sin modificaciones"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["plug_play", "direct_fit", "oem_connector"]
+        
+      WIRING_HARNESS:
+        code: "WIRING_HARNESS"
+        name: "Wiring Harness Included"
+        description: "Incluye arnés de cableado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["harness", "wiring", "connector_kit"]
+
+  FINISH_STYLE:
+    name: "Finish & Style Features"
+    description: "Características de acabado y estilo"
+    icon: "🎨"
+    features:
+      BLACK_HOUSING:
+        code: "BLACK_HOUSING"
+        name: "Black Housing"
+        description: "Carcasa/housing negro"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["black", "matte_black", "textured_black"]
+        
+      CHROME_FINISH:
+        code: "CHROME_FINISH"
+        name: "Chrome Finish"
+        description: "Acabado cromado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["chrome", "chromium", "polished_chrome"]
+        
+      CLEAR_HOUSING:
+        code: "CLEAR_HOUSING"
+        name: "Clear Housing"
+        description: "Carcasa transparente"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["clear", "transparent", "crystal_clear"]
+        
+      TEXTURED_FINISH:
+        code: "TEXTURED_FINISH"
+        name: "Textured Finish"
+        description: "Acabado texturizado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["textured", "grain", "stippled"]
+        
+      PAINTED_FINISH:
+        code: "PAINTED_FINISH"
+        name: "Painted Finish"
+        description: "Acabado pintado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["painted", "color_matched", "factory_paint"]
+
+# Mapeos específicos por proveedor
+vendor_mappings:
+  depo:
+    # DEPO usa principalmente códigos simples
+    feature_patterns:
+      "ELEC": "ELEC"
+      "MOTOR": "MOTOR"
+      "LED": "LED"
+      "DRL": "LED_DRL"
+      "WITH BULB": "WITH_BULB"
+      "NO BULB": "WITHOUT_BULB"
+      
+  yuto:
+    # YUTO es más específico con features LED
+    feature_patterns:
+      "LED": "LED"
+      "LED DRL": "LED_DRL"
+      "LED Turn": "LED_TURN"
+      "Sequential": "SEQUENTIAL_TURN"
+      "Puddle": "LED_PUDDLE"
+      "Heat": "HEATED"
+      "Heated": "HEATED"
+      "CANBus": "CANBUS_READY"
+      "Error Free": "CANBUS_READY"
+      
+  hushan:
+    # HUSHAN se enfoca en espejos y manijas
+    feature_patterns:
+      "keyhole": "WITH_KEYHOLE"
+      "smart key": "SMART_KEY_SENSOR"
+      "heated": "HEATED_MIRROR"
+      "power": "POWER_ADJUSTMENT"
+      "folding": "POWER_FOLDING"
+      "memory": "MEMORY_FUNCTION"
+      "auto dim": "AUTO_DIMMING"
+      "blind spot": "BLIND_SPOT"
+      "Black": "BLACK_HOUSING"
+      "Chrome": "CHROME_FINISH"
+      "Clear": "CLEAR_HOUSING"
+
+# Reglas de validación y compatibilidad
+validation_rules:
+  # Features mutuamente excluyentes
+  mutually_exclusive:
+    - ["WITH_KEYHOLE", "WITHOUT_KEYHOLE"]
+    - ["WITH_BULB", "WITHOUT_BULB"] 
+    - ["POWER_ADJUSTMENT", "MANUAL_ADJUSTMENT"]
+    - ["BLACK_HOUSING", "CHROME_FINISH", "CLEAR_HOUSING"]
+    - ["CLEAR_LENS", "SMOKE_LENS"]
+    - ["PROJECTOR_LENS", "REFLECTOR_TYPE"]
+    
+  # Features que requieren otros features
+  dependencies:
+    SEQUENTIAL_TURN:
+      requires: ["LED_TURN"]
+    LED_DRL:
+      requires: ["LED"]
+    HEATED_MIRROR:
+      requires: ["HEATED"]
+    AUTO_DIMMING:
+      requires: ["POWER_ADJUSTMENT"]
+    MEMORY_FUNCTION:
+      requires: ["POWER_ADJUSTMENT"]
+      
+  # Features típicos por tipo de producto
+  product_type_features:
+    HEAD_LAMP:
+      common: ["LED", "LED_DRL", "PROJECTOR_LENS", "CLEAR_LENS"]
+      rare: ["LED", "HEATED", "MOTOR"]
+
+# Configuración de detección automática
+auto_detection:
+  # Patrones de texto para detectar features automáticamente
+  text_patterns:
+    LED:
+      patterns: ["LED", "Light Emitting Diode"]
+      confidence: 0.9
+      
+    LED_DRL:
+      patterns: ["DRL", "Daytime Running", "Running Light"]
+      confidence: 0.8
+      
+    HEATED:
+      patterns: ["Heat", "Heated", "Defrost", "Anti-fog"]
+      confidence: 0.8
+      
+    WITH_KEYHOLE:
+      patterns: ["with keyhole", "w/ keyhole", "key hole", "lock cylinder"]
+      confidence: 0.9
+      
+    SMART_KEY_SENSOR:
+      patterns: ["smart key", "proximity sensor", "keyless", "sensor"]
+      confidence: 0.7
+      
+    SEQUENTIAL_TURN:
+      patterns: ["sequential", "dynamic", "flowing", "progressive"]
+      confidence: 0.8
+      
+    POWER_FOLDING:
+      patterns: ["power fold", "electric fold", "auto fold", "motorized fold"]
+      confidence: 0.9
+      
+    CHROME_FINISH:
+      patterns: ["chrome", "chromium", "polished chrome"]
+      confidence: 0.9
+      
+    BLACK_HOUSING:
+      patterns: ["black housing", "matte black", "textured black"]
+      confidence: 0.8
+
+# Configuración de combinaciones comunes
+feature_combinations:
+  # Combinaciones frecuentes que van juntas
+  common_combinations:
+    led_package:
+      features: ["LED", "LED_DRL", "LED_TURN"]
+      description: "Paquete LED completo"
+      
+    smart_mirror:
+      features: ["HEATED_MIRROR", "POWER_ADJUSTMENT", "MEMORY_FUNCTION"]
+      description: "Espejo inteligente con todas las funciones"
+      
+    luxury_door_handle:
+      features: ["SMART_KEY_SENSOR", "CHROME_FINISH", "CENTRAL_LOCKING"]
+      description: "Manija de lujo con sensor"
+      
+    basic_door_handle:
+      features: ["WITH_KEYHOLE", "BLACK_HOUSING", "MANUAL_ADJUSTMENT"]
+      description: "Manija básica con llave"
+      
+    premium_headlamp:
+      features: ["LED", "LED_DRL", "PROJECTOR_LENS", "SEQUENTIAL_TURN"]
+      description: "Faro premium LED con proyector"
+
+# Configuración de scoring y prioridad
+scoring:
+  # Peso de cada feature para cálculos de similitud
+  feature_weights:
+    LED: 2.0
+    LED_DRL: 1.8
+    HEATED: 1.5
+    WITH_KEYHOLE: 1.5
+    SMART_KEY_SENSOR: 2.0
+    MOTOR: 1.8
+    SEQUENTIAL_TURN: 1.7
+    POWER_FOLDING: 1.6
+    CHROME_FINISH: 1.2
+    BLACK_HOUSING: 1.0
+    
+  # Features críticos que deben coincidir exactamente
+  critical_features:
+    - "WITH_KEYHOLE"
+    - "WITHOUT_KEYHOLE"
+    - "LED"
+    - "HEATED"
+    - "MOTOR"
+
+# Configuración de exportación/importación
+export_settings:
+  # Campos a incluir en exportaciones
+  include_in_export:
+    - "code"
+    - "name" 
+    - "description"
+    - "data_type"
+    - "category"
+    
+  # Formatos de export soportados
+  supported_formats:
+    - "json"
+    - "csv"
+    - "excel"
+    - "xml"
+    
+  # Configuración de aliases en export
+  export_aliases: true
+  flatten_categories: false
+
+# Configuración de localización
+localization:
+  supported_languages: ["en", "es", "fr", "de", "zh"]
+  default_language: "en"
+  
+  translations:
+    es:
+      LED: "LED"
+      HEATED: "Calefaccionado"
+      WITH_KEYHOLE: "Con cerradura"
+      SMART_KEY_SENSOR: "Sensor de llave inteligente"
+      POWER_FOLDING: "Plegado eléctrico"
+      
+# Configuración de migración y versioning
+versioning:
+  current_version: "1.0"
+  backward_compatible_versions: ["0.9", "0.8"]
+  
+  migration_rules:
+    "0.9_to_1.0":
+      renamed_features:
+        "KEYHOLE": "WITH_KEYHOLE"
+        "NO_KEYHOLE": "WITHOUT_KEYHOLE"
+        "ELECTRIC": "ELEC"
+      
+      new_features:
+        - "SEQUENTIAL_TURN"
+        - "CANBUS_READY"
+        - "BLIND_SPOT"
+
+# Configuración de cache y performance
+performance:
+  cache_enabled: true
+  cache_size_mb: 10
+  preload_common_features: true
+  
+  indexing:
+    index_by_code: true
+    index_by_alias: true
+    index_by_category: true
+    full_text_search: true
+
+# Configuración de logging específico
+logging:
+  log_feature_detection: true
+  log_validation_errors: true
+  log_performance_metrics: true
+  log_level: "INFO" ["HEATED", "WITH_KEYHOLE"]
+      
+    TAIL_LAMP:
+      common: ["LED", "LED_TURN", "SEQUENTIAL_TURN", "CLEAR_LENS"]
+      rare: ["HEATED", "MOTOR"]
+      
+    SIDE_MIRROR:
+      common: ["HEATED_MIRROR", "POWER_ADJUSTMENT", "TURN_SIGNAL"]
+      rare: ["LED_DRL", "PROJECTOR_LENS"]
+      
+    DOOR_HANDLE:
+      common: ["WITH_KEYHOLE", "SMART_KEY_SENSOR", "BLACK_HOUSING"]
+      rare:# Taxonomía de características (features) para ImagenesPDF
+# Sistema de procesamiento de catálogos PDF de autopartes
+
+metadata:
+  version: "1.0"
+  description: "Taxonomía completa de características de autopartes"
+  last_updated: "2024-01-15"
+  total_categories: 8
+  extensible: true
+
+# Categorías principales de features
+categories:
+  
+  LED_TECHNOLOGY:
+    name: "LED Technology Features"
+    description: "Características relacionadas con tecnología LED"
+    icon: "💡"
+    features:
+      LED:
+        code: "LED"
+        name: "LED Technology"
+        description: "Utiliza tecnología LED"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["led", "LED_TECH", "LED_TECHNOLOGY"]
+        
+      LED_DRL:
+        code: "LED_DRL" 
+        name: "LED Daytime Running Lights"
+        description: "Luces diurnas LED integradas"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["drl", "DRL", "daytime_running", "running_lights"]
+        
+      LED_TURN:
+        code: "LED_TURN"
+        name: "LED Turn Signals"
+        description: "Señales de giro LED"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["led_signal", "turn_led", "signal_led"]
+        
+      SEQUENTIAL_TURN:
+        code: "SEQUENTIAL_TURN"
+        name: "Sequential Turn Signal"
+        description: "Señal de giro secuencial/dinámica"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["sequential", "dynamic_turn", "flowing_turn"]
+        
+      LED_PUDDLE:
+        code: "LED_PUDDLE"
+        name: "LED Puddle Lamp"
+        description: "Lámpara LED de cortesía en piso"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["puddle_lamp", "courtesy_light", "ground_light"]
+        
+      CANBUS_READY:
+        code: "CANBUS_READY"
+        name: "CANBus Compatible"
+        description: "Compatible con sistema CANBus sin errores"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["canbus", "error_free", "no_error", "can_bus"]
+
+  HEATING_FEATURES:
+    name: "Heating Features"
+    description: "Características de calefacción"
+    icon: "🔥"
+    features:
+      HEATED:
+        code: "HEATED"
+        name: "Heated Function"
+        description: "Función de calefacción integrada"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["heated", "heating", "defrost"]
+        
+      HEATED_MIRROR:
+        code: "HEATED_MIRROR"
+        name: "Heated Mirror Glass"
+        description: "Cristal de espejo con desempañador"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["heated_glass", "defrost_mirror", "anti_fog"]
+        
+      HEATED_LENS:
+        code: "HEATED_LENS"
+        name: "Heated Lens"
+        description: "Lente con sistema de calefacción"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["lens_heating", "defrost_lens"]
+
+  SMART_FEATURES:
+    name: "Smart Technology Features"
+    description: "Características de tecnología inteligente"
+    icon: "🧠"
+    features:
+      SMART_KEY_SENSOR:
+        code: "SMART_KEY_SENSOR"
+        name: "Smart Key Sensor"
+        description: "Sensor para llave inteligente"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["smart_key", "proximity_sensor", "keyless_sensor"]
+        
+      AUTO_DIMMING:
+        code: "AUTO_DIMMING"
+        name: "Auto Dimming"
+        description: "Función de oscurecimiento automático"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["auto_dim", "electrochromic", "self_dimming"]
+        
+      MEMORY_FUNCTION:
+        code: "MEMORY_FUNCTION"
+        name: "Memory Function"
+        description: "Memoria de posiciones"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["memory", "position_memory", "recall_function"]
+        
+      BLIND_SPOT:
+        code: "BLIND_SPOT"
+        name: "Blind Spot Detection"
+        description: "Detección de punto ciego"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["blind_spot_detection", "bsd", "side_detection"]
+
+  MOTOR_FEATURES:
+    name: "Motor & Movement Features"
+    description: "Características de motor y movimiento"
+    icon: "⚙️"
+    features:
+      MOTOR:
+        code: "MOTOR"
+        name: "Motor Included"
+        description: "Incluye motor eléctrico"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["motor", "electric_motor", "actuator"]
+        
+      POWER_FOLDING:
+        code: "POWER_FOLDING
