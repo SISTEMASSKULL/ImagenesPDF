@@ -19,8 +19,6 @@ vendor/
 run.bat
 build_exe.bat
 install_runtime.ps1
-tree.txt
-memory.txt
 
 # Sistema operativo (opcional)
 .DS_Store  # macOS

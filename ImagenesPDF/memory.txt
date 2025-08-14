@@ -1,0 +1,5212 @@
+﻿MEMORIA DE DESARROLLO - PROYECTO IMAGENESPDF
+============================================
+Generado: 2025-08-13 22:56:49
+Proyecto: ImagenesPDF - Procesador de catalogos PDF de autopartes
+Ruta base: D:\imagenespdf\ImagenesPDF
+
+DESCRIPCION:
+Este archivo contiene una captura completa del codigo fuente y configuraciones
+del proyecto ImagenesPDF. Incluye todos los archivos Python, configuraciones
+YAML, documentacion y especificaciones relevantes para el desarrollo.
+
+EXCLUYE:
+- Archivos binarios (.exe, .dll, etc.)
+- Scripts de sistema (.bat)
+- Directorios de construccion (dist/, build/)
+- Archivos temporales y cache
+- Dependencias externas (vendor/)
+
+ESTRUCTURA DE CONTENIDO:
+Cada archivo se presenta con un separador que incluye:
+- Ruta relativa del archivo
+- Proposito/funcion del archivo
+- TamaÃ±o en bytes
+- Contenido completo del archivo
+
+============================================
+
+================================================================================
+ARCHIVO: extractor.spec
+TAMAÃ‘O: 0 bytes
+================================================================================
+# -*- mode: python ; coding: utf-8 -*-
+
+
+a = Analysis(
+    ['D:\\ImagenesPDF\\ImagenesPDF\\src\\imagenespdf\\cli.py'],
+    pathex=[],
+    binaries=[],
+    datas=[('src\\imagenespdf\\schema\\excel_layout.yaml', 'imagenespdf\\schema'), ('src\\imagenespdf\\schema\\dims.yaml', 'imagenespdf\\schema'), ('src\\imagenespdf\\schema\\features.yaml', 'imagenespdf\\schema')],
+    hiddenimports=['fitz', 'cv2'],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    name='extractor',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+
+
+
+================================================================================
+ARCHIVO: imagenespdf.spec
+PROPOSITO: Especificacion para PyInstaller
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: out/logs/env_report.txt
+TAMAÃ‘O: 0 bytes
+================================================================================
+=== ImagenesPDF Environment Report ===
+Python: 3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)]
+Platform: Windows-11-10.0.22631-SP0
+[OK] fitz
+[OK] pdfplumber
+[OK] pypdfium2
+[OK] PIL
+[OK] cv2
+[OK] pandas
+[OK] openpyxl
+[OK] xlsxwriter
+[OK] typer
+[OK] rich
+[OK] yaml
+[OK] structlog
+[OK] pytesseract
+
+
+
+================================================================================
+ARCHIVO: pyproject.toml
+PROPOSITO: Configuracion del proyecto Python
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: README.md
+PROPOSITO: Documentacion principal del proyecto
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: requirements.txt
+PROPOSITO: Dependencias Python del proyecto
+TAMAÃ‘O: 0 bytes
+================================================================================
+# Lectura/parseo PDF e imágenes
+PyMuPDF==1.24.9
+pdfplumber==0.11.0
+pypdfium2==4.30.0
+Pillow==10.4.0
+opencv-python-headless==4.10.0.84
+
+# Datos y Excel
+pandas==2.2.2
+openpyxl==3.1.5
+XlsxWriter==3.2.0
+
+# CLI, YAML, logs
+typer==0.12.3
+rich==13.7.1
+PyYAML==6.0.2
+structlog==24.4.0
+
+# OCR (opcional)
+pytesseract==0.3.10
+
+# Empaquetado (dev)
+pyinstaller==6.9.0
+
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/__init__.py
+PROPOSITO: Inicializacion del paquete Python
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/adapters/__init__.py
+PROPOSITO: Inicializacion del paquete Python
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/adapters/base.py
+PROPOSITO: Interfaz base para adaptadores
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/adapters/depo.py
+PROPOSITO: Adaptador para proveedor DEPO
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/adapters/generic.py
+PROPOSITO: Adaptador generico
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/adapters/hushan.py
+PROPOSITO: Adaptador para proveedor HUSHAN
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/adapters/yuto.py
+PROPOSITO: Adaptador para proveedor YUTO
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/cli.py
+PROPOSITO: Interfaz de linea de comandos principal
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/code_parser.py
+PROPOSITO: Orquestador de parseo de codigos
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/codecs/__init__.py
+PROPOSITO: Inicializacion del paquete Python
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/codecs/depo_codec.py
+PROPOSITO: Codec especifico para proveedor DEPO
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/codecs/generic_codec.py
+PROPOSITO: Codec generico fallback
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/codecs/hushan_codec.py
+PROPOSITO: Codec especifico para proveedor HUSHAN
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/codecs/yuto_codec.py
+PROPOSITO: Codec especifico para proveedor YUTO
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/color_classifier.py
+PROPOSITO: Clasificacion de colores de texto
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/compat.py
+PROPOSITO: Gestion de compatibilidades
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/config.py
+PROPOSITO: Carga y gestion de configuraciones
+TAMAÃ‘O: 0 bytes
+================================================================================
+"""
+Sistema de configuración para ImagenesPDF.
+
+Este módulo maneja la carga y acceso a todas las configuraciones YAML:
+- excel_layout.yaml: Definición de hojas/columnas/validaciones
+- dims.yaml: Catálogos iniciales (makers, bulbs, etc.)
+- features.yaml: Taxonomía de features (LED, sensor, keyhole...)
+- vendor_signatures.yaml: Firmas por proveedor para detector
+
+Soporta configuraciones anidadas, validación de esquemas y carga lazy.
+"""
+
+import os
+import sys
+from pathlib import Path
+from typing import Dict, Any, Optional, Union, List
+from dataclasses import dataclass
+import yaml
+
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
+
+
+@dataclass
+class ConfigPaths:
+    """Rutas de archivos de configuración."""
+    schema_dir: Path
+    excel_layout: Path
+    dims: Path
+    features: Path
+    vendor_signatures: Path
+    
+    @classmethod
+    def from_base_path(cls, base_path: Union[str, Path]) -> 'ConfigPaths':
+        """Crear ConfigPaths desde directorio base."""
+        base = Path(base_path)
+        schema_dir = base / "src" / "imagenespdf" / "schema"
+        
+        return cls(
+            schema_dir=schema_dir,
+            excel_layout=schema_dir / "excel_layout.yaml",
+            dims=schema_dir / "dims.yaml",
+            features=schema_dir / "features.yaml",
+            vendor_signatures=schema_dir / "vendor_signatures.yaml"
+        )
+
+
+class ConfigurationError(Exception):
+    """Error en configuración del sistema."""
+    pass
+
+
+class ConfigManager:
+    """
+    Gestor principal de configuraciones.
+    
+    Maneja carga lazy, validación y acceso thread-safe a configuraciones.
+    Soporta configuraciones anidadas y resolución de referencias.
+    """
+    
+    def __init__(self, base_path: Optional[Union[str, Path]] = None):
+        """
+        Inicializar gestor de configuración.
+        
+        Args:
+            base_path: Directorio base del proyecto. Si None, auto-detecta.
+        """
+        self.base_path = self._detect_base_path(base_path)
+        self.paths = ConfigPaths.from_base_path(self.base_path)
+        self._configs: Dict[str, Any] = {}
+        self._loaded: set = set()
+        
+    def _detect_base_path(self, provided_path: Optional[Union[str, Path]]) -> Path:
+        """Detectar directorio base del proyecto."""
+        if provided_path:
+            return Path(provided_path).resolve()
+            
+        # Auto-detección desde ubicación del módulo
+        current = Path(__file__).parent
+        while current.parent != current:
+            if (current / "src" / "imagenespdf").exists():
+                return current
+            current = current.parent
+            
+        # Fallback a directorio actual
+        return Path.cwd()
+        
+    def _load_yaml_file(self, file_path: Path) -> Dict[str, Any]:
+        """Cargar archivo YAML con manejo de errores."""
+        if not file_path.exists():
+            raise ConfigurationError(f"Archivo de configuración no encontrado: {file_path}")
+            
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = yaml.load(f, Loader=Loader)
+                if content is None:
+                    return {}
+                return content
+        except yaml.YAMLError as e:
+            raise ConfigurationError(f"Error parseando YAML {file_path}: {e}")
+        except Exception as e:
+            raise ConfigurationError(f"Error cargando {file_path}: {e}")
+            
+    def _ensure_loaded(self, config_name: str) -> None:
+        """Asegurar que una configuración esté cargada."""
+        if config_name in self._loaded:
+            return
+            
+        config_file_map = {
+            'excel_layout': self.paths.excel_layout,
+            'dims': self.paths.dims,
+            'features': self.paths.features,
+            'vendor_signatures': self.paths.vendor_signatures
+        }
+        
+        if config_name not in config_file_map:
+            raise ConfigurationError(f"Configuración desconocida: {config_name}")
+            
+        file_path = config_file_map[config_name]
+        self._configs[config_name] = self._load_yaml_file(file_path)
+        self._loaded.add(config_name)
+        
+    def get_config(self, config_name: str) -> Dict[str, Any]:
+        """
+        Obtener configuración completa por nombre.
+        
+        Args:
+            config_name: Nombre de la configuración ('excel_layout', 'dims', etc.)
+            
+        Returns:
+            Diccionario con la configuración completa
+        """
+        self._ensure_loaded(config_name)
+        return self._configs[config_name].copy()
+        
+    def get_nested(self, config_name: str, *keys: str, default: Any = None) -> Any:
+        """
+        Obtener valor anidado de configuración.
+        
+        Args:
+            config_name: Nombre de la configuración
+            *keys: Claves anidadas
+            default: Valor por defecto si no existe
+            
+        Returns:
+            Valor encontrado o default
+            
+        Example:
+            config.get_nested('dims', 'makers', 'TOYOTA') -> 'Toyota Motor Corp'
+        """
+        self._ensure_loaded(config_name)
+        
+        current = self._configs[config_name]
+        for key in keys:
+            if isinstance(current, dict) and key in current:
+                current = current[key]
+            else:
+                return default
+        return current
+        
+    def get_excel_sheets(self) -> Dict[str, Dict[str, Any]]:
+        """Obtener definición de hojas Excel."""
+        return self.get_nested('excel_layout', 'sheets', default={})
+        
+    def get_excel_sheet(self, sheet_name: str) -> Dict[str, Any]:
+        """Obtener configuración de hoja Excel específica."""
+        return self.get_nested('excel_layout', 'sheets', sheet_name, default={})
+        
+    def get_dimensions(self) -> Dict[str, Dict[str, Any]]:
+        """Obtener todas las dimensiones/catálogos."""
+        return self.get_config('dims')
+        
+    def get_dimension(self, dim_name: str) -> Dict[str, Any]:
+        """Obtener dimensión específica."""
+        return self.get_nested('dims', dim_name, default={})
+        
+    def get_features(self) -> Dict[str, Any]:
+        """Obtener taxonomía completa de features."""
+        return self.get_config('features')
+        
+    def get_feature_category(self, category: str) -> Dict[str, Any]:
+        """Obtener features de una categoría específica."""
+        return self.get_nested('features', 'categories', category, default={})
+        
+    def get_vendor_signatures(self) -> Dict[str, Any]:
+        """Obtener todas las firmas de proveedores."""
+        return self.get_config('vendor_signatures')
+        
+    def get_vendor_signature(self, vendor: str) -> Dict[str, Any]:
+        """Obtener firma de proveedor específico."""
+        return self.get_nested('vendor_signatures', 'vendors', vendor, default={})
+        
+    def get_color_mappings(self) -> Dict[str, str]:
+        """Obtener mapeos de colores a homologación."""
+        return self.get_nested('dims', 'highlight_status', default={})
+        
+    def get_bulb_catalog(self) -> Dict[str, str]:
+        """Obtener catálogo de bulbos."""
+        return self.get_nested('dims', 'bulbs', default={})
+        
+    def get_maker_catalog(self) -> Dict[str, str]:
+        """Obtener catálogo de fabricantes."""
+        return self.get_nested('dims', 'makers', default={})
+        
+    def get_product_types(self) -> Dict[str, Dict[str, Any]]:
+        """Obtener jerarquía de tipos de productos."""
+        return self.get_nested('dims', 'product_types', default={})
+        
+    def reload_config(self, config_name: Optional[str] = None) -> None:
+        """
+        Recargar configuraciones desde disco.
+        
+        Args:
+            config_name: Si se especifica, solo recarga esa configuración.
+                        Si es None, recarga todas.
+        """
+        if config_name:
+            if config_name in self._loaded:
+                self._loaded.remove(config_name)
+                if config_name in self._configs:
+                    del self._configs[config_name]
+            self._ensure_loaded(config_name)
+        else:
+            self._configs.clear()
+            self._loaded.clear()
+            
+    def validate_all_configs(self) -> List[str]:
+        """
+        Validar que todas las configuraciones puedan cargarse.
+        
+        Returns:
+            Lista de errores encontrados (vacía si todo OK)
+        """
+        errors = []
+        config_names = ['excel_layout', 'dims', 'features', 'vendor_signatures']
+        
+        for config_name in config_names:
+            try:
+                self._ensure_loaded(config_name)
+            except ConfigurationError as e:
+                errors.append(f"{config_name}: {e}")
+                
+        return errors
+        
+    def get_schema_info(self) -> Dict[str, Any]:
+        """Obtener información sobre los esquemas disponibles."""
+        return {
+            'base_path': str(self.base_path),
+            'schema_dir': str(self.paths.schema_dir),
+            'files': {
+                'excel_layout': str(self.paths.excel_layout),
+                'dims': str(self.paths.dims),
+                'features': str(self.paths.features),
+                'vendor_signatures': str(self.paths.vendor_signatures)
+            },
+            'loaded': list(self._loaded),
+            'files_exist': {
+                'excel_layout': self.paths.excel_layout.exists(),
+                'dims': self.paths.dims.exists(),
+                'features': self.paths.features.exists(),
+                'vendor_signatures': self.paths.vendor_signatures.exists()
+            }
+        }
+
+
+# Instancia global para uso conveniente
+_global_config: Optional[ConfigManager] = None
+
+
+def get_config_manager(base_path: Optional[Union[str, Path]] = None) -> ConfigManager:
+    """
+    Obtener instancia global del gestor de configuración.
+    
+    Args:
+        base_path: Directorio base del proyecto (solo usado en primera llamada)
+        
+    Returns:
+        Instancia del ConfigManager
+    """
+    global _global_config
+    if _global_config is None:
+        _global_config = ConfigManager(base_path)
+    return _global_config
+
+
+def reset_config_manager() -> None:
+    """Resetear instancia global (útil para testing)."""
+    global _global_config
+    _global_config = None
+
+
+# Funciones de conveniencia para acceso rápido
+def get_excel_sheets() -> Dict[str, Dict[str, Any]]:
+    """Acceso rápido a definición de hojas Excel."""
+    return get_config_manager().get_excel_sheets()
+
+
+def get_dimensions() -> Dict[str, Dict[str, Any]]:
+    """Acceso rápido a catálogos/dimensiones."""
+    return get_config_manager().get_dimensions()
+
+
+def get_vendor_signatures() -> Dict[str, Any]:
+    """Acceso rápido a firmas de proveedores."""
+    return get_config_manager().get_vendor_signatures()
+
+
+def get_features() -> Dict[str, Any]:
+    """Acceso rápido a taxonomía de features."""
+    return get_config_manager().get_features()
+
+
+if __name__ == "__main__":
+    # Modo de prueba/diagnóstico
+    try:
+        config = get_config_manager()
+        info = config.get_schema_info()
+        
+        print("=== Información de Configuración ===")
+        print(f"Directorio base: {info['base_path']}")
+        print(f"Directorio schema: {info['schema_dir']}")
+        print()
+        
+        print("Archivos de configuración:")
+        for name, path in info['files'].items():
+            exists = "✓" if info['files_exist'][name] else "✗"
+            print(f"  {exists} {name}: {path}")
+        print()
+        
+        # Validar todas las configuraciones
+        errors = config.validate_all_configs()
+        if errors:
+            print("Errores encontrados:")
+            for error in errors:
+                print(f"  ✗ {error}")
+        else:
+            print("✓ Todas las configuraciones válidas")
+            
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/detector.py
+PROPOSITO: Deteccion de elementos en paginas
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/env_check.py
+TAMAÃ‘O: 0 bytes
+================================================================================
+import importlib, sys, platform
+
+mods = [
+    "fitz", "pdfplumber", "pypdfium2", "PIL", "cv2",
+    "pandas", "openpyxl", "xlsxwriter", "typer", "rich", "yaml", "structlog",
+    "pytesseract"
+]
+print("=== ImagenesPDF Environment Report ===")
+print("Python:", sys.version.replace("\n"," "))
+print("Platform:", platform.platform())
+ok = True
+for m in mods:
+    try:
+        importlib.import_module(m)
+        print(f"[OK] {m}")
+    except Exception as e:
+        ok = False
+        print(f"[FAIL] {m}: {e}")
+
+sys.exit(0 if ok else 1)
+
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/image_crop.py
+PROPOSITO: Recorte y procesamiento de imagenes
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/indexer.py
+PROPOSITO: Parseo e indexacion de contenido
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/ingest.py
+PROPOSITO: Ingesta y lectura de archivos PDF
+TAMAÃ‘O: 0 bytes
+================================================================================
+"""
+Sistema de ingesta de PDFs para ImagenesPDF.
+
+Maneja la lectura, validación y extracción de metadatos de catálogos PDF:
+- Detección automática de formato y estructura
+- Extracción de metadatos (título, autor, páginas, etc.)
+- Cálculo de hashes para detección de cambios
+- Validación de integridad y formato
+- Soporte para múltiples librerías PDF (PyMuPDF, pdfplumber, pypdfium2)
+- Cache de metadatos para optimización
+
+Integra con el sistema de archivos y logging para trazabilidad completa.
+"""
+
+import os
+from pathlib import Path
+from typing import Dict, Any, Optional, List, Tuple, Union, Iterator
+from dataclasses import dataclass, asdict
+from datetime import datetime, timezone
+from enum import Enum
+import json
+import tempfile
+
+# Librerías PDF en orden de preferencia
+try:
+    import fitz  # PyMuPDF
+    HAS_PYMUPDF = True
+except ImportError:
+    HAS_PYMUPDF = False
+
+try:
+    import pdfplumber
+    HAS_PDFPLUMBER = True
+except ImportError:
+    HAS_PDFPLUMBER = False
+
+try:
+    import pypdfium2 as pdfium
+    HAS_PYPDFIUM2 = True
+except ImportError:
+    HAS_PYPDFIUM2 = False
+
+from .logging_setup import get_logger
+from .utils_fs import calculate_file_hash, FileInfo
+from .config import get_config_manager
+
+logger = get_logger(__name__)
+
+
+class PDFLibrary(Enum):
+    """Librerías PDF disponibles."""
+    PYMUPDF = "pymupdf"
+    PDFPLUMBER = "pdfplumber" 
+    PYPDFIUM2 = "pypdfium2"
+
+
+class PDFStatus(Enum):
+    """Estados posibles de un PDF."""
+    VALID = "valid"
+    CORRUPTED = "corrupted"
+    ENCRYPTED = "encrypted"
+    UNSUPPORTED = "unsupported"
+    NOT_FOUND = "not_found"
+    PERMISSION_DENIED = "permission_denied"
+
+
+@dataclass
+class PDFMetadata:
+    """Metadatos extraídos de un PDF."""
+    # Información básica del archivo
+    file_path: Path
+    file_size: int
+    file_hash: str
+    modified_time: datetime
+    
+    # Metadatos del PDF
+    title: Optional[str] = None
+    author: Optional[str] = None
+    subject: Optional[str] = None
+    creator: Optional[str] = None
+    producer: Optional[str] = None
+    creation_date: Optional[datetime] = None
+    modification_date: Optional[datetime] = None
+    
+    # Información técnica
+    page_count: int = 0
+    pdf_version: Optional[str] = None
+    is_encrypted: bool = False
+    is_linearized: bool = False
+    has_forms: bool = False
+    has_annotations: bool = False
+    
+    # Información de contenido
+    has_images: bool = False
+    has_text: bool = False
+    estimated_text_pages: int = 0
+    estimated_image_pages: int = 0
+    
+    # Procesamiento
+    library_used: Optional[PDFLibrary] = None
+    status: PDFStatus = PDFStatus.VALID
+    error_message: Optional[str] = None
+    ingested_at: datetime = None
+    
+    def __post_init__(self):
+        """Inicializar campos calculados."""
+        if self.ingested_at is None:
+            self.ingested_at = datetime.now(timezone.utc)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convertir a diccionario serializable."""
+        data = asdict(self)
+        # Convertir Path a string
+        data['file_path'] = str(self.file_path)
+        # Convertir datetime a ISO string
+        for field in ['modified_time', 'creation_date', 'modification_date', 'ingested_at']:
+            if data[field] is not None:
+                data[field] = data[field].isoformat()
+        # Convertir enums a valores
+        if data['library_used'] is not None:
+            data['library_used'] = data['library_used'].value
+        data['status'] = data['status'].value
+        return data
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'PDFMetadata':
+        """Crear instancia desde diccionario."""
+        # Convertir strings de vuelta a objetos
+        data['file_path'] = Path(data['file_path'])
+        for field in ['modified_time', 'creation_date', 'modification_date', 'ingested_at']:
+            if data[field] is not None:
+                data[field] = datetime.fromisoformat(data[field])
+        if data['library_used'] is not None:
+            data['library_used'] = PDFLibrary(data['library_used'])
+        data['status'] = PDFStatus(data['status'])
+        return cls(**data)
+
+
+class PDFReader:
+    """
+    Lector abstracto de PDFs que selecciona la mejor librería disponible.
+    """
+    
+    def __init__(self, preferred_library: Optional[PDFLibrary] = None):
+        """
+        Inicializar lector PDF.
+        
+        Args:
+            preferred_library: Librería preferida (None para auto-selección)
+        """
+        self.preferred_library = preferred_library
+        self.available_libraries = self._detect_available_libraries()
+        logger.debug(f"Librerías PDF disponibles: {[lib.value for lib in self.available_libraries]}")
+        
+    def _detect_available_libraries(self) -> List[PDFLibrary]:
+        """Detectar librerías PDF disponibles."""
+        available = []
+        if HAS_PYMUPDF:
+            available.append(PDFLibrary.PYMUPDF)
+        if HAS_PDFPLUMBER:
+            available.append(PDFLibrary.PDFPLUMBER)
+        if HAS_PYPDFIUM2:
+            available.append(PDFLibrary.PYPDFIUM2)
+        return available
+        
+    def _select_library(self, file_path: Path) -> Optional[PDFLibrary]:
+        """
+        Seleccionar mejor librería para un PDF específico.
+        
+        Args:
+            file_path: Ruta del archivo PDF
+            
+        Returns:
+            Librería seleccionada o None si no hay disponibles
+        """
+        if not self.available_libraries:
+            return None
+            
+        # Usar librería preferida si está disponible
+        if self.preferred_library and self.preferred_library in self.available_libraries:
+            return self.preferred_library
+            
+        # Auto-selección basada en disponibilidad y capacidades
+        # PyMuPDF es generalmente la más robusta
+        if PDFLibrary.PYMUPDF in self.available_libraries:
+            return PDFLibrary.PYMUPDF
+        elif PDFLibrary.PDFPLUMBER in self.available_libraries:
+            return PDFLibrary.PDFPLUMBER
+        elif PDFLibrary.PYPDFIUM2 in self.available_libraries:
+            return PDFLibrary.PYPDFIUM2
+        
+        return self.available_libraries[0] if self.available_libraries else None
+        
+    def _extract_with_pymupdf(self, file_path: Path) -> PDFMetadata:
+        """Extraer metadatos usando PyMuPDF."""
+        try:
+            doc = fitz.open(str(file_path))
+            
+            metadata = PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size,
+                file_hash=calculate_file_hash(file_path),
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc),
+                library_used=PDFLibrary.PYMUPDF
+            )
+            
+            # Metadatos básicos
+            pdf_metadata = doc.metadata
+            metadata.title = pdf_metadata.get('title')
+            metadata.author = pdf_metadata.get('author')
+            metadata.subject = pdf_metadata.get('subject')
+            metadata.creator = pdf_metadata.get('creator')
+            metadata.producer = pdf_metadata.get('producer')
+            
+            # Fechas
+            if pdf_metadata.get('creationDate'):
+                try:
+                    # PyMuPDF devuelve fechas en formato específico
+                    creation_str = pdf_metadata['creationDate']
+                    if creation_str.startswith('D:'):
+                        creation_str = creation_str[2:16]  # D:YYYYMMDDHHmmSS
+                        metadata.creation_date = datetime.strptime(creation_str, '%Y%m%d%H%M%S')
+                except:
+                    pass
+                    
+            if pdf_metadata.get('modDate'):
+                try:
+                    mod_str = pdf_metadata['modDate']
+                    if mod_str.startswith('D:'):
+                        mod_str = mod_str[2:16]
+                        metadata.modification_date = datetime.strptime(mod_str, '%Y%m%d%H%M%S')
+                except:
+                    pass
+            
+            # Información técnica
+            metadata.page_count = doc.page_count
+            metadata.pdf_version = f"1.{doc.pdf_version()}"
+            metadata.is_encrypted = doc.needs_pass
+            metadata.is_linearized = doc.is_pdf
+            metadata.has_forms = len(doc.get_widgets()) > 0
+            
+            # Análisis de contenido por página
+            text_pages = 0
+            image_pages = 0
+            has_any_text = False
+            has_any_images = False
+            
+            for page_num in range(min(doc.page_count, 10)):  # Muestrea primeras 10 páginas
+                page = doc[page_num]
+                
+                # Verificar texto
+                text = page.get_text().strip()
+                if text:
+                    text_pages += 1
+                    has_any_text = True
+                    
+                # Verificar imágenes
+                image_list = page.get_images()
+                if image_list:
+                    image_pages += 1
+                    has_any_images = True
+                    
+                # Verificar anotaciones
+                if page.get_annotations():
+                    metadata.has_annotations = True
+            
+            # Extrapolar a todo el documento
+            if doc.page_count > 10:
+                ratio_text = text_pages / 10
+                ratio_images = image_pages / 10
+                metadata.estimated_text_pages = int(ratio_text * doc.page_count)
+                metadata.estimated_image_pages = int(ratio_images * doc.page_count)
+            else:
+                metadata.estimated_text_pages = text_pages
+                metadata.estimated_image_pages = image_pages
+                
+            metadata.has_text = has_any_text
+            metadata.has_images = has_any_images
+            
+            doc.close()
+            return metadata
+            
+        except Exception as e:
+            logger.error(f"Error extrayendo metadatos con PyMuPDF de {file_path}", error=str(e))
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size if file_path.exists() else 0,
+                file_hash=calculate_file_hash(file_path) if file_path.exists() else "",
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc) if file_path.exists() else datetime.now(timezone.utc),
+                library_used=PDFLibrary.PYMUPDF,
+                status=PDFStatus.CORRUPTED,
+                error_message=str(e)
+            )
+            
+    def _extract_with_pdfplumber(self, file_path: Path) -> PDFMetadata:
+        """Extraer metadatos usando pdfplumber."""
+        try:
+            with pdfplumber.open(file_path) as pdf:
+                metadata = PDFMetadata(
+                    file_path=file_path,
+                    file_size=file_path.stat().st_size,
+                    file_hash=calculate_file_hash(file_path),
+                    modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc),
+                    library_used=PDFLibrary.PDFPLUMBER
+                )
+                
+                # Metadatos básicos
+                if hasattr(pdf, 'metadata') and pdf.metadata:
+                    metadata.title = pdf.metadata.get('/Title')
+                    metadata.author = pdf.metadata.get('/Author')
+                    metadata.subject = pdf.metadata.get('/Subject')
+                    metadata.creator = pdf.metadata.get('/Creator')
+                    metadata.producer = pdf.metadata.get('/Producer')
+                
+                # Información técnica
+                metadata.page_count = len(pdf.pages)
+                
+                # Análisis de contenido
+                text_pages = 0
+                image_pages = 0
+                has_any_text = False
+                has_any_images = False
+                
+                for i, page in enumerate(pdf.pages[:10]):  # Muestrea primeras 10 páginas
+                    # Verificar texto
+                    text = page.extract_text()
+                    if text and text.strip():
+                        text_pages += 1
+                        has_any_text = True
+                    
+                    # Verificar imágenes (pdfplumber tiene acceso limitado a imágenes)
+                    if hasattr(page, 'images') and page.images:
+                        image_pages += 1
+                        has_any_images = True
+                
+                # Extrapolar
+                if len(pdf.pages) > 10:
+                    ratio_text = text_pages / 10
+                    ratio_images = image_pages / 10
+                    metadata.estimated_text_pages = int(ratio_text * len(pdf.pages))
+                    metadata.estimated_image_pages = int(ratio_images * len(pdf.pages))
+                else:
+                    metadata.estimated_text_pages = text_pages
+                    metadata.estimated_image_pages = image_pages
+                    
+                metadata.has_text = has_any_text
+                metadata.has_images = has_any_images
+                
+                return metadata
+                
+        except Exception as e:
+            logger.error(f"Error extrayendo metadatos con pdfplumber de {file_path}", error=str(e))
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size if file_path.exists() else 0,
+                file_hash=calculate_file_hash(file_path) if file_path.exists() else "",
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc) if file_path.exists() else datetime.now(timezone.utc),
+                library_used=PDFLibrary.PDFPLUMBER,
+                status=PDFStatus.CORRUPTED,
+                error_message=str(e)
+            )
+            
+    def _extract_with_pypdfium2(self, file_path: Path) -> PDFMetadata:
+        """Extraer metadatos usando pypdfium2."""
+        try:
+            pdf = pdfium.PdfDocument(str(file_path))
+            
+            metadata = PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size,
+                file_hash=calculate_file_hash(file_path),
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc),
+                library_used=PDFLibrary.PYPDFIUM2
+            )
+            
+            # Información técnica
+            metadata.page_count = len(pdf)
+            
+            # pypdfium2 tiene acceso limitado a metadatos
+            # Análisis básico de contenido
+            text_pages = 0
+            has_any_text = False
+            
+            for i in range(min(len(pdf), 10)):  # Muestrea primeras 10 páginas
+                page = pdf.get_page(i)
+                textpage = page.get_textpage()
+                text = textpage.get_text_range()
+                
+                if text and text.strip():
+                    text_pages += 1
+                    has_any_text = True
+                    
+                textpage.close()
+                page.close()
+            
+            # Extrapolar
+            if len(pdf) > 10:
+                ratio_text = text_pages / 10
+                metadata.estimated_text_pages = int(ratio_text * len(pdf))
+            else:
+                metadata.estimated_text_pages = text_pages
+                
+            metadata.has_text = has_any_text
+            pdf.close()
+            
+            return metadata
+            
+        except Exception as e:
+            logger.error(f"Error extrayendo metadatos con pypdfium2 de {file_path}", error=str(e))
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size if file_path.exists() else 0,
+                file_hash=calculate_file_hash(file_path) if file_path.exists() else "",
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc) if file_path.exists() else datetime.now(timezone.utc),
+                library_used=PDFLibrary.PYPDFIUM2,
+                status=PDFStatus.CORRUPTED,
+                error_message=str(e)
+            )
+    
+    def extract_metadata(self, file_path: Union[str, Path]) -> PDFMetadata:
+        """
+        Extraer metadatos de un archivo PDF.
+        
+        Args:
+            file_path: Ruta del archivo PDF
+            
+        Returns:
+            Metadatos extraídos
+        """
+        file_path = Path(file_path)
+        
+        # Validaciones básicas
+        if not file_path.exists():
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=0,
+                file_hash="",
+                modified_time=datetime.now(timezone.utc),
+                status=PDFStatus.NOT_FOUND,
+                error_message="Archivo no encontrado"
+            )
+            
+        if not file_path.is_file():
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=0,
+                file_hash="",
+                modified_time=datetime.now(timezone.utc),
+                status=PDFStatus.NOT_FOUND,
+                error_message="No es un archivo válido"
+            )
+            
+        # Verificar permisos
+        if not os.access(file_path, os.R_OK):
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size,
+                file_hash="",
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc),
+                status=PDFStatus.PERMISSION_DENIED,
+                error_message="Sin permisos de lectura"
+            )
+        
+        # Seleccionar librería
+        library = self._select_library(file_path)
+        if not library:
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size,
+                file_hash=calculate_file_hash(file_path),
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc),
+                status=PDFStatus.UNSUPPORTED,
+                error_message="No hay librerías PDF disponibles"
+            )
+        
+        logger.debug(f"Extrayendo metadatos de {file_path} usando {library.value}")
+        
+        # Extraer según librería seleccionada
+        if library == PDFLibrary.PYMUPDF:
+            return self._extract_with_pymupdf(file_path)
+        elif library == PDFLibrary.PDFPLUMBER:
+            return self._extract_with_pdfplumber(file_path)
+        elif library == PDFLibrary.PYPDFIUM2:
+            return self._extract_with_pypdfium2(file_path)
+        else:
+            return PDFMetadata(
+                file_path=file_path,
+                file_size=file_path.stat().st_size,
+                file_hash=calculate_file_hash(file_path),
+                modified_time=datetime.fromtimestamp(file_path.stat().st_mtime, timezone.utc),
+                status=PDFStatus.UNSUPPORTED,
+                error_message=f"Librería no soportada: {library}"
+            )
+
+
+class PDFIngestor:
+    """
+    Gestor principal de ingesta de PDFs.
+    
+    Maneja el procesamiento por lotes, cache de metadatos y detección de cambios.
+    """
+    
+    def __init__(self, base_path: Optional[Union[str, Path]] = None):
+        """
+        Inicializar ingestor.
+        
+        Args:
+            base_path: Directorio base del proyecto
+        """
+        self.base_path = Path(base_path) if base_path else Path.cwd()
+        self.reader = PDFReader()
+        self.cache_file = self.base_path / "out" / "logs" / "pdf_metadata_cache.json"
+        self._cache: Dict[str, Dict[str, Any]] = {}
+        self._load_cache()
+        
+    def _load_cache(self) -> None:
+        """Cargar cache de metadatos desde disco."""
+        if self.cache_file.exists():
+            try:
+                with open(self.cache_file, 'r', encoding='utf-8') as f:
+                    self._cache = json.load(f)
+                logger.debug(f"Cache cargado: {len(self._cache)} entradas")
+            except Exception as e:
+                logger.warning(f"Error cargando cache de metadatos: {e}")
+                self._cache = {}
+        else:
+            logger.debug("No existe cache previo de metadatos")
+            
+    def _save_cache(self) -> None:
+        """Guardar cache de metadatos a disco."""
+        try:
+            self.cache_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.cache_file, 'w', encoding='utf-8') as f:
+                json.dump(self._cache, f, indent=2, ensure_ascii=False)
+            logger.debug(f"Cache guardado: {len(self._cache)} entradas")
+        except Exception as e:
+            logger.error(f"Error guardando cache de metadatos: {e}")
+            
+    def _is_cached_valid(self, file_path: Path) -> bool:
+        """
+        Verificar si la entrada del cache es válida.
+        
+        Args:
+            file_path: Ruta del archivo
+            
+        Returns:
+            True si el cache es válido
+        """
+        file_key = str(file_path)
+        
+        if file_key not in self._cache:
+            return False
+            
+        cached_data = self._cache[file_key]
+        
+        # Verificar que el archivo no haya cambiado
+        try:
+            current_size = file_path.stat().st_size
+            current_mtime = file_path.stat().st_mtime
+            
+            cached_size = cached_data.get('file_size', 0)
+            cached_mtime = cached_data.get('modified_time')
+            
+            if cached_mtime:
+                # Convertir ISO string a timestamp para comparar
+                cached_mtime_dt = datetime.fromisoformat(cached_mtime)
+                cached_timestamp = cached_mtime_dt.timestamp()
+                
+                return (current_size == cached_size and 
+                       abs(current_mtime - cached_timestamp) < 1.0)  # Tolerancia de 1 segundo
+            
+        except Exception as e:
+            logger.debug(f"Error verificando validez del cache para {file_path}: {e}")
+            
+        return False
+        
+    def ingest_single_pdf(self, file_path: Union[str, Path], 
+                         force_refresh: bool = False) -> PDFMetadata:
+        """
+        Ingestar un archivo PDF individual.
+        
+        Args:
+            file_path: Ruta del archivo PDF
+            force_refresh: Si forzar actualización ignorando cache
+            
+        Returns:
+            Metadatos extraídos
+        """
+        file_path = Path(file_path)
+        file_key = str(file_path)
+        
+        # Verificar cache si no se fuerza actualización
+        if not force_refresh and self._is_cached_valid(file_path):
+            logger.debug(f"Usando metadatos cacheados para {file_path}")
+            cached_data = self._cache[file_key]
+            return PDFMetadata.from_dict(cached_data)
+        
+        # Extraer metadatos
+        with logger.timer(f"extraccion_metadatos_{file_path.name}"):
+            metadata = self.reader.extract_metadata(file_path)
+            
+        # Guardar en cache si es exitoso
+        if metadata.status == PDFStatus.VALID:
+            self._cache[file_key] = metadata.to_dict()
+            logger.info(f"PDF ingestado exitosamente: {file_path.name}",
+                       pages=metadata.page_count,
+                       size_mb=round(metadata.file_size / 1024 / 1024, 2),
+                       has_text=metadata.has_text,
+                       has_images=metadata.has_images)
+        else:
+            logger.warning(f"Error ingestando PDF: {file_path.name}",
+                          status=metadata.status.value,
+                          error=metadata.error_message)
+            
+        return metadata
+        
+    def ingest_directory(self, directory: Union[str, Path],
+                        recursive: bool = True,
+                        file_pattern: str = "*.pdf",
+                        force_refresh: bool = False) -> List[PDFMetadata]:
+        """
+        Ingestar todos los PDFs de un directorio.
+        
+        Args:
+            directory: Directorio a procesar
+            recursive: Si buscar recursivamente
+            file_pattern: Patrón de archivos a incluir
+            force_refresh: Si forzar actualización de todos
+            
+        Returns:
+            Lista de metadatos extraídos
+        """
+        directory = Path(directory)
+        
+        if not directory.exists():
+            logger.error(f"Directorio no existe: {directory}")
+            return []
+            
+        # Buscar archivos PDF
+        if recursive:
+            pdf_files = list(directory.rglob(file_pattern))
+        else:
+            pdf_files = list(directory.glob(file_pattern))
+            
+        pdf_files = [f for f in pdf_files if f.is_file()]
+        
+        if not pdf_files:
+            logger.warning(f"No se encontraron archivos PDF en {directory}")
+            return []
+            
+        logger.info(f"Iniciando ingesta de {len(pdf_files)} archivos PDF desde {directory}")
+        
+        results = []
+        processed = 0
+        errors = 0
+        
+        with logger.processing_context(operation="ingest_directory", pdf_count=len(pdf_files)):
+            for pdf_file in pdf_files:
+                try:
+                    with logger.processing_context(pdf_file=pdf_file.name):
+                        metadata = self.ingest_single_pdf(pdf_file, force_refresh)
+                        results.append(metadata)
+                        
+                        if metadata.status == PDFStatus.VALID:
+                            processed += 1
+                        else:
+                            errors += 1
+                            
+                except Exception as e:
+                    logger.exception(f"Error procesando {pdf_file}", error=str(e))
+                    errors += 1
+                    
+                    # Crear metadata de error
+                    error_metadata = PDFMetadata(
+                        file_path=pdf_file,
+                        file_size=pdf_file.stat().st_size if pdf_file.exists() else 0,
+                        file_hash="",
+                        modified_time=datetime.now(timezone.utc),
+                        status=PDFStatus.CORRUPTED,
+                        error_message=str(e)
+                    )
+                    results.append(error_metadata)
+        
+        # Guardar cache actualizado
+        self._save_cache()
+        
+        logger.info(f"Ingesta completada",
+                   total_files=len(pdf_files),
+                   processed=processed,
+                   errors=errors,
+                   success_rate=round(processed / len(pdf_files) * 100, 1) if pdf_files else 0)
+        
+        return results
+        
+    def get_ingestion_summary(self, metadata_list: List[PDFMetadata]) -> Dict[str, Any]:
+        """
+        Generar resumen de ingesta.
+        
+        Args:
+            metadata_list: Lista de metadatos a resumir
+            
+        Returns:
+            Diccionario con estadísticas de resumen
+        """
+        if not metadata_list:
+            return {'total_files': 0}
+            
+        # Estadísticas básicas
+        total_files = len(metadata_list)
+        valid_files = [m for m in metadata_list if m.status == PDFStatus.VALID]
+        error_files = [m for m in metadata_list if m.status != PDFStatus.VALID]
+        
+        # Estadísticas de contenido (solo archivos válidos)
+        if valid_files:
+            total_pages = sum(m.page_count for m in valid_files)
+            total_size = sum(m.file_size for m in valid_files)
+            files_with_text = sum(1 for m in valid_files if m.has_text)
+            files_with_images = sum(1 for m in valid_files if m.has_images)
+            
+            # Estadísticas por estado
+            status_counts = {}
+            for metadata in metadata_list:
+                status = metadata.status.value
+                status_counts[status] = status_counts.get(status, 0) + 1
+                
+            # Estadísticas por librería usada
+            library_counts = {}
+            for metadata in valid_files:
+                if metadata.library_used:
+                    lib = metadata.library_used.value
+                    library_counts[lib] = library_counts.get(lib, 0) + 1
+        else:
+            total_pages = 0
+            total_size = 0
+            files_with_text = 0
+            files_with_images = 0
+            status_counts = {'corrupted': len(error_files)}
+            library_counts = {}
+        
+        return {
+            'total_files': total_files,
+            'valid_files': len(valid_files),
+            'error_files': len(error_files),
+            'success_rate': round(len(valid_files) / total_files * 100, 1) if total_files > 0 else 0,
+            'total_pages': total_pages,
+            'total_size_bytes': total_size,
+            'total_size_mb': round(total_size / 1024 / 1024, 2),
+            'files_with_text': files_with_text,
+            'files_with_images': files_with_images,
+            'avg_pages_per_file': round(total_pages / len(valid_files), 1) if valid_files else 0,
+            'status_distribution': status_counts,
+            'library_distribution': library_counts,
+            'ingestion_timestamp': datetime.now(timezone.utc).isoformat()
+        }
+        
+    def clear_cache(self, file_pattern: Optional[str] = None) -> int:
+        """
+        Limpiar cache de metadatos.
+        
+        Args:
+            file_pattern: Patrón de archivos a limpiar (None para todo)
+            
+        Returns:
+            Número de entradas eliminadas
+        """
+        if file_pattern is None:
+            # Limpiar todo el cache
+            cleared_count = len(self._cache)
+            self._cache.clear()
+        else:
+            # Limpiar entradas que coincidan con el patrón
+            import fnmatch
+            to_remove = []
+            for file_path in self._cache.keys():
+                if fnmatch.fnmatch(file_path, file_pattern):
+                    to_remove.append(file_path)
+                    
+            cleared_count = len(to_remove)
+            for file_path in to_remove:
+                del self._cache[file_path]
+        
+        self._save_cache()
+        logger.info(f"Cache limpiado: {cleared_count} entradas eliminadas")
+        return cleared_count
+        
+    def export_metadata(self, output_file: Union[str, Path],
+                       metadata_list: List[PDFMetadata]) -> bool:
+        """
+        Exportar metadatos a archivo JSON.
+        
+        Args:
+            output_file: Archivo de destino
+            metadata_list: Lista de metadatos a exportar
+            
+        Returns:
+            True si se exportó exitosamente
+        """
+        try:
+            output_file = Path(output_file)
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            export_data = {
+                'export_timestamp': datetime.now(timezone.utc).isoformat(),
+                'total_files': len(metadata_list),
+                'summary': self.get_ingestion_summary(metadata_list),
+                'metadata': [m.to_dict() for m in metadata_list]
+            }
+            
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(export_data, f, indent=2, ensure_ascii=False)
+                
+            logger.info(f"Metadatos exportados a {output_file}",
+                       files_exported=len(metadata_list))
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error exportando metadatos a {output_file}: {e}")
+            return False
+
+
+# Instancia global para uso conveniente
+_global_ingestor: Optional[PDFIngestor] = None
+
+
+def get_pdf_ingestor(base_path: Optional[Union[str, Path]] = None) -> PDFIngestor:
+    """Obtener instancia global del ingestor PDF."""
+    global _global_ingestor
+    if _global_ingestor is None:
+        _global_ingestor = PDFIngestor(base_path)
+    return _global_ingestor
+
+
+def ingest_pdf(file_path: Union[str, Path], 
+               force_refresh: bool = False) -> PDFMetadata:
+    """Función de conveniencia para ingestar un PDF individual."""
+    return get_pdf_ingestor().ingest_single_pdf(file_path, force_refresh)
+
+
+def ingest_directory(directory: Union[str, Path], **kwargs) -> List[PDFMetadata]:
+    """Función de conveniencia para ingestar directorio de PDFs."""
+    return get_pdf_ingestor().ingest_directory(directory, **kwargs)
+
+
+if __name__ == "__main__":
+    # Modo de prueba/diagnóstico
+    from .logging_setup import setup_logging
+    from .utils_fs import get_file_manager
+    
+    setup_logging(level="DEBUG")
+    
+    # Inicializar estructura de directorios
+    fm = get_file_manager()
+    fm.initialize()
+    
+    print("=== Prueba de ingesta de PDFs ===\n")
+    
+    # Crear ingestor
+    ingestor = PDFIngestor()
+    
+    # Verificar librerías disponibles
+    reader = PDFReader()
+    print(f"Librerías PDF disponibles: {[lib.value for lib in reader.available_libraries]}")
+    
+    # Buscar PDFs en directorio de entrada
+    pdf_files = fm.get_input_pdfs()
+    if pdf_files:
+        print(f"\nPDFs encontrados: {len(pdf_files)}")
+        
+        # Ingestar todos los PDFs
+        metadata_list = ingestor.ingest_directory(fm.structure.input_dir)
+        
+        # Mostrar resumen
+        summary = ingestor.get_ingestion_summary(metadata_list)
+        print(f"\n=== Resumen de ingesta ===")
+        print(f"Total de archivos: {summary['total_files']}")
+        print(f"Archivos válidos: {summary['valid_files']}")
+        print(f"Archivos con errores: {summary['error_files']}")
+        print(f"Tasa de éxito: {summary['success_rate']}%")
+        print(f"Total de páginas: {summary['total_pages']}")
+        print(f"Tamaño total: {summary['total_size_mb']} MB")
+        
+        if summary['status_distribution']:
+            print(f"\nDistribución por estado:")
+            for status, count in summary['status_distribution'].items():
+                print(f"  {status}: {count}")
+                
+        if summary['library_distribution']:
+            print(f"\nDistribución por librería:")
+            for library, count in summary['library_distribution'].items():
+                print(f"  {library}: {count}")
+        
+        # Exportar metadatos
+        export_file = fm.structure.logs_dir / "pdf_metadata.json"
+        if ingestor.export_metadata(export_file, metadata_list):
+            print(f"\nMetadatos exportados a: {export_file}")
+            
+    else:
+        print("\nNo se encontraron archivos PDF en input/pdfs/")
+        print("Coloca archivos PDF en ese directorio para probar la ingesta")
+        
+        # Mostrar información de librerías disponibles
+        if reader.available_libraries:
+            print(f"\nLibrerías PDF listas para usar:")
+            for lib in reader.available_libraries:
+                print(f"  ✓ {lib.value}")
+        else:
+            print("\n⚠️  No hay librerías PDF disponibles")
+            print("Instala al menos una: pip install PyMuPDF pdfplumber pypdfium2")
+    
+    print("\nPrueba de ingesta completada.")
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/logging_setup.py
+PROPOSITO: Configuracion del sistema de logging
+TAMAÃ‘O: 0 bytes
+================================================================================
+"""
+Sistema de logging estructurado para ImagenesPDF.
+
+Proporciona logging unificado con:
+- Logs estructurados (JSON) y legibles por humanos
+- Rotación automática de archivos
+- Niveles configurables por módulo
+- Contexto de procesamiento (PDF, página, item)
+- Métricas de rendimiento integradas
+- Formato colorizado para consola
+
+Uso:
+    from imagenespdf.logging_setup import get_logger, setup_logging
+    
+    # Configurar sistema
+    setup_logging(level="INFO", log_dir="out/logs")
+    
+    # En cada módulo
+    logger = get_logger(__name__)
+    logger.info("Procesando PDF", pdf_file="catalog.pdf", pages=100)
+"""
+
+import os
+import sys
+import json
+import logging
+import logging.handlers
+from pathlib import Path
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional, Union, TextIO
+from dataclasses import dataclass, asdict
+from contextlib import contextmanager
+import time
+import traceback
+
+try:
+    import structlog
+    HAS_STRUCTLOG = True
+except ImportError:
+    HAS_STRUCTLOG = False
+
+try:
+    from rich.console import Console
+    from rich.logging import RichHandler
+    from rich.text import Text
+    HAS_RICH = True
+except ImportError:
+    HAS_RICH = False
+
+
+@dataclass
+class ProcessingContext:
+    """Contexto de procesamiento actual."""
+    pdf_file: Optional[str] = None
+    pdf_id: Optional[int] = None
+    supplier: Optional[str] = None
+    page_num: Optional[int] = None
+    item_id: Optional[int] = None
+    operation: Optional[str] = None
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convertir a diccionario para logging."""
+        return {k: v for k, v in asdict(self).items() if v is not None}
+
+
+class ColorizedFormatter(logging.Formatter):
+    """Formatter con colores para consola."""
+    
+    # Códigos de color ANSI
+    COLORS = {
+        'DEBUG': '\033[36m',     # Cian
+        'INFO': '\033[32m',      # Verde
+        'WARNING': '\033[33m',   # Amarillo
+        'ERROR': '\033[31m',     # Rojo
+        'CRITICAL': '\033[35m',  # Magenta
+        'RESET': '\033[0m'       # Reset
+    }
+    
+    def format(self, record: logging.LogRecord) -> str:
+        """Formatear record con colores."""
+        if not hasattr(record, 'no_color') or not record.no_color:
+            color = self.COLORS.get(record.levelname, '')
+            reset = self.COLORS['RESET']
+            record.levelname = f"{color}{record.levelname}{reset}"
+            
+        return super().format(record)
+
+
+class StructuredFormatter(logging.Formatter):
+    """Formatter para logs estructurados en JSON."""
+    
+    def format(self, record: logging.LogRecord) -> str:
+        """Formatear record como JSON estructurado."""
+        log_data = {
+            'timestamp': datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
+            'level': record.levelname,
+            'logger': record.name,
+            'message': record.getMessage(),
+            'module': record.module,
+            'function': record.funcName,
+            'line': record.lineno
+        }
+        
+        # Agregar contexto si existe
+        if hasattr(record, 'context') and record.context:
+            log_data.update(record.context)
+            
+        # Agregar campos extras
+        for key, value in record.__dict__.items():
+            if key not in ['name', 'msg', 'args', 'levelname', 'levelno', 'pathname', 
+                          'filename', 'module', 'lineno', 'funcName', 'created', 
+                          'msecs', 'relativeCreated', 'thread', 'threadName', 
+                          'processName', 'process', 'context', 'no_color']:
+                log_data[key] = value
+                
+        # Agregar exception info si existe
+        if record.exc_info:
+            log_data['exception'] = {
+                'type': record.exc_info[0].__name__,
+                'message': str(record.exc_info[1]),
+                'traceback': traceback.format_exception(*record.exc_info)
+            }
+            
+        return json.dumps(log_data, ensure_ascii=False, default=str)
+
+
+class ContextLogger:
+    """
+    Logger con contexto de procesamiento.
+    
+    Mantiene contexto automático y permite logging estructurado.
+    """
+    
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
+        self.context = ProcessingContext()
+        self._start_times: Dict[str, float] = {}
+        
+    def set_context(self, **kwargs) -> None:
+        """Actualizar contexto de procesamiento."""
+        for key, value in kwargs.items():
+            if hasattr(self.context, key):
+                setattr(self.context, key, value)
+                
+    def clear_context(self) -> None:
+        """Limpiar contexto de procesamiento."""
+        self.context = ProcessingContext()
+        
+    def _log_with_context(self, level: int, msg: str, **kwargs) -> None:
+        """Log con contexto automático."""
+        context = self.context.to_dict()
+        context.update(kwargs)
+        
+        # Crear record personalizado
+        extra = {'context': context}
+        self.logger.log(level, msg, extra=extra)
+        
+    def debug(self, msg: str, **kwargs) -> None:
+        """Log nivel DEBUG con contexto."""
+        self._log_with_context(logging.DEBUG, msg, **kwargs)
+        
+    def info(self, msg: str, **kwargs) -> None:
+        """Log nivel INFO con contexto."""
+        self._log_with_context(logging.INFO, msg, **kwargs)
+        
+    def warning(self, msg: str, **kwargs) -> None:
+        """Log nivel WARNING con contexto."""
+        self._log_with_context(logging.WARNING, msg, **kwargs)
+        
+    def error(self, msg: str, **kwargs) -> None:
+        """Log nivel ERROR con contexto."""
+        self._log_with_context(logging.ERROR, msg, **kwargs)
+        
+    def critical(self, msg: str, **kwargs) -> None:
+        """Log nivel CRITICAL con contexto."""
+        self._log_with_context(logging.CRITICAL, msg, **kwargs)
+        
+    def exception(self, msg: str, **kwargs) -> None:
+        """Log excepción con contexto."""
+        context = self.context.to_dict()
+        context.update(kwargs)
+        extra = {'context': context}
+        self.logger.exception(msg, extra=extra)
+        
+    def start_timer(self, operation: str) -> None:
+        """Iniciar timer para operación."""
+        self._start_times[operation] = time.time()
+        self.debug(f"Iniciando {operation}")
+        
+    def end_timer(self, operation: str) -> float:
+        """Finalizar timer y log duración."""
+        if operation not in self._start_times:
+            self.warning(f"Timer no encontrado para operación: {operation}")
+            return 0.0
+            
+        duration = time.time() - self._start_times[operation]
+        del self._start_times[operation]
+        
+        self.info(f"Completado {operation}", 
+                 duration_seconds=round(duration, 3))
+        return duration
+        
+    @contextmanager
+    def timer(self, operation: str):
+        """Context manager para timing automático."""
+        self.start_timer(operation)
+        try:
+            yield
+        finally:
+            self.end_timer(operation)
+            
+    @contextmanager
+    def processing_context(self, **kwargs):
+        """Context manager para contexto temporal."""
+        # Guardar contexto actual
+        old_context = ProcessingContext(**asdict(self.context))
+        
+        # Aplicar nuevo contexto
+        self.set_context(**kwargs)
+        
+        try:
+            yield
+        finally:
+            # Restaurar contexto
+            self.context = old_context
+
+
+class LoggingManager:
+    """Gestor principal del sistema de logging."""
+    
+    def __init__(self):
+        self.is_configured = False
+        self.log_dir: Optional[Path] = None
+        self.loggers: Dict[str, ContextLogger] = {}
+        
+    def setup(self, 
+              level: Union[str, int] = "INFO",
+              log_dir: Optional[Union[str, Path]] = None,
+              console_output: bool = True,
+              file_output: bool = True,
+              json_output: bool = True,
+              max_file_size: int = 50 * 1024 * 1024,  # 50MB
+              backup_count: int = 5) -> None:
+        """
+        Configurar sistema de logging.
+        
+        Args:
+            level: Nivel de logging (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+            log_dir: Directorio para archivos de log
+            console_output: Si mostrar logs en consola
+            file_output: Si guardar logs en archivos
+            json_output: Si generar logs estructurados JSON
+            max_file_size: Tamaño máximo por archivo de log
+            backup_count: Cantidad de archivos de backup a mantener
+        """
+        if isinstance(level, str):
+            level = getattr(logging, level.upper())
+            
+        # Preparar directorio de logs
+        if log_dir:
+            self.log_dir = Path(log_dir)
+            self.log_dir.mkdir(parents=True, exist_ok=True)
+        elif file_output or json_output:
+            self.log_dir = Path("out/logs")
+            self.log_dir.mkdir(parents=True, exist_ok=True)
+            
+        # Configurar root logger
+        root_logger = logging.getLogger()
+        root_logger.setLevel(level)
+        
+        # Limpiar handlers existentes
+        for handler in root_logger.handlers[:]:
+            root_logger.removeHandler(handler)
+            
+        # Handler de consola
+        if console_output:
+            if HAS_RICH:
+                console_handler = RichHandler(
+                    console=Console(),
+                    show_time=True,
+                    show_path=True,
+                    markup=True
+                )
+            else:
+                console_handler = logging.StreamHandler(sys.stdout)
+                console_handler.setFormatter(ColorizedFormatter(
+                    '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+                    datefmt='%H:%M:%S'
+                ))
+            
+            console_handler.setLevel(level)
+            root_logger.addHandler(console_handler)
+            
+        # Handler de archivo principal
+        if file_output and self.log_dir:
+            file_handler = logging.handlers.RotatingFileHandler(
+                self.log_dir / "imagenespdf.log",
+                maxBytes=max_file_size,
+                backupCount=backup_count,
+                encoding='utf-8'
+            )
+            file_handler.setFormatter(logging.Formatter(
+                '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+            ))
+            file_handler.setLevel(level)
+            root_logger.addHandler(file_handler)
+            
+        # Handler JSON estructurado
+        if json_output and self.log_dir:
+            json_handler = logging.handlers.RotatingFileHandler(
+                self.log_dir / "imagenespdf.json",
+                maxBytes=max_file_size,
+                backupCount=backup_count,
+                encoding='utf-8'
+            )
+            json_handler.setFormatter(StructuredFormatter())
+            json_handler.setLevel(level)
+            root_logger.addHandler(json_handler)
+            
+        # Handler de errores separado
+        if file_output and self.log_dir:
+            error_handler = logging.handlers.RotatingFileHandler(
+                self.log_dir / "errors.log",
+                maxBytes=max_file_size,
+                backupCount=backup_count,
+                encoding='utf-8'
+            )
+            error_handler.setFormatter(logging.Formatter(
+                '%(asctime)s [%(levelname)s] %(name)s: %(message)s\n%(pathname)s:%(lineno)d'
+            ))
+            error_handler.setLevel(logging.ERROR)
+            root_logger.addHandler(error_handler)
+            
+        self.is_configured = True
+        
+        # Log inicial
+        logger = self.get_logger("imagenespdf.logging")
+        logger.info("Sistema de logging configurado", 
+                   level=logging.getLevelName(level),
+                   log_dir=str(self.log_dir) if self.log_dir else None,
+                   console_output=console_output,
+                   file_output=file_output,
+                   json_output=json_output)
+    
+    def get_logger(self, name: str) -> ContextLogger:
+        """Obtener logger con contexto para un módulo."""
+        if name not in self.loggers:
+            base_logger = logging.getLogger(name)
+            self.loggers[name] = ContextLogger(base_logger)
+        return self.loggers[name]
+        
+    def shutdown(self) -> None:
+        """Cerrar sistema de logging."""
+        logging.shutdown()
+        self.is_configured = False
+        self.loggers.clear()
+
+
+# Instancia global
+_logging_manager = LoggingManager()
+
+
+def setup_logging(**kwargs) -> None:
+    """Configurar sistema de logging (función de conveniencia)."""
+    _logging_manager.setup(**kwargs)
+
+
+def get_logger(name: str) -> ContextLogger:
+    """Obtener logger con contexto (función de conveniencia)."""
+    if not _logging_manager.is_configured:
+        # Auto-configurar con valores por defecto
+        _logging_manager.setup()
+    return _logging_manager.get_logger(name)
+
+
+def shutdown_logging() -> None:
+    """Cerrar sistema de logging (función de conveniencia)."""
+    _logging_manager.shutdown()
+
+
+def log_system_info() -> None:
+    """Log información del sistema al inicio."""
+    logger = get_logger("imagenespdf.system")
+    
+    logger.info("Iniciando ImagenesPDF", 
+               python_version=sys.version.split()[0],
+               platform=sys.platform,
+               working_dir=os.getcwd(),
+               has_structlog=HAS_STRUCTLOG,
+               has_rich=HAS_RICH)
+
+
+if __name__ == "__main__":
+    # Modo de prueba
+    setup_logging(level="DEBUG")
+    
+    logger = get_logger("test")
+    
+    # Probar diferentes niveles
+    logger.debug("Mensaje de debug")
+    logger.info("Información general", item_count=42)
+    logger.warning("Advertencia", issue="archivo_no_encontrado")
+    logger.error("Error procesando", error_code="PDF_CORRUPT")
+    
+    # Probar contexto
+    logger.set_context(pdf_file="test.pdf", supplier="DEPO")
+    logger.info("Con contexto")
+    
+    # Probar timer
+    with logger.timer("operacion_test"):
+        time.sleep(0.1)
+        
+    # Probar contexto temporal
+    with logger.processing_context(page_num=5, item_id=123):
+        logger.info("Procesando ítem")
+        
+    logger.clear_context()
+    logger.info("Sin contexto")
+    
+    print("Prueba completada. Revisa los archivos de log en out/logs/")
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/normalizer.py
+PROPOSITO: Normalizacion de datos
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/schema/dims.yaml
+PROPOSITO: Catalogos y dimensiones de datos
+TAMAÃ‘O: 0 bytes
+================================================================================
+# Catálogos y dimensiones de datos para ImagenesPDF
+# Sistema de procesamiento de catálogos PDF de autopartes
+
+metadata:
+  version: "1.0"
+  description: "Catálogos maestros y tablas de dimensiones"
+  last_updated: "2024-01-15"
+  data_sources: ["industry_standards", "oem_specifications", "market_research"]
+
+# Tabla de fabricantes de vehículos (dim_maker)
+makers:
+  ACURA: "Acura"
+  AUDI: "Audi AG"
+  BMW: "BMW Group"
+  BUICK: "Buick"
+  CADILLAC: "Cadillac"
+  CHEVROLET: "Chevrolet"
+  CHRYSLER: "Chrysler"
+  DODGE: "Dodge"
+  FIAT: "Fiat"
+  FORD: "Ford Motor Company"
+  GMC: "GMC"
+  HONDA: "Honda Motor Co."
+  HYUNDAI: "Hyundai Motor Company"
+  INFINITI: "Infiniti"
+  ISUZU: "Isuzu Motors"
+  JAGUAR: "Jaguar Land Rover"
+  JEEP: "Jeep"
+  KIA: "Kia Corporation"
+  LAND_ROVER: "Land Rover"
+  LEXUS: "Lexus"
+  LINCOLN: "Lincoln Motor Company"
+  MAZDA: "Mazda Motor Corporation"
+  MERCEDES: "Mercedes-Benz"
+  MITSUBISHI: "Mitsubishi Motors"
+  NISSAN: "Nissan Motor Co."
+  PONTIAC: "Pontiac"
+  PORSCHE: "Porsche AG"
+  RAM: "Ram Trucks"
+  SAAB: "Saab Automobile"
+  SATURN: "Saturn Corporation"
+  SCION: "Scion"
+  SUBARU: "Subaru Corporation"
+  SUZUKI: "Suzuki Motor Corporation"
+  TESLA: "Tesla, Inc."
+  TOYOTA: "Toyota Motor Corporation"
+  VOLKSWAGEN: "Volkswagen Group"
+  VOLVO: "Volvo Cars"
+
+# Tabla de países (dim_country)
+countries:
+  CN: "China"
+  TW: "Taiwan"
+  JP: "Japan"
+  KR: "South Korea"
+  DE: "Germany"
+  US: "United States"
+  MX: "Mexico"
+  CA: "Canada"
+  BR: "Brazil"
+  IN: "India"
+  TH: "Thailand"
+  MY: "Malaysia"
+  ID: "Indonesia"
+  VN: "Vietnam"
+
+# Jerarquía de tipos de productos (dim_product_type)
+product_types:
+  # Nivel 1 - Categorías principales
+  LIGHTING:
+    name: "Lighting Systems"
+    description: "All automotive lighting components"
+    parent_code: null
+    subcategories:
+      # Nivel 2 - Subcategorías
+      HEAD_LAMP:
+        name: "Head Lamps"
+        description: "Front lighting assemblies"
+        parent_code: "LIGHTING"
+        subcategories:
+          # Nivel 3 - Tipos específicos
+          HEAD_LAMP_HALOGEN:
+            name: "Halogen Head Lamps"
+            parent_code: "HEAD_LAMP"
+          HEAD_LAMP_LED:
+            name: "LED Head Lamps"
+            parent_code: "HEAD_LAMP"
+          HEAD_LAMP_HID:
+            name: "HID/Xenon Head Lamps"
+            parent_code: "HEAD_LAMP"
+
+      TAIL_LAMP:
+        name: "Tail Lamps"
+        description: "Rear lighting assemblies"
+        parent_code: "LIGHTING"
+        subcategories:
+          TAIL_LAMP_STANDARD:
+            name: "Standard Tail Lamps"
+            parent_code: "TAIL_LAMP"
+          TAIL_LAMP_LED:
+            name: "LED Tail Lamps"
+            parent_code: "TAIL_LAMP"
+
+      FOG_LAMP:
+        name: "Fog Lamps"
+        description: "Auxiliary lighting for poor visibility"
+        parent_code: "LIGHTING"
+        subcategories:
+          FOG_LAMP_FRONT:
+            name: "Front Fog Lamps"
+            parent_code: "FOG_LAMP"
+          FOG_LAMP_REAR:
+            name: "Rear Fog Lamps"
+            parent_code: "FOG_LAMP"
+
+      CORNER_LAMP:
+        name: "Corner Lamps"
+        description: "Side marker and corner lighting"
+        parent_code: "LIGHTING"
+
+      SIGNAL_LAMP:
+        name: "Signal Lamps"
+        description: "Turn signal indicators"
+        parent_code: "LIGHTING"
+
+  BODY:
+    name: "Body Components"
+    description: "Exterior body parts and assemblies"
+    parent_code: null
+    subcategories:
+      DOOR_HANDLE:
+        name: "Door Handles"
+        description: "Interior and exterior door handles"
+        parent_code: "BODY"
+        subcategories:
+          DOOR_HANDLE_EXTERIOR:
+            name: "Exterior Door Handles"
+            parent_code: "DOOR_HANDLE"
+          DOOR_HANDLE_INTERIOR:
+            name: "Interior Door Handles"
+            parent_code: "DOOR_HANDLE"
+
+      MIRROR:
+        name: "Mirrors"
+        description: "Side and rear view mirrors"
+        parent_code: "BODY"
+        subcategories:
+          SIDE_MIRROR:
+            name: "Side Mirrors"
+            parent_code: "MIRROR"
+          MIRROR_GLASS:
+            name: "Mirror Glass"
+            parent_code: "MIRROR"
+
+      GRILLE:
+        name: "Grilles"
+        description: "Front grille assemblies"
+        parent_code: "BODY"
+
+      BUMPER:
+        name: "Bumpers"
+        description: "Front and rear bumper assemblies"
+        parent_code: "BODY"
+
+# Tabla de lados (dim_side)
+sides:
+  L: "Left"
+  R: "Right"
+  N: "Not Applicable"
+
+# Tabla de volante (dim_drive)
+drives:
+  LD: "Left Hand Drive"
+  RD: "Right Hand Drive"
+
+# Tabla de clasificaciones (dim_classification)
+classifications:
+  U: "Universal"
+  A: "America"
+  W: "Europe"
+  B: "Both America and Europe"
+  "-": "Not Specified"
+
+# Tabla de certificaciones (dim_certification)
+certifications:
+  S: "SAE Compliant"
+  E: "ECE Approved"
+  Q: "Quality Certified"
+  C: "CE Marked"
+  D: "DOT Approved"
+  "": "No Certification"
+
+# Tabla de colores base (dim_base_color)
+base_colors:
+  1: "Clear"
+  2: "Amber"
+  3: "Red"
+  4: "Blue"
+  5: "Green"
+  6: "White"
+  7: "Black"
+  8: "Chrome"
+  9: "Smoke"
+
+# Tabla de características de socket (dim_socket_feature)
+socket_features:
+  Z: "No Socket"
+  O: "Standard Socket"
+  T: "Twist Lock"
+  D: "Double Contact"
+  N: "LED Native"
+  B: "Bayonet"
+  S: "Special Socket"
+  "-": "Not Applicable"
+
+# Tabla de lente interior (dim_lens_i)
+lens_i:
+  C: "Clear"
+  R: "Red"
+  Y: "Yellow/Amber"
+  S: "Smoke"
+  B: "Blue"
+  G: "Green"
+  A: "All Clear"
+  L: "Light Smoke"
+
+# Tabla de lente exterior (dim_lens_j)
+lens_j:
+  C: "Clear"
+  R: "Red"
+  Y: "Yellow/Amber"
+  S: "Smoke"
+  B: "Blue"
+  G: "Green"
+  A: "All Clear"
+  O: "Orange"
+  D: "Dark Smoke"
+  "2": "Two-tone"
+  "3": "Three-tone"
+  "6": "Six-sided"
+
+# Catálogo de bulbos (dim_bulb)
+bulbs:
+  # Bulbos halógenos estándar
+  H1: "H1 Halogen"
+  H3: "H3 Halogen"
+  H4: "H4 Halogen"
+  H7: "H7 Halogen"
+  H8: "H8 Halogen"
+  H9: "H9 Halogen"
+  H10: "H10 Halogen"
+  H11: "H11 Halogen"
+  H13: "H13 Halogen"
+  H16: "H16 Halogen"
+
+  # Bulbos HID/Xenon
+  D1S: "D1S HID"
+  D1R: "D1R HID"
+  D2S: "D2S HID"
+  D2R: "D2R HID"
+  D3S: "D3S HID"
+  D3R: "D3R HID"
+  D4S: "D4S HID"
+  D4R: "D4R HID"
+
+  # LEDs estándar
+  LED_H1: "LED H1 Replacement"
+  LED_H4: "LED H4 Replacement"
+  LED_H7: "LED H7 Replacement"
+  LED_H11: "LED H11 Replacement"
+
+  # Bulbos de señalización
+  1156: "1156 Turn Signal"
+  1157: "1157 Stop/Turn"
+  3157: "3157 Stop/Turn/Parking"
+  3156: "3156 Turn Signal"
+  T10: "T10 Parking/License"
+  T20: "T20 Turn Signal"
+
+  # Bulbos especiales
+  880: "880 Fog Light"
+  881: "881 Fog Light"
+  893: "893 Fog Light"
+  9005: "9005 High Beam"
+  9006: "9006 Low Beam"
+  9007: "9007 Dual Beam"
+  9012: "9012 Halogen"
+
+  # Sin bulbo
+  NONE: "No Bulb Required"
+  LED_INTEGRATED: "Integrated LED"
+
+# Estados de homologación basados en color del texto (dim_highlight_status)
+highlight_status:
+  # Colores que indican homologación
+  pink: "homologado"
+  rose: "homologado"
+  "#ff69b4": "homologado"
+  "#ffc0cb": "homologado"
+  "#ffb6c1": "homologado"
+
+  # Colores que indican no homologación
+  blue: "no_homologado"
+  cyan: "no_homologado"
+  "#0000ff": "no_homologado"
+  "#00ffff": "no_homologado"
+  "#1e90ff": "no_homologado"
+
+  # Estados especiales
+  red: "non_us"
+  "#ff0000": "non_us"
+  green: "tba"
+  "#008000": "tba"
+
+  # Sin clasificación
+  black: "unknown"
+  "#000000": "unknown"
+  gray: "unknown"
+  "#808080": "unknown"
+
+# Configuración de mapeo de aliases y variaciones
+aliases:
+  makers:
+    GM: "GMC"
+    GENERAL_MOTORS: "GMC"
+    BENZ: "MERCEDES"
+    MERCEDES_BENZ: "MERCEDES"
+    VW: "VOLKSWAGEN"
+    LANDROVER: "LAND_ROVER"
+    RANGE_ROVER: "LAND_ROVER"
+
+  product_types:
+    HEADLIGHT: "HEAD_LAMP"
+    HEADLAMP: "HEAD_LAMP"
+    TAILLIGHT: "TAIL_LAMP"
+    TAILLAMP: "TAIL_LAMP"
+    FOGLIGHT: "FOG_LAMP"
+    FOGLAMP: "FOG_LAMP"
+    TURN_SIGNAL: "SIGNAL_LAMP"
+    SIDE_MARKER: "CORNER_LAMP"
+
+  bulbs:
+    H4_LED: "LED_H4"
+    H7_LED: "LED_H7"
+    H11_LED: "LED_H11"
+    NO_BULB: "NONE"
+
+# Validaciones y reglas de negocio
+validation_rules:
+  year_ranges:
+    min_year: 1980
+    max_year: 2030
+
+  part_codes:
+    depo_pattern: "^[A-J]\\d{2}-\\d{4}-[A-Z]{2,3}\\d*$"
+    max_length: 20
+
+  measurements:
+    weight_kg:
+      min: 0.1
+      max: 50.0
+    volume_cft:
+      min: 0.1
+      max: 10.0
+    pieces:
+      min: 1
+      max: 100
+
+# Configuración de normalización
+normalization:
+  text_cleanup:
+    remove_chars: ["(", ")", "[", "]", '"', "'"]
+    replace_chars:
+      "&": "AND"
+      "/": "_"
+      " ": "_"
+      "-": "_"
+    uppercase_fields: ["maker_code", "product_type_code", "certification"]
+
+  code_standardization:
+    pad_zeros: true
+    remove_spaces: true
+    uppercase: true
+
+# Configuración específica por proveedor
+vendor_specific:
+  depo:
+    default_certification: "S" # SAE
+    default_country: "TW" # Taiwan
+    typical_bulbs: ["H1", "H4", "H7", "H11", "9005", "9006"]
+
+  yuto:
+    default_certification: "E" # ECE
+    default_country: "CN" # China
+    typical_bulbs: ["LED_H4", "LED_H7", "LED_H11", "LED_INTEGRATED"]
+
+  hushan:
+    default_certification: "" # No certification typical
+    default_country: "CN" # China
+    typical_features: ["with_keyhole", "smart_key_sensor", "heated"]
+
+# Configuración de cache y performance
+cache_settings:
+  enabled: true
+  max_entries: 5000
+  ttl_minutes: 60
+  preload_common_lookups: true
+
+# Configuración de logging
+logging:
+  log_normalization_changes: true
+  log_validation_errors: true
+  track_usage_statistics: true
+
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/schema/excel_layout.yaml
+PROPOSITO: Definicion de estructura de Excel
+TAMAÃ‘O: 0 bytes
+================================================================================
+# Definición de layout Excel para ImagenesPDF
+# Sistema de procesamiento de catálogos PDF de autopartes
+
+metadata:
+  version: "1.1"
+  description: "Layout completo del archivo Excel maestro (unificado y con micro‑ajustes)"
+  last_updated: "2025-08-13"
+  workbook_name: "ImagenesPDF_Master.xlsx"
+  total_sheets: 50
+
+# Configuración general del workbook
+workbook_settings:
+  default_font: "Calibri"
+  default_font_size: 11
+  date_format: "YYYY-MM-DD"
+  number_format: "0.00"
+  currency_format: "$#,##0.00"
+  freeze_panes: true
+  auto_filter: true
+  print_settings:
+    orientation: "landscape"
+    fit_to_page: true
+    margins: [0.5, 0.5, 0.75, 0.75]
+
+# Definición de hojas del Excel
+sheets:
+
+  # ---------------------------------------------------------
+  # 1) Hoja principal con vista de oferta (resumen)
+  # ---------------------------------------------------------
+  items_master:
+    name: "Items Master"
+    description: "Vista principal con todos los ítems procesados"
+    order: 1
+    protected: false
+    columns:
+      item_id:             {header: "Item ID",           width: 12, data_type: "integer", format: "0", frozen: true}
+      supplier_name:       {header: "Supplier",          width: 15, data_type: "text",    format: "text", frozen: true}
+      supplier_sku:        {header: "Supplier SKU",      width: 18, data_type: "text",    format: "text"}
+      near_oem:            {header: "Near OEM",          width: 20, data_type: "text",    format: "text"}
+      product_type:        {header: "Product Type",      width: 18, data_type: "text",    format: "text"}
+      maker_model:         {header: "Make/Model",        width: 25, data_type: "text",    format: "text"}
+      year_range:          {header: "Year Range",        width: 15, data_type: "text",    format: "text"}
+      side_drive:          {header: "Side/Drive",        width: 12, data_type: "text",    format: "text"}
+      features_summary:    {header: "Key Features",      width: 30, data_type: "text",    format: "text"}
+      bulbs:               {header: "Bulbs",             width: 20, data_type: "text",    format: "text"}
+      pcs_default:         {header: "PCS",               width: 8,  data_type: "integer", format: "0"}
+      cft_default:         {header: "CFT",               width: 10, data_type: "decimal", format: "0.00"}
+      nw_kg:               {header: "N.W. (KG)",         width: 12, data_type: "decimal", format: "0.00"}
+      gw_kg:               {header: "G.W. (KG)",         width: 12, data_type: "decimal", format: "0.00"}
+      homologation_status:
+        header: "Homologation"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["homologado","no_homologado","non_us","tba","unknown"]}
+      source_method:
+        header: "Source Method"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["pdf_text","ocr","heuristic","manual"]}
+      confidence:
+        header: "Confidence"
+        width: 12
+        data_type: "decimal"
+        format: "0.00"
+      page:              {header: "Page Number",          width: 12, data_type: "integer"}
+      pdf_id:            {header: "PDF ID",               width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id"}
+      notes:             {header: "Notes",                width: 40, data_type: "text",    nullable: true}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        default_value: "ok"
+        validation: {type: "list", source: ["ok","needs_review","error"]}
+  # ---------------------------------------------------------
+  # 2) Ítems (normalizado / tabla base)
+  # ---------------------------------------------------------
+  items_detailed:
+    name: "Items Detailed"
+    description: "Tabla normalizada de ítems con todos los campos"
+    order: 2
+    protected: true
+    columns:
+      item_id:           {header: "Item ID",              width: 12, data_type: "integer", primary_key: true}
+      supplier_id:       {header: "Supplier ID",          width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      supplier_sku:      {header: "Supplier SKU",         width: 18, data_type: "text",    nullable: true}
+      near_oem:          {header: "Near OEM",             width: 20, data_type: "text",    nullable: true}
+      variant_code:      {header: "Variant Code",         width: 15, data_type: "text",    foreign_key: "dim_variant.variant_code", nullable: true}
+      side_code:         {header: "Side Code",            width: 8,  data_type: "text",    foreign_key: "dim_side.side_code"}
+      drive_code:        {header: "Drive Code",           width: 8,  data_type: "text",    foreign_key: "dim_drive.drive_code"}
+      maker_code:        {header: "Maker Code",           width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code"}
+      product_type_code: {header: "Product Type Code",    width: 18, data_type: "text",    foreign_key: "dim_product_type.product_type_code"}
+      country_code:      {header: "Country Code",         width: 12, data_type: "integer", foreign_key: "dim_country.country_code"}
+      class_code:        {header: "Classification Code",  width: 15, data_type: "text",    foreign_key: "dim_classification.class_code"}
+      cert_code:         {header: "Certification Code",   width: 15, data_type: "text",    foreign_key: "dim_certification.cert_code"}
+      base_code:         {header: "Base Color Code",      width: 12, data_type: "text",    foreign_key: "dim_base_color.base_code", nullable: true}
+      socket_code:       {header: "Socket Feature Code",  width: 15, data_type: "text",    foreign_key: "dim_socket_feature.socket_code", nullable: true}
+      lens_i:            {header: "Lens I",               width: 10, data_type: "text",    foreign_key: "dim_lens_i.lens_i", nullable: true}
+      lens_j:            {header: "Lens J",               width: 10, data_type: "text",    foreign_key: "dim_lens_j.lens_j", nullable: true}
+      with_motor_flag:   {header: "With Motor",           width: 12, data_type: "boolean", format: "TRUE/FALSE"}
+      elec_flag:         {header: "Electric",             width: 10, data_type: "boolean", format: "TRUE/FALSE"}
+      bulbs_raw:         {header: "Bulbs (raw)",          width: 24, data_type: "text",    nullable: true}
+      pcs_default:       {header: "PCS Default",          width: 12, data_type: "integer"}
+      cft_default:       {header: "CFT Default",          width: 12, data_type: "decimal", format: "0.000"}
+      nw_kg:             {header: "Net Weight (KG)",      width: 15, data_type: "decimal", format: "0.000", nullable: true}
+      gw_kg:             {header: "Gross Weight (KG)",    width: 15, data_type: "decimal", format: "0.000", nullable: true}
+      market_region:     {header: "Market Region",        width: 15, data_type: "text",    foreign_key: "dim_market.market_code", nullable: true}
+      availability:      {header: "Availability",         width: 15, data_type: "text",    nullable: true}
+      homologation_color:{header: "Homologation Color",   width: 18, data_type: "text",    foreign_key: "dim_highlight_status.pdf_text_color", nullable: true}
+      homologation_status:
+        header: "Homologation"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["homologado","no_homologado","non_us","tba","unknown"]}
+      source_method:
+        header: "Source Method"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["pdf_text","ocr","heuristic","manual"]}
+      confidence:        {header: "Confidence",           width: 12, data_type: "decimal", format: "0.00"}
+      page:              {header: "Page Number",          width: 12, data_type: "integer"}
+      pdf_id:            {header: "PDF ID",               width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id"}
+      notes:             {header: "Notes",                width: 40, data_type: "text",    nullable: true}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        default_value: "ok"
+        validation: {type: "list", source: ["ok","needs_review","error"]}
+
+  # ---------------------------------------------------------
+  # 3) Años expandidos por ítem
+  # ---------------------------------------------------------
+  item_years:
+    name: "Item Years"
+    description: "Años expandidos por ítem (relación muchos a muchos)"
+    order: 3
+    protected: true
+    columns:
+      item_id: {header: "Item ID", width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      year:
+        header: "Year"
+        width: 8
+        data_type: "integer"
+        primary_key: true
+        validation: {type: "whole", minimum: 1930, maximum: 2035}
+
+  # ---------------------------------------------------------
+  # 4) Códigos OEM por ítem
+  # ---------------------------------------------------------
+  item_oem:
+    name: "Item OEM Codes"
+    description: "Códigos OEM asociados a cada ítem"
+    order: 4
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      oem_code:    {header: "OEM Code",    width: 22, data_type: "text",    primary_key: true}
+      oem_code_normalized: {header: "OEM Code (Norm)", width: 22, data_type: "text", nullable: true}
+      side_code:   {header: "Side Code",   width: 8,  data_type: "text",    foreign_key: "dim_side.side_code", nullable: true, primary_key: true}
+      role:
+        header: "Role"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["main","related","alternate"]}
+
+  # ---------------------------------------------------------
+  # 5) Variantes de empaque
+  # ---------------------------------------------------------
+  item_pack:
+    name: "Item Packaging"
+    description: "Variantes de empaque por ítem"
+    order: 5
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:      {header: "Item ID",      width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      pack_variant: {header: "Pack Variant", width: 12, data_type: "text", foreign_key: "dim_pack_variant.pack_variant", primary_key: true, default_value: "DEFAULT"}
+      pcs:
+        header: "Pieces"
+        width: 10
+        data_type: "integer"
+        validation: {type: "whole", minimum: 1}
+      cft:   {header: "Cubic Feet",       width: 12, data_type: "decimal", format: "0.000"}
+      nw_kg: {header: "Net Weight (KG)",  width: 15, data_type: "decimal", format: "0.000", nullable: true}
+      gw_kg: {header: "Gross Weight (KG)",width: 15, data_type: "decimal", format: "0.000", nullable: true}
+
+  # ---------------------------------------------------------
+  # 6) Bulbos por ítem
+  # ---------------------------------------------------------
+  item_bulb:
+    name: "Item Bulbs"
+    description: "Bulbos asociados a cada ítem"
+    order: 6
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      bulb_code:   {header: "Bulb Code",   width: 15, data_type: "text",    foreign_key: "dim_bulb.bulb_code", primary_key: true}
+      present_flag:
+        header: "Present"
+        width: 10
+        data_type: "integer"
+        format: "0"
+        validation: {type: "list", source: [0,1]}
+
+  # ---------------------------------------------------------
+  # 7) Features por ítem
+  # ---------------------------------------------------------
+  item_feature:
+    name: "Item Features"
+    description: "Características asociadas a cada ítem"
+    order: 7
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:      {header: "Item ID",      width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      feature_code: {header: "Feature Code", width: 20, data_type: "text",    foreign_key: "dim_feature.feature_code", primary_key: true}
+      value_bool:   {header: "Boolean Value",width: 12, data_type: "boolean", format: "TRUE/FALSE", default_value: true}
+      value_int:    {header: "Int Value",    width: 12, data_type: "integer", nullable: true}
+      value_decimal:{header: "Decimal Value", width: 14, data_type: "decimal", format: "0.000", nullable: true}
+      value_text:   {header: "Text Value",   width: 24, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 8) Multimedia (repositorio normalizado)
+  # ---------------------------------------------------------
+  media_files:
+    name: "Media Files"
+    description: "Repositorio de multimedia (imagen/video/audio/doc/pdf/text)"
+    order: 8
+    protected: true
+    columns:
+      media_id:        {header: "Media ID",       width: 12, data_type: "integer", primary_key: true}
+      media_type:
+        header: "Media Type"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["image","video","audio","doc","pdf","text"]}
+      mime_type:       {header: "MIME Type",      width: 18, data_type: "text",  nullable: true}
+      file_path:       {header: "File Path",      width: 44, data_type: "text"}
+      flat_copy_path:  {header: "Flat Copy",      width: 44, data_type: "text",  nullable: true}
+      cdn_url:         {header: "CDN URL",        width: 60, data_type: "text",  nullable: true}
+      sha256:          {header: "SHA-256",        width: 68, data_type: "text",  nullable: true}
+      width_px:        {header: "Width (px)",     width: 12, data_type: "integer", nullable: true}
+      height_px:       {header: "Height (px)",    width: 12, data_type: "integer", nullable: true}
+      dpi:             {header: "DPI",            width: 8,  data_type: "integer", nullable: true}
+      duration_ms:     {header: "Duration (ms)",  width: 14, data_type: "integer", nullable: true}
+      pages:           {header: "Pages",          width: 8,  data_type: "integer", nullable: true}
+      language:        {header: "Language",       width: 12, data_type: "text",    nullable: true}
+      alt_text:        {header: "Alt Text",       width: 40, data_type: "text",    nullable: true}
+      visibility:
+        header: "Visibility"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["public","private"]}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["active","pending","deleted"]}
+      derivatives_json: {header: "Derivatives JSON", width: 60, data_type: "text", nullable: true}
+      metadata_json:    {header: "Metadata JSON",    width: 60, data_type: "text", nullable: true}
+      source_pdf_id:   {header: "Source PDF ID",  width: 12, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+      source_page:     {header: "Source Page #",  width: 12, data_type: "integer", nullable: true}
+      extraction_method:
+        header: "Extraction"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["render","crop","ocr","manual","external"]}
+      created_at:      {header: "Created At",     width: 20, data_type: "date",    nullable: true}
+      license:         {header: "License",        width: 24, data_type: "text",    nullable: true}
+      notes:           {header: "Notes",          width: 30, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 9) Relación ítem↔multimedia (roles y contexto)
+  # ---------------------------------------------------------
+  item_media:
+    name: "Item Media"
+    description: "Relación entre ítems y multimedia con contexto de variante y orden"
+    order: 9
+    protected: true
+    columns:
+      supplier_id:  {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:      {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      side_code:    {header: "Side Code",   width: 8,  data_type: "text",    foreign_key: "dim_side.side_code", nullable: true}
+      variant_code: {header: "Variant Code",width: 14, data_type: "text",    foreign_key: "dim_variant.variant_code", nullable: true}
+      media_id:     {header: "Media ID",    width: 12, data_type: "integer", foreign_key: "media_files.media_id",   primary_key: true}
+      role:
+        header: "Role"
+        width: 18
+        data_type: "text"
+        validation: {type: "list", source: ["primary","secondary","manual","installation","packaging","oem-proof","datasheet","catalog","exploded","wiring","label"]}
+      is_default:   {header: "Default",     width: 10, data_type: "boolean", format: "TRUE/FALSE", default_value: false}
+      view_angle:   {header: "View Angle",  width: 16, data_type: "text",    nullable: true}
+      caption:      {header: "Caption",     width: 30, data_type: "text",    nullable: true}
+      sort_order:   {header: "Sort Order",  width: 10, data_type: "integer", default_value: 0}
+
+  # ---------------------------------------------------------
+  # 11) Compatibilidades cruzadas
+  # ---------------------------------------------------------
+  item_compat:
+    name: "Item Compatibility"
+    description: "Compatibilidades deducidas por OEM/índice"
+    order: 11
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code",   primary_key: true}
+      model_name:  {header: "Model",       width: 20, data_type: "text",    primary_key: true}
+      year_from:   {header: "Year From",   width: 10, data_type: "integer"}
+      year_to:     {header: "Year To",     width: 10, data_type: "integer"}
+      source_oem:  {header: "Source OEM",  width: 22, data_type: "text",    primary_key: true}
+
+  item_compat_years:
+    name: "Item Compat Years"
+    description: "Compatibilidades a nivel de año"
+    order: 12
+    protected: true
+    columns:
+      supplier_id: {header: "Supplier ID", width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", primary_key: true}
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code",   primary_key: true}
+      model_name:  {header: "Model",       width: 20, data_type: "text",    primary_key: true}
+      year:        {header: "Year",        width: 8,  data_type: "integer", primary_key: true}
+      source_oem:  {header: "Source OEM",  width: 22, data_type: "text",    primary_key: true}
+
+  # ---------------------------------------------------------
+  # 13) PDFs e índice (por página)
+  # ---------------------------------------------------------
+  pdfs:
+    name: "PDFs"
+    description: "Metadatos de archivos PDF procesados"
+    order: 13
+    protected: true
+    columns:
+      pdf_id:       {header: "PDF ID",     width: 10, data_type: "integer", primary_key: true}
+      supplier_id:  {header: "Supplier ID",width: 12, data_type: "text",    foreign_key: "dim_supplier.supplier_id"}
+      file_name:    {header: "File Name",  width: 36, data_type: "text"}
+      file_path:    {header: "File Path",  width: 48, data_type: "text", nullable: true}
+      sha256:       {header: "SHA-256",    width: 68, data_type: "text"}
+      created_at:   {header: "Created At", width: 20, data_type: "date",    nullable: true}
+      modified_at:  {header: "Modified At",width: 20, data_type: "date",    nullable: true}
+      processed_at: {header: "Processed At",width: 20, data_type: "date"}
+
+  pdf_index:
+    name: "PDF Index"
+    description: "Índice detectado (maker/model/years/page)"
+    order: 14
+    protected: true
+    columns:
+      supplier_id:  {header: "Supplier ID", width: 12, data_type: "text", foreign_key: "dim_supplier.supplier_id"}
+      maker_code:   {header: "Maker Code",  width: 12, data_type: "text", foreign_key: "dim_maker.maker_code"}
+      model_name:   {header: "Model",       width: 22, data_type: "text"}
+      variant_name: {header: "Variant",     width: 18, data_type: "text", nullable: true}
+      body_style:   {header: "Body Style",  width: 16, data_type: "text", nullable: true}
+      year_from:    {header: "Year From",   width: 10, data_type: "integer", nullable: true}
+      year_to:      {header: "Year To",     width: 10, data_type: "integer", nullable: true}
+      years:        {header: "Years (list)",width: 28, data_type: "text",   nullable: true}
+      page:         {header: "Page #",      width: 8,  data_type: "integer", nullable: true}
+      pdf_id:       {header: "PDF ID",      width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+
+  vehicle_index:
+    name: "Vehicle Index"
+    description: "Tabla consolidada de índice por vehículo"
+    order: 15
+    protected: true
+    columns:
+      vehicle_id:  {header: "Vehicle ID",  width: 12, data_type: "integer", primary_key: true}
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text",    foreign_key: "dim_maker.maker_code"}
+      model_name:  {header: "Model",       width: 22, data_type: "text"}
+      variant_name:{header: "Variant",     width: 18, data_type: "text",    nullable: true}
+      body_style:  {header: "Body Style",  width: 16, data_type: "text",    nullable: true}
+      year_from:   {header: "Year From",   width: 10, data_type: "integer"}
+      year_to:     {header: "Year To",     width: 10, data_type: "integer"}
+      page:        {header: "Page #",      width: 8,  data_type: "integer", nullable: true}
+
+  vehicle_years:
+    name: "Vehicle Years"
+    description: "Años expandidos del índice"
+    order: 16
+    protected: true
+    columns:
+      vehicle_id: {header: "Vehicle ID", width: 12, data_type: "integer", foreign_key: "vehicle_index.vehicle_id", primary_key: true}
+      year:       {header: "Year",       width: 8,  data_type: "integer", primary_key: true}
+
+  # ---------------------------------------------------------
+  # 16) Estructura de códigos (multi-proveedor)
+  # ---------------------------------------------------------
+  code_dictionary:
+    name: "Code Dictionary"
+    description: "Diccionario de tokens de código por proveedor/sistema"
+    order: 17
+    protected: true
+    columns:
+      supplier_id:      {header: "Supplier ID",    width: 12, data_type: "text", foreign_key: "dim_supplier.supplier_id"}
+      code_system_code: {header: "Code System",    width: 16, data_type: "text", foreign_key: "dim_code_system.code_system_code"}
+      token_key:        {header: "Token Key",      width: 12, data_type: "text"}
+      token_value:      {header: "Token Value",    width: 18, data_type: "text"}
+      meaning_es:       {header: "Meaning (ES)",   width: 28, data_type: "text", nullable: true}
+      meaning_en:       {header: "Meaning (EN)",   width: 28, data_type: "text", nullable: true}
+      category:
+        header: "Category"
+        width: 18
+        data_type: "text"
+        validation: {type: "list", source: ["maker","product_type","position","classification","cert","base_color","socket","lens_i","lens_j","addendum","pack","feature","other"]}
+      example:          {header: "Example",        width: 22, data_type: "text", nullable: true}
+
+  # ---------------------------------------------------------
+  # 16) Estructura de códigos (multi-proveedor)
+  # ---------------------------------------------------------
+  code_structure:
+    name: "Code Structure"
+    description: "Desglose tokenizado por ítem/código"
+    order: 18
+    protected: true
+    columns:
+      item_id:          {header: "Item ID",        width: 12, data_type: "integer", foreign_key: "items_detailed.item_id"}
+      code_system_code: {header: "Code System",    width: 16, data_type: "text", foreign_key: "dim_code_system.code_system_code"}
+      code_type:
+        header: "Code Type"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["near_oem","supplier_sku"]}
+      code_value:       {header: "Code Value",     width: 26, data_type: "text"}
+      token_key:        {header: "Token Key",      width: 12, data_type: "text"}
+      token_value:      {header: "Token Value",    width: 18, data_type: "text"}
+      token_meaning:    {header: "Token Meaning",  width: 24, data_type: "text", nullable: true}
+      token_order:      {header: "Order",          width: 8,  data_type: "integer"}
+      validity:
+        header: "Validity"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["primary","derived","ambiguous"]}
+      page:             {header: "Page #",         width: 8,  data_type: "integer", nullable: true}
+      pdf_id:           {header: "PDF ID",         width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+      notes:            {header: "Notes",          width: 40, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 17) Calidad e histórico
+  # ---------------------------------------------------------
+  issues:
+    name: "Issues"
+    description: "Observaciones y problemas detectados"
+    order: 19
+    protected: true
+    columns:
+      item_id:    {header: "Item ID", width: 12, data_type: "integer", foreign_key: "items_detailed.item_id", nullable: true}
+      field:      {header: "Field",   width: 18, data_type: "text"}
+      value:      {header: "Value",   width: 26, data_type: "text", nullable: true}
+      problem:    {header: "Problem", width: 30, data_type: "text"}
+      page:       {header: "Page #",  width: 8,  data_type: "integer", nullable: true}
+      suggestion: {header: "Suggestion", width: 30, data_type: "text", nullable: true}
+      created_at: {header: "Created At", width: 20, data_type: "date"}
+
+  history:
+    name: "History"
+    description: "Histórico de cambios de campos estructurados"
+    order: 20
+    protected: true
+    columns:
+      item_id:    {header: "Item ID",    width: 12, data_type: "integer", foreign_key: "items_detailed.item_id"}
+      field:      {header: "Field",      width: 18, data_type: "text"}
+      old_value:  {header: "Old Value",  width: 24, data_type: "text", nullable: true}
+      new_value:  {header: "New Value",  width: 24, data_type: "text", nullable: true}
+      pdf_id:     {header: "PDF ID",     width: 10, data_type: "integer", foreign_key: "pdfs.pdf_id", nullable: true}
+      changed_at: {header: "Changed At", width: 20, data_type: "date"}
+
+  # ---------------------------------------------------------
+  # 18) Dimensiones (catálogos)
+  # ---------------------------------------------------------
+  dim_supplier:
+    name: "00_Dim_Supplier"
+    order: 21
+    columns:
+      supplier_id:   {header: "Supplier ID",  width: 12, data_type: "text", primary_key: true}
+      supplier_name: {header: "Supplier",     width: 22, data_type: "text"}
+
+  dim_country:
+    name: "00_Dim_Country"
+    order: 22
+    columns:
+      country_code: {header: "Country Code", width: 12, data_type: "integer", primary_key: true}
+      country_name: {header: "Country",      width: 22, data_type: "text"}
+
+  dim_maker:
+    name: "00_Dim_Maker"
+    order: 23
+    columns:
+      maker_code: {header: "Maker Code", width: 12, data_type: "text", primary_key: true}
+      maker_name: {header: "Maker",      width: 22, data_type: "text"}
+
+  dim_product_type:
+    name: "00_Dim_Product_Type"
+    order: 24
+    columns:
+      product_type_code: {header: "Product Type Code", width: 18, data_type: "text", primary_key: true}
+      product_type_name: {header: "Product Type",      width: 26, data_type: "text"}
+      parent_code:       {header: "Parent Code",       width: 16, data_type: "text", nullable: true}
+
+  dim_side:
+    name: "00_Dim_Side"
+    order: 25
+    columns:
+      side_code: {header: "Side Code", width: 8,  data_type: "text", primary_key: true}
+      side_name: {header: "Side",      width: 12, data_type: "text"}
+
+  dim_drive:
+    name: "00_Dim_Drive"
+    order: 26
+    columns:
+      drive_code: {header: "Drive Code", width: 8,  data_type: "text", primary_key: true}
+      drive_name: {header: "Drive",      width: 12, data_type: "text"}
+
+  dim_classification:
+    name: "00_Dim_Classification"
+    order: 27
+    columns:
+      class_code: {header: "Class Code", width: 8,  data_type: "text", primary_key: true}
+      desc_es:    {header: "Description",width: 24, data_type: "text"}
+
+  dim_certification:
+    name: "00_Dim_Certification"
+    order: 28
+    columns:
+      cert_code:
+        header: "Cert Code"
+        width: 10
+        data_type: "text"
+        primary_key: true
+        validation: {type: "list", source: ["S","E","Q","C","D","-"]}
+      cert_desc: {header: "Description", width: 24, data_type: "text"}
+
+  dim_base_color:
+    name: "00_Dim_Base_Color"
+    order: 29
+    columns:
+      base_code:    {header: "Base Code", width: 8,  data_type: "text", primary_key: true}
+      base_desc_es: {header: "Description",width: 24, data_type: "text"}
+
+  dim_socket_feature:
+    name: "00_Dim_Socket_Feature"
+    order: 30
+    columns:
+      socket_code:    {header: "Socket Code", width: 8,  data_type: "text", primary_key: true}
+      socket_desc_es: {header: "Description", width: 24, data_type: "text"}
+
+  dim_lens_i:
+    name: "00_Dim_Lens_I"
+    order: 31
+    columns:
+      lens_i:  {header: "Lens I",    width: 8,  data_type: "text", primary_key: true}
+      desc_es: {header: "Description",width: 24, data_type: "text"}
+
+  dim_lens_j:
+    name: "00_Dim_Lens_J"
+    order: 32
+    columns:
+      lens_j:  {header: "Lens J",    width: 8,  data_type: "text", primary_key: true}
+      desc_es: {header: "Description",width: 24, data_type: "text"}
+
+  dim_bulb:
+    name: "00_Dim_Bulb"
+    order: 33
+    columns:
+      bulb_code: {header: "Bulb Code", width: 12, data_type: "text", primary_key: true}
+      bulb_name: {header: "Bulb Name", width: 24, data_type: "text"}
+
+  dim_feature:
+    name: "00_Dim_Feature"
+    order: 34
+    columns:
+      feature_code: {header: "Feature Code", width: 16, data_type: "text", primary_key: true}
+      feature_name: {header: "Feature",      width: 24, data_type: "text"}
+      category:
+        header: "Category"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["lighting","mirror","handle","generic"]}
+
+  dim_highlight_status:
+    name: "00_Dim_Highlight_Status"
+    order: 35
+    columns:
+      pdf_text_color:
+        header: "PDF Text Color"
+        width: 16
+        data_type: "text"
+        primary_key: true
+        validation: {type: "list", source: ["pink","blue","light_green","red","unknown"]}
+      homologation_status:
+        header: "Homologation"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["homologado","no_homologado","non_us","tba","unknown"]}
+      notes: {header: "Notes", width: 30, data_type: "text", nullable: true}
+
+  dim_code_system:
+    name: "00_Dim_Code_System"
+    order: 36
+    columns:
+      code_system_code: {header: "Code System", width: 18, data_type: "text", primary_key: true}
+      description:      {header: "Description", width: 30, data_type: "text"}
+
+
+  # ---------------------------------------------------------
+  # 40) Productos (e-commerce opcional)
+  # ---------------------------------------------------------
+  products:
+    name: "Products"
+    description: "Catálogo de productos del e-commerce (mapea a items si aplica)"
+    order: 40
+    protected: true
+    columns:
+      product_id:   {header: "Product ID",   width: 18, data_type: "text",    primary_key: true}
+      product_sku:  {header: "Product SKU",  width: 18, data_type: "text",    nullable: true}
+      product_name: {header: "Product Name", width: 30, data_type: "text"}
+      status:
+        header: "Status"
+        width: 12
+        data_type: "text"
+        validation: {type: "list", source: ["active","inactive","draft"]}
+      created_at:   {header: "Created At",   width: 20, data_type: "date",    nullable: true}
+      notes:        {header: "Notes",        width: 30, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 41) Mapeo Product ↔ Item (roles visuales)
+  # ---------------------------------------------------------
+  product_item_map:
+    name: "Product↔Item Map"
+    description: "Asociación de productos de e-commerce con items normalizados"
+    order: 41
+    protected: true
+    columns:
+      product_id:  {header: "Product ID",  width: 18, data_type: "text",    foreign_key: "products.product_id",      primary_key: true}
+      item_id:     {header: "Item ID",     width: 12, data_type: "integer", foreign_key: "items_detailed.item_id",   primary_key: true}
+      role_uso:
+        header: "Role Uso"
+        width: 18
+        data_type: "text"
+        validation: {type: "list", source: ["portada","galeria","especificaciones","repuesto","alterno"]}
+      sort_order:  {header: "Sort Order",  width: 10, data_type: "integer", default_value: 0}
+      is_primary:  {header: "Primary",     width: 10, data_type: "boolean", format: "TRUE/FALSE", default_value: false}
+
+  # ---------------------------------------------------------
+  # 42) Reseñas de clientes (con multimedia)
+  # ---------------------------------------------------------
+  reviews:
+    name: "Reviews"
+    description: "Reseñas/valoraciones de clientes aplicables a productos y/o items"
+    order: 42
+    protected: true
+    columns:
+      review_id:           {header: "Review ID",        width: 12, data_type: "integer", primary_key: true}
+      product_id:          {header: "Product ID",       width: 18, data_type: "text",    foreign_key: "products.product_id",      nullable: true}
+      item_id:             {header: "Item ID",          width: 12, data_type: "integer", foreign_key: "items_detailed.item_id",   nullable: true}
+      user_id:             {header: "User ID",          width: 18, data_type: "text"}
+      rating:
+        header: "Rating"
+        width: 8
+        data_type: "integer"
+        validation: {type: "whole", minimum: 1, maximum: 5}
+      comment:             {header: "Comment",          width: 50, data_type: "text",    nullable: true}
+      moderation_status:
+        header: "Moderation"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["pending","approved","rejected"]}
+      likes_count:         {header: "Likes",            width: 10, data_type: "integer", default_value: 0}
+      reports_count:       {header: "Reports",          width: 10, data_type: "integer", default_value: 0}
+      helpful_count:       {header: "Helpful",          width: 10, data_type: "integer", default_value: 0}
+      created_at:          {header: "Created At",       width: 20, data_type: "date"}
+
+  review_media:
+    name: "Review Media"
+    description: "Relación reseña↔multimedia (múltiples adjuntos por reseña)"
+    order: 43
+    protected: true
+    columns:
+      review_id:  {header: "Review ID", width: 12, data_type: "integer", foreign_key: "reviews.review_id",      primary_key: true}
+      media_id:   {header: "Media ID",  width: 12, data_type: "integer", foreign_key: "media_files.media_id",   primary_key: true}
+      role:
+        header: "Role"
+        width: 16
+        data_type: "text"
+        validation: {type: "list", source: ["principal","galeria","evidencia"]}
+      sort_order: {header: "Sort Order", width: 10, data_type: "integer", default_value: 0}
+
+  # ---------------------------------------------------------
+  # 44) Métricas de uso (agregadas por día)
+  # ---------------------------------------------------------
+  media_metrics_daily:
+    name: "Media Metrics Daily"
+    description: "Métricas de consumo/engagement por media y día (para reporting)"
+    order: 44
+    protected: true
+    columns:
+      media_id:     {header: "Media ID",   width: 12, data_type: "integer", foreign_key: "media_files.media_id", primary_key: true}
+      date:         {header: "Date",       width: 14, data_type: "date",    primary_key: true}
+      views:        {header: "Views",      width: 10, data_type: "integer", default_value: 0}
+      clicks:       {header: "Clicks",     width: 10, data_type: "integer", default_value: 0}
+      downloads:    {header: "Downloads",  width: 12, data_type: "integer", default_value: 0}
+      likes:        {header: "Likes",      width: 10, data_type: "integer", default_value: 0}
+      bandwidth_mb: {header: "Bandwidth (MB)", width: 16, data_type: "decimal", format: "0.00", nullable: true}
+
+
+  # ---------------------------------------------------------
+  # 37) Dimensión de Mercados
+  # ---------------------------------------------------------
+  dim_market:
+    name: "00_Dim_Market"
+    order: 37
+    columns:
+      market_code: {header: "Market Code", width: 12, data_type: "text", primary_key: true}
+      market_name: {header: "Market",      width: 22, data_type: "text"}
+
+  # ---------------------------------------------------------
+  # 38) Dimensión de Variantes (SKU/visual)
+  # ---------------------------------------------------------
+  dim_variant:
+    name: "00_Dim_Variant"
+    order: 38
+    columns:
+      variant_code: {header: "Variant Code", width: 14, data_type: "text", primary_key: true}
+      variant_name: {header: "Variant Name", width: 24, data_type: "text", nullable: true}
+      category:
+        header: "Category"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["pack","trim","lens","electrical","other"]}
+
+  # ---------------------------------------------------------
+  # 39) Dimensión de Pack Variants
+  # ---------------------------------------------------------
+  dim_pack_variant:
+    name: "00_Dim_Pack_Variant"
+    order: 39
+    columns:
+      pack_variant: {header: "Pack Variant", width: 12, data_type: "text", primary_key: true}
+      description:  {header: "Description",  width: 24, data_type: "text", nullable: true}
+
+  # ---------------------------------------------------------
+  # 45) Producto Ranking
+  # ---------------------------------------------------------
+  product_ranking:
+    name: "Product Ranking"
+    description: "Puntaje dinámico para posicionamiento (0-100)"
+    order: 45
+    protected: true
+    columns:
+      product_id:       {header: "Product ID",     width: 18, data_type: "text",    foreign_key: "products.product_id", primary_key: true}
+      score_ranking:    {header: "Score Ranking",  width: 14, data_type: "decimal", format: "0.00"}
+      rotation_weekly:  {header: "Weekly Rotation",width: 14, data_type: "integer", nullable: true}
+      conversion_rate:  {header: "Conversion Rate",width: 16, data_type: "decimal", format: "0.000", nullable: true}
+      returns_rate:     {header: "Returns Rate",   width: 14, data_type: "decimal", format: "0.000", nullable: true}
+      updated_at:       {header: "Updated At",     width: 20, data_type: "date",    nullable: true}
+      
+
+  # ---------------------------------------------------------
+  # 46) Producto Recomendaciones (ML)
+  # ---------------------------------------------------------
+  product_recommendations:
+    name: "Product Recommendations"
+    description: "Relaciones producto→producto con puntaje de confianza"
+    order: 46
+    protected: true
+    columns:
+      product_id:             {header: "Product ID",         width: 18, data_type: "text", foreign_key: "products.product_id", primary_key: true}
+      recommended_product_id: {header: "Recommended Product", width: 22, data_type: "text", foreign_key: "products.product_id", primary_key: true}
+      score_confidence:       {header: "Score Confidence",   width: 16, data_type: "decimal", format: "0.000", default_value: 0.90}
+      rationale:              {header: "Rationale",          width: 40, data_type: "text",    nullable: true}
+
+  # ---------------------------------------------------------
+  # 47) User Preferences (personalización)
+  # ---------------------------------------------------------
+  user_preferences:
+    name: "User Preferences"
+    description: "Preferencias y señales de usuario para personalización"
+    order: 47
+    protected: true
+    columns:
+      user_id:               {header: "User ID",            width: 18, data_type: "text", primary_key: true}
+      search_history_json:   {header: "Search History JSON",width: 60, data_type: "text", nullable: true}
+      recent_purchases_json: {header: "Recent Purchases JSON", width: 60, data_type: "text", nullable: true}
+      last_updated:          {header: "Last Updated",       width: 20, data_type: "date", nullable: true}
+
+  # ---------------------------------------------------------
+  # 48) Dim Maker Alias (reconciliación)
+  # ---------------------------------------------------------
+  dim_maker_alias:
+    name: "00_Dim_Maker_Alias"
+    order: 48
+    columns:
+      maker_code:  {header: "Maker Code",  width: 12, data_type: "text", foreign_key: "dim_maker.maker_code", primary_key: true}
+      maker_alias: {header: "Maker Alias", width: 22, data_type: "text", primary_key: true}
+
+  # ---------------------------------------------------------
+  # 49) Dim Model Alias (reconciliación)
+  # ---------------------------------------------------------
+  dim_model_alias:
+    name: "00_Dim_Model_Alias"
+    order: 49
+    columns:
+      maker_code:   {header: "Maker Code",   width: 12, data_type: "text", foreign_key: "dim_maker.maker_code", primary_key: true}
+      model_alias:  {header: "Model Alias",  width: 24, data_type: "text", primary_key: true}
+      model_name:   {header: "Model",        width: 24, data_type: "text"}
+      alias_type:
+        header: "Alias Type"
+        width: 14
+        data_type: "text"
+        validation: {type: "list", source: ["exact","spacing","case","language","synonym","typo"]}
+      confidence:   {header: "Confidence",   width: 12, data_type: "decimal", format: "0.00", nullable: true}
+      source:       {header: "Source",       width: 24, data_type: "text",    nullable: true}
+      notes:        {header: "Notes",        width: 30, data_type: "text",    nullable: true}
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/schema/features.yaml
+PROPOSITO: Taxonomia de caracteristicas
+TAMAÃ‘O: 0 bytes
+================================================================================
+POWER_FOLDING:
+        code: "POWER_FOLDING"
+        name: "Power Folding"
+        description: "Plegado eléctrico automático"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["folding", "electric_folding", "auto_fold"]
+        
+      POWER_ADJUSTMENT:
+        code: "POWER_ADJUSTMENT"
+        name: "Power Adjustment"
+        description: "Ajuste eléctrico de posición"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["electric_adjustment", "power_adjust", "motorized"]
+        
+      MANUAL_ADJUSTMENT:
+        code: "MANUAL_ADJUSTMENT"
+        name: "Manual Adjustment"
+        description: "Ajuste manual de posición"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["manual", "manual_adjust", "hand_adjust"]
+
+  SECURITY_FEATURES:
+    name: "Security & Access Features"
+    description: "Características de seguridad y acceso"
+    icon: "🔐"
+    features:
+      WITH_KEYHOLE:
+        code: "WITH_KEYHOLE"
+        name: "With Keyhole"
+        description: "Incluye cerradura con llave"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["keyhole", "key_hole", "lock_cylinder", "with_lock"]
+        
+      WITHOUT_KEYHOLE:
+        code: "WITHOUT_KEYHOLE"
+        name: "Without Keyhole"
+        description: "Sin cerradura de llave"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["no_keyhole", "no_key_hole", "keyless"]
+        
+      CENTRAL_LOCKING:
+        code: "CENTRAL_LOCKING"
+        name: "Central Locking"
+        description: "Sistema de cierre centralizado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["central_lock", "remote_lock", "power_lock"]
+        
+      ANTI_THEFT:
+        code: "ANTI_THEFT"
+        name: "Anti-theft Feature"
+        description: "Función anti-robo"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["antitheft", "security", "theft_protection"]
+
+  OPTICAL_FEATURES:
+    name: "Optical & Vision Features"
+    description: "Características ópticas y de visión"
+    icon: "👁️"
+    features:
+      WIDE_ANGLE:
+        code: "WIDE_ANGLE"
+        name: "Wide Angle View"
+        description: "Vista gran angular"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["wide_view", "panoramic", "extended_view"]
+        
+      CONVEX_MIRROR:
+        code: "CONVEX_MIRROR"
+        name: "Convex Mirror"
+        description: "Espejo convexo para mayor visión"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["convex", "curved_mirror", "fish_eye"]
+        
+      PROJECTOR_LENS:
+        code: "PROJECTOR_LENS"
+        name: "Projector Lens"
+        description: "Lente tipo proyector"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["projector", "focused_beam", "hid_projector"]
+        
+      REFLECTOR_TYPE:
+        code: "REFLECTOR_TYPE"
+        name: "Reflector Type"
+        description: "Tipo reflector tradicional"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["reflector", "parabolic", "traditional"]
+        
+      CLEAR_LENS:
+        code: "CLEAR_LENS"
+        name: "Clear Lens"
+        description: "Lente transparente/cristalino"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["clear", "transparent", "crystal"]
+        
+      SMOKE_LENS:
+        code: "SMOKE_LENS"
+        name: "Smoke Lens"
+        description: "Lente ahumado/oscuro"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["smoke", "dark", "tinted", "smoked"]
+
+  ELECTRICAL_FEATURES:
+    name: "Electrical Features"
+    description: "Características eléctricas"
+    icon: "⚡"
+    features:
+      ELEC:
+        code: "ELEC"
+        name: "Electrical Connection"
+        description: "Requiere conexión eléctrica"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["electric", "electrical", "wired"]
+        
+      WITH_BULB:
+        code: "WITH_BULB"
+        name: "Bulb Included"
+        description: "Incluye bombilla/bulbo"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["bulb_included", "with_lamp", "lamp_included"]
+        
+      WITHOUT_BULB:
+        code: "WITHOUT_BULB"
+        name: "Bulb Not Included"
+        description: "No incluye bombilla/bulbo"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["no_bulb", "bulb_separate", "housing_only"]
+        
+      PLUG_AND_PLAY:
+        code: "PLUG_AND_PLAY"
+        name: "Plug and Play"
+        description: "Instalación directa sin modificaciones"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["plug_play", "direct_fit", "oem_connector"]
+        
+      WIRING_HARNESS:
+        code: "WIRING_HARNESS"
+        name: "Wiring Harness Included"
+        description: "Incluye arnés de cableado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["harness", "wiring", "connector_kit"]
+
+  FINISH_STYLE:
+    name: "Finish & Style Features"
+    description: "Características de acabado y estilo"
+    icon: "🎨"
+    features:
+      BLACK_HOUSING:
+        code: "BLACK_HOUSING"
+        name: "Black Housing"
+        description: "Carcasa/housing negro"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["black", "matte_black", "textured_black"]
+        
+      CHROME_FINISH:
+        code: "CHROME_FINISH"
+        name: "Chrome Finish"
+        description: "Acabado cromado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["chrome", "chromium", "polished_chrome"]
+        
+      CLEAR_HOUSING:
+        code: "CLEAR_HOUSING"
+        name: "Clear Housing"
+        description: "Carcasa transparente"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["clear", "transparent", "crystal_clear"]
+        
+      TEXTURED_FINISH:
+        code: "TEXTURED_FINISH"
+        name: "Textured Finish"
+        description: "Acabado texturizado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["textured", "grain", "stippled"]
+        
+      PAINTED_FINISH:
+        code: "PAINTED_FINISH"
+        name: "Painted Finish"
+        description: "Acabado pintado"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["painted", "color_matched", "factory_paint"]
+
+# Mapeos específicos por proveedor
+vendor_mappings:
+  depo:
+    # DEPO usa principalmente códigos simples
+    feature_patterns:
+      "ELEC": "ELEC"
+      "MOTOR": "MOTOR"
+      "LED": "LED"
+      "DRL": "LED_DRL"
+      "WITH BULB": "WITH_BULB"
+      "NO BULB": "WITHOUT_BULB"
+      
+  yuto:
+    # YUTO es más específico con features LED
+    feature_patterns:
+      "LED": "LED"
+      "LED DRL": "LED_DRL"
+      "LED Turn": "LED_TURN"
+      "Sequential": "SEQUENTIAL_TURN"
+      "Puddle": "LED_PUDDLE"
+      "Heat": "HEATED"
+      "Heated": "HEATED"
+      "CANBus": "CANBUS_READY"
+      "Error Free": "CANBUS_READY"
+      
+  hushan:
+    # HUSHAN se enfoca en espejos y manijas
+    feature_patterns:
+      "keyhole": "WITH_KEYHOLE"
+      "smart key": "SMART_KEY_SENSOR"
+      "heated": "HEATED_MIRROR"
+      "power": "POWER_ADJUSTMENT"
+      "folding": "POWER_FOLDING"
+      "memory": "MEMORY_FUNCTION"
+      "auto dim": "AUTO_DIMMING"
+      "blind spot": "BLIND_SPOT"
+      "Black": "BLACK_HOUSING"
+      "Chrome": "CHROME_FINISH"
+      "Clear": "CLEAR_HOUSING"
+
+# Reglas de validación y compatibilidad
+validation_rules:
+  # Features mutuamente excluyentes
+  mutually_exclusive:
+    - ["WITH_KEYHOLE", "WITHOUT_KEYHOLE"]
+    - ["WITH_BULB", "WITHOUT_BULB"] 
+    - ["POWER_ADJUSTMENT", "MANUAL_ADJUSTMENT"]
+    - ["BLACK_HOUSING", "CHROME_FINISH", "CLEAR_HOUSING"]
+    - ["CLEAR_LENS", "SMOKE_LENS"]
+    - ["PROJECTOR_LENS", "REFLECTOR_TYPE"]
+    
+  # Features que requieren otros features
+  dependencies:
+    SEQUENTIAL_TURN:
+      requires: ["LED_TURN"]
+    LED_DRL:
+      requires: ["LED"]
+    HEATED_MIRROR:
+      requires: ["HEATED"]
+    AUTO_DIMMING:
+      requires: ["POWER_ADJUSTMENT"]
+    MEMORY_FUNCTION:
+      requires: ["POWER_ADJUSTMENT"]
+      
+  # Features típicos por tipo de producto
+  product_type_features:
+    HEAD_LAMP:
+      common: ["LED", "LED_DRL", "PROJECTOR_LENS", "CLEAR_LENS"]
+      rare: ["LED", "HEATED", "MOTOR"]
+
+# Configuración de detección automática
+auto_detection:
+  # Patrones de texto para detectar features automáticamente
+  text_patterns:
+    LED:
+      patterns: ["LED", "Light Emitting Diode"]
+      confidence: 0.9
+      
+    LED_DRL:
+      patterns: ["DRL", "Daytime Running", "Running Light"]
+      confidence: 0.8
+      
+    HEATED:
+      patterns: ["Heat", "Heated", "Defrost", "Anti-fog"]
+      confidence: 0.8
+      
+    WITH_KEYHOLE:
+      patterns: ["with keyhole", "w/ keyhole", "key hole", "lock cylinder"]
+      confidence: 0.9
+      
+    SMART_KEY_SENSOR:
+      patterns: ["smart key", "proximity sensor", "keyless", "sensor"]
+      confidence: 0.7
+      
+    SEQUENTIAL_TURN:
+      patterns: ["sequential", "dynamic", "flowing", "progressive"]
+      confidence: 0.8
+      
+    POWER_FOLDING:
+      patterns: ["power fold", "electric fold", "auto fold", "motorized fold"]
+      confidence: 0.9
+      
+    CHROME_FINISH:
+      patterns: ["chrome", "chromium", "polished chrome"]
+      confidence: 0.9
+      
+    BLACK_HOUSING:
+      patterns: ["black housing", "matte black", "textured black"]
+      confidence: 0.8
+
+# Configuración de combinaciones comunes
+feature_combinations:
+  # Combinaciones frecuentes que van juntas
+  common_combinations:
+    led_package:
+      features: ["LED", "LED_DRL", "LED_TURN"]
+      description: "Paquete LED completo"
+      
+    smart_mirror:
+      features: ["HEATED_MIRROR", "POWER_ADJUSTMENT", "MEMORY_FUNCTION"]
+      description: "Espejo inteligente con todas las funciones"
+      
+    luxury_door_handle:
+      features: ["SMART_KEY_SENSOR", "CHROME_FINISH", "CENTRAL_LOCKING"]
+      description: "Manija de lujo con sensor"
+      
+    basic_door_handle:
+      features: ["WITH_KEYHOLE", "BLACK_HOUSING", "MANUAL_ADJUSTMENT"]
+      description: "Manija básica con llave"
+      
+    premium_headlamp:
+      features: ["LED", "LED_DRL", "PROJECTOR_LENS", "SEQUENTIAL_TURN"]
+      description: "Faro premium LED con proyector"
+
+# Configuración de scoring y prioridad
+scoring:
+  # Peso de cada feature para cálculos de similitud
+  feature_weights:
+    LED: 2.0
+    LED_DRL: 1.8
+    HEATED: 1.5
+    WITH_KEYHOLE: 1.5
+    SMART_KEY_SENSOR: 2.0
+    MOTOR: 1.8
+    SEQUENTIAL_TURN: 1.7
+    POWER_FOLDING: 1.6
+    CHROME_FINISH: 1.2
+    BLACK_HOUSING: 1.0
+    
+  # Features críticos que deben coincidir exactamente
+  critical_features:
+    - "WITH_KEYHOLE"
+    - "WITHOUT_KEYHOLE"
+    - "LED"
+    - "HEATED"
+    - "MOTOR"
+
+# Configuración de exportación/importación
+export_settings:
+  # Campos a incluir en exportaciones
+  include_in_export:
+    - "code"
+    - "name" 
+    - "description"
+    - "data_type"
+    - "category"
+    
+  # Formatos de export soportados
+  supported_formats:
+    - "json"
+    - "csv"
+    - "excel"
+    - "xml"
+    
+  # Configuración de aliases en export
+  export_aliases: true
+  flatten_categories: false
+
+# Configuración de localización
+localization:
+  supported_languages: ["en", "es", "fr", "de", "zh"]
+  default_language: "en"
+  
+  translations:
+    es:
+      LED: "LED"
+      HEATED: "Calefaccionado"
+      WITH_KEYHOLE: "Con cerradura"
+      SMART_KEY_SENSOR: "Sensor de llave inteligente"
+      POWER_FOLDING: "Plegado eléctrico"
+      
+# Configuración de migración y versioning
+versioning:
+  current_version: "1.0"
+  backward_compatible_versions: ["0.9", "0.8"]
+  
+  migration_rules:
+    "0.9_to_1.0":
+      renamed_features:
+        "KEYHOLE": "WITH_KEYHOLE"
+        "NO_KEYHOLE": "WITHOUT_KEYHOLE"
+        "ELECTRIC": "ELEC"
+      
+      new_features:
+        - "SEQUENTIAL_TURN"
+        - "CANBUS_READY"
+        - "BLIND_SPOT"
+
+# Configuración de cache y performance
+performance:
+  cache_enabled: true
+  cache_size_mb: 10
+  preload_common_features: true
+  
+  indexing:
+    index_by_code: true
+    index_by_alias: true
+    index_by_category: true
+    full_text_search: true
+
+# Configuración de logging específico
+logging:
+  log_feature_detection: true
+  log_validation_errors: true
+  log_performance_metrics: true
+  log_level: "INFO" ["HEATED", "WITH_KEYHOLE"]
+      
+    TAIL_LAMP:
+      common: ["LED", "LED_TURN", "SEQUENTIAL_TURN", "CLEAR_LENS"]
+      rare: ["HEATED", "MOTOR"]
+      
+    SIDE_MIRROR:
+      common: ["HEATED_MIRROR", "POWER_ADJUSTMENT", "TURN_SIGNAL"]
+      rare: ["LED_DRL", "PROJECTOR_LENS"]
+      
+    DOOR_HANDLE:
+      common: ["WITH_KEYHOLE", "SMART_KEY_SENSOR", "BLACK_HOUSING"]
+      rare:# Taxonomía de características (features) para ImagenesPDF
+# Sistema de procesamiento de catálogos PDF de autopartes
+
+metadata:
+  version: "1.0"
+  description: "Taxonomía completa de características de autopartes"
+  last_updated: "2024-01-15"
+  total_categories: 8
+  extensible: true
+
+# Categorías principales de features
+categories:
+  
+  LED_TECHNOLOGY:
+    name: "LED Technology Features"
+    description: "Características relacionadas con tecnología LED"
+    icon: "💡"
+    features:
+      LED:
+        code: "LED"
+        name: "LED Technology"
+        description: "Utiliza tecnología LED"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["led", "LED_TECH", "LED_TECHNOLOGY"]
+        
+      LED_DRL:
+        code: "LED_DRL" 
+        name: "LED Daytime Running Lights"
+        description: "Luces diurnas LED integradas"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["drl", "DRL", "daytime_running", "running_lights"]
+        
+      LED_TURN:
+        code: "LED_TURN"
+        name: "LED Turn Signals"
+        description: "Señales de giro LED"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["led_signal", "turn_led", "signal_led"]
+        
+      SEQUENTIAL_TURN:
+        code: "SEQUENTIAL_TURN"
+        name: "Sequential Turn Signal"
+        description: "Señal de giro secuencial/dinámica"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["sequential", "dynamic_turn", "flowing_turn"]
+        
+      LED_PUDDLE:
+        code: "LED_PUDDLE"
+        name: "LED Puddle Lamp"
+        description: "Lámpara LED de cortesía en piso"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["puddle_lamp", "courtesy_light", "ground_light"]
+        
+      CANBUS_READY:
+        code: "CANBUS_READY"
+        name: "CANBus Compatible"
+        description: "Compatible con sistema CANBus sin errores"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["canbus", "error_free", "no_error", "can_bus"]
+
+  HEATING_FEATURES:
+    name: "Heating Features"
+    description: "Características de calefacción"
+    icon: "🔥"
+    features:
+      HEATED:
+        code: "HEATED"
+        name: "Heated Function"
+        description: "Función de calefacción integrada"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["heated", "heating", "defrost"]
+        
+      HEATED_MIRROR:
+        code: "HEATED_MIRROR"
+        name: "Heated Mirror Glass"
+        description: "Cristal de espejo con desempañador"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["heated_glass", "defrost_mirror", "anti_fog"]
+        
+      HEATED_LENS:
+        code: "HEATED_LENS"
+        name: "Heated Lens"
+        description: "Lente con sistema de calefacción"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["lens_heating", "defrost_lens"]
+
+  SMART_FEATURES:
+    name: "Smart Technology Features"
+    description: "Características de tecnología inteligente"
+    icon: "🧠"
+    features:
+      SMART_KEY_SENSOR:
+        code: "SMART_KEY_SENSOR"
+        name: "Smart Key Sensor"
+        description: "Sensor para llave inteligente"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["smart_key", "proximity_sensor", "keyless_sensor"]
+        
+      AUTO_DIMMING:
+        code: "AUTO_DIMMING"
+        name: "Auto Dimming"
+        description: "Función de oscurecimiento automático"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["auto_dim", "electrochromic", "self_dimming"]
+        
+      MEMORY_FUNCTION:
+        code: "MEMORY_FUNCTION"
+        name: "Memory Function"
+        description: "Memoria de posiciones"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["memory", "position_memory", "recall_function"]
+        
+      BLIND_SPOT:
+        code: "BLIND_SPOT"
+        name: "Blind Spot Detection"
+        description: "Detección de punto ciego"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["blind_spot_detection", "bsd", "side_detection"]
+
+  MOTOR_FEATURES:
+    name: "Motor & Movement Features"
+    description: "Características de motor y movimiento"
+    icon: "⚙️"
+    features:
+      MOTOR:
+        code: "MOTOR"
+        name: "Motor Included"
+        description: "Incluye motor eléctrico"
+        data_type: "boolean"
+        default_value: false
+        aliases: ["motor", "electric_motor", "actuator"]
+        
+      POWER_FOLDING:
+        code: "POWER_FOLDING
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/utils_fs.py
+PROPOSITO: Utilidades del sistema de archivos
+TAMAÃ‘O: 0 bytes
+================================================================================
+"""
+Utilidades del sistema de archivos para ImagenesPDF.
+
+Proporciona funciones para:
+- Cálculo de hashes SHA256 (detección de cambios en PDFs)
+- Gestión de directorios de salida (out/xlsx, out/csv, out/images, etc.)
+- Validación de archivos PDF
+- Operaciones seguras de archivos con respaldo
+- Limpieza y organización de archivos
+- Detección de cambios y sincronización
+
+Usado por todos los módulos para operaciones de archivos consistentes.
+"""
+
+import os
+import shutil
+import hashlib
+from pathlib import Path
+from typing import Optional, List, Dict, Any, Union, Tuple, Iterator
+from datetime import datetime, timezone
+import json
+import tempfile
+from dataclasses import dataclass, asdict
+from contextlib import contextmanager
+import time
+
+from .logging_setup import get_logger
+
+logger = get_logger(__name__)
+
+
+@dataclass
+class FileInfo:
+    """Información detallada de un archivo."""
+    path: Path
+    size: int
+    modified_time: datetime
+    sha256: str
+    exists: bool = True
+    
+    @classmethod
+    def from_path(cls, path: Union[str, Path]) -> Optional['FileInfo']:
+        """Crear FileInfo desde ruta de archivo."""
+        path = Path(path)
+        if not path.exists():
+            return cls(path=path, size=0, modified_time=datetime.now(timezone.utc), 
+                      sha256="", exists=False)
+        
+        try:
+            stat = path.stat()
+            return cls(
+                path=path,
+                size=stat.st_size,
+                modified_time=datetime.fromtimestamp(stat.st_mtime, timezone.utc),
+                sha256=calculate_file_hash(path),
+                exists=True
+            )
+        except Exception as e:
+            logger.error(f"Error obteniendo info de archivo {path}", error=str(e))
+            return None
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convertir a diccionario serializable."""
+        return {
+            'path': str(self.path),
+            'size': self.size,
+            'modified_time': self.modified_time.isoformat(),
+            'sha256': self.sha256,
+            'exists': self.exists
+        }
+
+
+@dataclass
+class DirectoryStructure:
+    """Estructura de directorios del proyecto."""
+    base_dir: Path
+    input_dir: Path
+    output_dir: Path
+    images_dir: Path
+    flat_images_dir: Path
+    xlsx_dir: Path
+    csv_dir: Path
+    logs_dir: Path
+    
+    @classmethod
+    def from_base(cls, base_path: Union[str, Path]) -> 'DirectoryStructure':
+        """Crear estructura desde directorio base."""
+        base = Path(base_path)
+        return cls(
+            base_dir=base,
+            input_dir=base / "input" / "pdfs",
+            output_dir=base / "out",
+            images_dir=base / "out" / "images",
+            flat_images_dir=base / "out" / "images" / "_flat",
+            xlsx_dir=base / "out" / "xlsx",
+            csv_dir=base / "out" / "csv",
+            logs_dir=base / "out" / "logs"
+        )
+    
+    def create_all(self) -> None:
+        """Crear todos los directorios."""
+        for directory in [self.input_dir, self.output_dir, self.images_dir, 
+                         self.flat_images_dir, self.xlsx_dir, self.csv_dir, self.logs_dir]:
+            directory.mkdir(parents=True, exist_ok=True)
+            logger.debug(f"Directorio asegurado: {directory}")
+
+
+def calculate_file_hash(file_path: Union[str, Path], chunk_size: int = 8192) -> str:
+    """
+    Calcular hash SHA256 de un archivo.
+    
+    Args:
+        file_path: Ruta del archivo
+        chunk_size: Tamaño del chunk para lectura (optimización memoria)
+        
+    Returns:
+        Hash SHA256 en hexadecimal
+    """
+    sha256_hash = hashlib.sha256()
+    
+    try:
+        with open(file_path, "rb") as f:
+            for chunk in iter(lambda: f.read(chunk_size), b""):
+                sha256_hash.update(chunk)
+        return sha256_hash.hexdigest()
+    except Exception as e:
+        logger.error(f"Error calculando hash de {file_path}", error=str(e))
+        return ""
+
+
+def calculate_directory_hash(directory: Union[str, Path], 
+                           include_patterns: Optional[List[str]] = None,
+                           exclude_patterns: Optional[List[str]] = None) -> str:
+    """
+    Calcular hash colectivo de archivos en directorio.
+    
+    Args:
+        directory: Directorio a procesar
+        include_patterns: Patrones de archivos a incluir (ej: ["*.pdf", "*.yaml"])
+        exclude_patterns: Patrones de archivos a excluir
+        
+    Returns:
+        Hash SHA256 combinado de todos los archivos
+    """
+    directory = Path(directory)
+    if not directory.exists():
+        return ""
+    
+    sha256_hash = hashlib.sha256()
+    file_hashes = []
+    
+    for file_path in sorted(directory.rglob("*")):
+        if not file_path.is_file():
+            continue
+            
+        # Aplicar filtros si se especifican
+        if include_patterns and not any(file_path.match(pattern) for pattern in include_patterns):
+            continue
+        if exclude_patterns and any(file_path.match(pattern) for pattern in exclude_patterns):
+            continue
+            
+        file_hash = calculate_file_hash(file_path)
+        if file_hash:
+            # Incluir ruta relativa en el hash para detectar renames/moves
+            relative_path = file_path.relative_to(directory)
+            combined = f"{relative_path}:{file_hash}"
+            file_hashes.append(combined)
+    
+    # Hash de todos los archivos combinados
+    for file_hash in sorted(file_hashes):
+        sha256_hash.update(file_hash.encode('utf-8'))
+        
+    return sha256_hash.hexdigest()
+
+
+def is_pdf_file(file_path: Union[str, Path]) -> bool:
+    """
+    Verificar si un archivo es un PDF válido.
+    
+    Args:
+        file_path: Ruta del archivo
+        
+    Returns:
+        True si es PDF válido
+    """
+    file_path = Path(file_path)
+    
+    if not file_path.exists() or file_path.suffix.lower() != '.pdf':
+        return False
+    
+    try:
+        # Verificar signature PDF
+        with open(file_path, 'rb') as f:
+            header = f.read(8)
+            if header.startswith(b'%PDF-'):
+                return True
+        return False
+    except Exception:
+        return False
+
+
+def safe_copy_file(source: Union[str, Path], 
+                   destination: Union[str, Path],
+                   create_backup: bool = True) -> bool:
+    """
+    Copiar archivo de forma segura con respaldo opcional.
+    
+    Args:
+        source: Archivo fuente
+        destination: Archivo destino
+        create_backup: Si crear backup del archivo destino existente
+        
+    Returns:
+        True si la copia fue exitosa
+    """
+    source = Path(source)
+    destination = Path(destination)
+    
+    if not source.exists():
+        logger.error(f"Archivo fuente no existe: {source}")
+        return False
+    
+    try:
+        # Crear directorio destino si no existe
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Crear backup si el archivo destino existe
+        if destination.exists() and create_backup:
+            backup_path = destination.with_suffix(f"{destination.suffix}.backup.{int(time.time())}")
+            shutil.copy2(destination, backup_path)
+            logger.debug(f"Backup creado: {backup_path}")
+        
+        # Copiar archivo
+        shutil.copy2(source, destination)
+        logger.debug(f"Archivo copiado: {source} -> {destination}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error copiando archivo {source} -> {destination}", error=str(e))
+        return False
+
+
+def safe_move_file(source: Union[str, Path], 
+                   destination: Union[str, Path],
+                   create_backup: bool = True) -> bool:
+    """
+    Mover archivo de forma segura con respaldo opcional.
+    
+    Args:
+        source: Archivo fuente
+        destination: Archivo destino
+        create_backup: Si crear backup del archivo destino existente
+        
+    Returns:
+        True si el movimiento fue exitoso
+    """
+    if safe_copy_file(source, destination, create_backup):
+        try:
+            Path(source).unlink()
+            logger.debug(f"Archivo movido: {source} -> {destination}")
+            return True
+        except Exception as e:
+            logger.error(f"Error eliminando archivo fuente {source}", error=str(e))
+            return False
+    return False
+
+
+@contextmanager
+def temporary_directory(prefix: str = "imagenespdf_"):
+    """
+    Context manager para directorio temporal.
+    
+    Args:
+        prefix: Prefijo para el directorio temporal
+        
+    Yields:
+        Path del directorio temporal
+    """
+    temp_dir = None
+    try:
+        temp_dir = Path(tempfile.mkdtemp(prefix=prefix))
+        logger.debug(f"Directorio temporal creado: {temp_dir}")
+        yield temp_dir
+    finally:
+        if temp_dir and temp_dir.exists():
+            try:
+                shutil.rmtree(temp_dir)
+                logger.debug(f"Directorio temporal eliminado: {temp_dir}")
+            except Exception as e:
+                logger.warning(f"Error eliminando directorio temporal {temp_dir}", error=str(e))
+
+
+def clean_directory(directory: Union[str, Path], 
+                   max_age_days: Optional[int] = None,
+                   file_patterns: Optional[List[str]] = None,
+                   dry_run: bool = False) -> int:
+    """
+    Limpiar archivos de un directorio según criterios.
+    
+    Args:
+        directory: Directorio a limpiar
+        max_age_days: Eliminar archivos más antiguos que N días
+        file_patterns: Patrones de archivos a eliminar (ej: ["*.tmp", "*.log"])
+        dry_run: Si True, solo reporta qué se eliminaría sin hacerlo
+        
+    Returns:
+        Cantidad de archivos eliminados/que se eliminarían
+    """
+    directory = Path(directory)
+    if not directory.exists():
+        return 0
+    
+    deleted_count = 0
+    cutoff_time = None
+    
+    if max_age_days:
+        cutoff_time = time.time() - (max_age_days * 24 * 3600)
+    
+    for file_path in directory.rglob("*"):
+        if not file_path.is_file():
+            continue
+            
+        should_delete = False
+        
+        # Verificar edad
+        if cutoff_time and file_path.stat().st_mtime < cutoff_time:
+            should_delete = True
+            
+        # Verificar patrones
+        if file_patterns and any(file_path.match(pattern) for pattern in file_patterns):
+            should_delete = True
+            
+        if should_delete:
+            if dry_run:
+                logger.info(f"Se eliminaría: {file_path}")
+            else:
+                try:
+                    file_path.unlink()
+                    logger.debug(f"Archivo eliminado: {file_path}")
+                except Exception as e:
+                    logger.error(f"Error eliminando {file_path}", error=str(e))
+                    continue
+            deleted_count += 1
+    
+    return deleted_count
+
+
+def get_directory_size(directory: Union[str, Path]) -> int:
+    """
+    Obtener tamaño total de un directorio en bytes.
+    
+    Args:
+        directory: Directorio a medir
+        
+    Returns:
+        Tamaño total en bytes
+    """
+    directory = Path(directory)
+    if not directory.exists():
+        return 0
+    
+    total_size = 0
+    for file_path in directory.rglob("*"):
+        if file_path.is_file():
+            try:
+                total_size += file_path.stat().st_size
+            except Exception:
+                continue
+    
+    return total_size
+
+
+def format_file_size(size_bytes: int) -> str:
+    """
+    Formatear tamaño de archivo en formato legible.
+    
+    Args:
+        size_bytes: Tamaño en bytes
+        
+    Returns:
+        Tamaño formateado (ej: "1.5 MB", "832 KB")
+    """
+    if size_bytes == 0:
+        return "0 B"
+    
+    units = ["B", "KB", "MB", "GB", "TB"]
+    unit_index = 0
+    size = float(size_bytes)
+    
+    while size >= 1024 and unit_index < len(units) - 1:
+        size /= 1024
+        unit_index += 1
+    
+    if unit_index == 0:
+        return f"{int(size)} {units[unit_index]}"
+    else:
+        return f"{size:.1f} {units[unit_index]}"
+
+
+def find_pdf_files(directory: Union[str, Path], 
+                   recursive: bool = True) -> List[Path]:
+    """
+    Encontrar archivos PDF en directorio.
+    
+    Args:
+        directory: Directorio a buscar
+        recursive: Si buscar recursivamente en subdirectorios
+        
+    Returns:
+        Lista de rutas de archivos PDF válidos
+    """
+    directory = Path(directory)
+    if not directory.exists():
+        return []
+    
+    pdf_files = []
+    pattern = "**/*.pdf" if recursive else "*.pdf"
+    
+    for pdf_path in directory.glob(pattern):
+        if pdf_path.is_file() and is_pdf_file(pdf_path):
+            pdf_files.append(pdf_path)
+    
+    return sorted(pdf_files)
+
+
+def create_file_manifest(directory: Union[str, Path], 
+                        output_file: Optional[Union[str, Path]] = None) -> Dict[str, Any]:
+    """
+    Crear manifiesto de archivos en directorio.
+    
+    Args:
+        directory: Directorio a procesar
+        output_file: Archivo donde guardar el manifiesto (opcional)
+        
+    Returns:
+        Diccionario con el manifiesto
+    """
+    directory = Path(directory)
+    manifest = {
+        'directory': str(directory),
+        'created_at': datetime.now(timezone.utc).isoformat(),
+        'files': []
+    }
+    
+    if not directory.exists():
+        if output_file:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(manifest, f, indent=2, ensure_ascii=False)
+        return manifest
+    
+    for file_path in sorted(directory.rglob("*")):
+        if file_path.is_file():
+            file_info = FileInfo.from_path(file_path)
+            if file_info:
+                # Ruta relativa al directorio base
+                relative_path = file_path.relative_to(directory)
+                file_data = file_info.to_dict()
+                file_data['relative_path'] = str(relative_path)
+                manifest['files'].append(file_data)
+    
+    manifest['total_files'] = len(manifest['files'])
+    manifest['total_size'] = sum(f['size'] for f in manifest['files'])
+    
+    if output_file:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(manifest, f, indent=2, ensure_ascii=False)
+        logger.info(f"Manifiesto guardado en {output_file}")
+    
+    return manifest
+
+
+def compare_manifests(manifest1: Dict[str, Any], 
+                     manifest2: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Comparar dos manifiestos de archivos.
+    
+    Args:
+        manifest1: Manifiesto base
+        manifest2: Manifiesto a comparar
+        
+    Returns:
+        Diccionario con diferencias encontradas
+    """
+    # Indexar archivos por ruta relativa
+    files1 = {f['relative_path']: f for f in manifest1.get('files', [])}
+    files2 = {f['relative_path']: f for f in manifest2.get('files', [])}
+    
+    comparison = {
+        'added_files': [],
+        'removed_files': [],
+        'modified_files': [],
+        'unchanged_files': []
+    }
+    
+    # Archivos en manifest2 pero no en manifest1 (agregados)
+    for path in files2.keys() - files1.keys():
+        comparison['added_files'].append(files2[path])
+    
+    # Archivos en manifest1 pero no en manifest2 (removidos)  
+    for path in files1.keys() - files2.keys():
+        comparison['removed_files'].append(files1[path])
+    
+    # Archivos en ambos (comparar hashes)
+    for path in files1.keys() & files2.keys():
+        file1 = files1[path]
+        file2 = files2[path]
+        
+        if file1['sha256'] != file2['sha256']:
+            comparison['modified_files'].append({
+                'path': path,
+                'old': file1,
+                'new': file2
+            })
+        else:
+            comparison['unchanged_files'].append(file1)
+    
+    return comparison
+
+
+class ProjectFileManager:
+    """
+    Gestor de archivos del proyecto ImagenesPDF.
+    
+    Centraliza operaciones de archivos y mantiene estado consistente.
+    """
+    
+    def __init__(self, base_path: Union[str, Path]):
+        self.base_path = Path(base_path)
+        self.structure = DirectoryStructure.from_base(self.base_path)
+        self._manifests: Dict[str, Dict[str, Any]] = {}
+        
+    def initialize(self) -> None:
+        """Inicializar estructura de directorios."""
+        logger.info("Inicializando estructura de directorios")
+        self.structure.create_all()
+        
+    def get_input_pdfs(self) -> List[Path]:
+        """Obtener lista de PDFs en directorio de entrada."""
+        return find_pdf_files(self.structure.input_dir)
+        
+    def get_pdf_info(self, pdf_path: Union[str, Path]) -> Optional[FileInfo]:
+        """Obtener información detallada de un PDF."""
+        return FileInfo.from_path(pdf_path)
+        
+    def create_output_manifest(self, run_id: str) -> Dict[str, Any]:
+        """Crear manifiesto de archivos de salida."""
+        manifest_path = self.structure.logs_dir / f"output_manifest_{run_id}.json"
+        return create_file_manifest(self.structure.output_dir, manifest_path)
+        
+    def cleanup_old_outputs(self, max_age_days: int = 7) -> int:
+        """Limpiar archivos de salida antiguos."""
+        logger.info(f"Limpiando archivos de salida más antiguos que {max_age_days} días")
+        
+        total_deleted = 0
+        for directory in [self.structure.xlsx_dir, self.structure.csv_dir, 
+                         self.structure.images_dir]:
+            deleted = clean_directory(directory, max_age_days=max_age_days)
+            total_deleted += deleted
+            
+        return total_deleted
+        
+    def get_storage_info(self) -> Dict[str, Any]:
+        """Obtener información de almacenamiento del proyecto."""
+        info = {
+            'base_path': str(self.base_path),
+            'directories': {}
+        }
+        
+        for attr_name in ['input_dir', 'output_dir', 'images_dir', 'xlsx_dir', 'csv_dir', 'logs_dir']:
+            directory = getattr(self.structure, attr_name)
+            size_bytes = get_directory_size(directory)
+            file_count = len(list(directory.rglob("*"))) if directory.exists() else 0
+            
+            info['directories'][attr_name] = {
+                'path': str(directory),
+                'exists': directory.exists(),
+                'size_bytes': size_bytes,
+                'size_formatted': format_file_size(size_bytes),
+                'file_count': file_count
+            }
+        
+        info['total_size_bytes'] = sum(d['size_bytes'] for d in info['directories'].values())
+        info['total_size_formatted'] = format_file_size(info['total_size_bytes'])
+        
+        return info
+
+
+# Instancia global para uso conveniente
+_global_file_manager: Optional[ProjectFileManager] = None
+
+
+def get_file_manager(base_path: Optional[Union[str, Path]] = None) -> ProjectFileManager:
+    """Obtener instancia global del gestor de archivos."""
+    global _global_file_manager
+    if _global_file_manager is None:
+        if base_path is None:
+            base_path = Path.cwd()
+        _global_file_manager = ProjectFileManager(base_path)
+    return _global_file_manager
+
+
+if __name__ == "__main__":
+    # Modo de prueba/diagnóstico
+    from .logging_setup import setup_logging
+    
+    setup_logging(level="DEBUG")
+    
+    # Probar funciones principales
+    print("=== Prueba de utilidades de archivos ===")
+    
+    # Crear gestor de archivos
+    fm = get_file_manager()
+    fm.initialize()
+    
+    # Mostrar información de almacenamiento
+    storage_info = fm.get_storage_info()
+    print(f"\nInformación de almacenamiento:")
+    print(f"Directorio base: {storage_info['base_path']}")
+    print(f"Tamaño total: {storage_info['total_size_formatted']}")
+    
+    for dir_name, dir_info in storage_info['directories'].items():
+        status = "✓" if dir_info['exists'] else "✗"
+        print(f"  {status} {dir_name}: {dir_info['size_formatted']} ({dir_info['file_count']} archivos)")
+    
+    # Buscar PDFs
+    pdfs = fm.get_input_pdfs()
+    if pdfs:
+        print(f"\nPDFs encontrados: {len(pdfs)}")
+        for pdf in pdfs[:5]:  # Mostrar máximo 5
+            info = fm.get_pdf_info(pdf)
+            if info:
+                print(f"  - {pdf.name}: {format_file_size(info.size)}")
+    else:
+        print("\nNo se encontraron archivos PDF en input/pdfs/")
+        print("Tip: Coloca archivos PDF en el directorio input/pdfs/ para procesarlos")
+    
+    print("\nPrueba completada.")
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/validators.py
+PROPOSITO: Validaciones de negocio y integridad
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/versioning.py
+PROPOSITO: Control de versiones y diferencias
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/writer_csv.py
+PROPOSITO: Generacion de archivos CSV
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/writer_excel.py
+PROPOSITO: Generacion de archivos Excel
+TAMAÃ‘O: 0 bytes
+================================================================================
+[ARCHIVO VACIO]
+
+
+================================================================================
+ARCHIVO: src/imagenespdf/years.py
+PROPOSITO: Logica de manejo y expansion de aÃ±os
+TAMAÃ‘O: 0 bytes
+================================================================================
+"""
+Lógica de manejo y expansión de años para ImagenesPDF.
+
+Implementa las reglas específicas de la industria automotriz:
+- Años abreviados: '00–'29 → 2000–2029; '30–'99 → 1930–1999
+- Expansión de rangos: [2003–2008] → 2003,2004,2005,2006,2007,2008
+- Validación de rangos históricos automotrices (1885-actualidad)
+- Normalización de formatos diversos de entrada
+- Soporte para años individuales, rangos, listas mixtas
+
+Usado por adaptadores para normalizar información de compatibilidad vehicular.
+"""
+
+import re
+from typing import List, Set, Optional, Union, Tuple, Dict, Any
+from datetime import datetime, date
+from dataclasses import dataclass
+from enum import Enum
+
+from .logging_setup import get_logger
+
+logger = get_logger(__name__)
+
+
+class YearFormat(Enum):
+    """Tipos de formato de año detectados."""
+    FULL_YEAR = "full"           # 2010, 2015
+    SHORT_YEAR = "short"         # 10, 15, '10, '15
+    RANGE_FULL = "range_full"    # 2010-2015, 2010~2015
+    RANGE_SHORT = "range_short"  # 10-15, '10-'15
+    RANGE_MIXED = "range_mixed"  # 10-2015, '10-2015
+    LIST_MIXED = "list_mixed"    # 2010,2012,2015 o 10,12,15
+    INVALID = "invalid"
+
+
+@dataclass
+class YearRange:
+    """Representa un rango de años válido."""
+    start_year: int
+    end_year: int
+    original_text: str
+    format_detected: YearFormat
+    
+    def __post_init__(self):
+        """Validar rango después de inicialización."""
+        if self.start_year > self.end_year:
+            self.start_year, self.end_year = self.end_year, self.start_year
+            
+    def expand(self) -> List[int]:
+        """Expandir rango a lista de años individuales."""
+        return list(range(self.start_year, self.end_year + 1))
+        
+    def contains(self, year: int) -> bool:
+        """Verificar si el rango contiene un año específico."""
+        return self.start_year <= year <= self.end_year
+        
+    def overlaps(self, other: 'YearRange') -> bool:
+        """Verificar si hay solapamiento con otro rango."""
+        return not (self.end_year < other.start_year or other.end_year < self.start_year)
+        
+    def to_dict(self) -> Dict[str, Any]:
+        """Convertir a diccionario para serialización."""
+        return {
+            'start_year': self.start_year,
+            'end_year': self.end_year,
+            'original_text': self.original_text,
+            'format_detected': self.format_detected.value,
+            'expanded_years': self.expand()
+        }
+
+
+class YearProcessor:
+    """
+    Procesador principal de años para catálogos de autopartes.
+    
+    Maneja todas las variantes de formato encontradas en PDFs de proveedores.
+    """
+    
+    # Configuración de límites históricos automotrices
+    MIN_AUTOMOTIVE_YEAR = 1885  # Primer automóvil de Benz
+    MAX_FUTURE_YEAR = datetime.now().year + 5  # Hasta 5 años en el futuro
+    
+    # Patrones de reconocimiento
+    PATTERNS = {
+        # Años completos individuales: 2010, 2015
+        'full_single': re.compile(r'\b(19[0-9]{2}|20[0-9]{2})\b'),
+        
+        # Años cortos individuales: 10, 15, '10, '15
+        'short_single': re.compile(r"'?(\d{2})\b"),
+        
+        # Rangos completos: 2010-2015, 2010~2015, 2010/2015
+        'range_full': re.compile(r'\b(19[0-9]{2}|20[0-9]{2})\s*[-~\/]\s*(19[0-9]{2}|20[0-9]{2})\b'),
+        
+        # Rangos cortos: 10-15, '10-'15, 10~15
+        'range_short': re.compile(r"'?(\d{2})\s*[-~\/]\s*'?(\d{2})\b"),
+        
+        # Rangos mixtos: 10-2015, '10-2015
+        'range_mixed': re.compile(r"'?(\d{2})\s*[-~\/]\s*(19[0-9]{2}|20[0-9]{2})\b"),
+        
+        # Listas separadas por comas: 2010,2012,2015 o 10,12,15
+        'list_comma': re.compile(r'\b(?:(?:19|20)[0-9]{2}|\'?\d{2})(?:\s*,\s*(?:(?:19|20)[0-9]{2}|\'?\d{2}))+\b'),
+        
+        # Patrones específicos por proveedor
+        'depo_format': re.compile(r'[\[\(]\s*([0-9\-\~\,\'\s]+)\s*[\]\)]'),  # [2003-2008], (10-15)
+        'yuto_format': re.compile(r'([0-9\-\~\,\'\s]+)(?:\s+type|\s+model|\s+year)', re.IGNORECASE),
+        'hushan_format': re.compile(r'(?:year|yr|model)\s*:?\s*([0-9\-\~\,\'\s]+)', re.IGNORECASE),
+    }
+    
+    def __init__(self):
+        """Inicializar procesador de años."""
+        self.current_year = datetime.now().year
+        self._cache: Dict[str, List[YearRange]] = {}
+        
+    def convert_short_year(self, short_year: int) -> int:
+        """
+        Convertir año abreviado a año completo según reglas de la industria.
+        
+        Reglas:
+        - '00-'29 → 2000-2029
+        - '30-'99 → 1930-1999
+        
+        Args:
+            short_year: Año de 2 dígitos (0-99)
+            
+        Returns:
+            Año completo de 4 dígitos
+        """
+        if short_year <= 29:
+            return 2000 + short_year
+        else:
+            return 1900 + short_year
+            
+    def is_valid_automotive_year(self, year: int) -> bool:
+        """
+        Validar que un año esté en el rango automotriz válido.
+        
+        Args:
+            year: Año a validar
+            
+        Returns:
+            True si está en rango válido
+        """
+        return self.MIN_AUTOMOTIVE_YEAR <= year <= self.MAX_FUTURE_YEAR
+        
+    def detect_year_format(self, text: str) -> YearFormat:
+        """
+        Detectar formato de año en texto.
+        
+        Args:
+            text: Texto a analizar
+            
+        Returns:
+            Formato detectado
+        """
+        text = text.strip()
+        
+        # Verificar cada patrón en orden de especificidad
+        if self.PATTERNS['range_full'].search(text):
+            return YearFormat.RANGE_FULL
+        elif self.PATTERNS['range_mixed'].search(text):
+            return YearFormat.RANGE_MIXED  
+        elif self.PATTERNS['range_short'].search(text):
+            return YearFormat.RANGE_SHORT
+        elif self.PATTERNS['list_comma'].search(text):
+            return YearFormat.LIST_MIXED
+        elif self.PATTERNS['full_single'].search(text):
+            return YearFormat.FULL_YEAR
+        elif self.PATTERNS['short_single'].search(text):
+            return YearFormat.SHORT_YEAR
+        else:
+            return YearFormat.INVALID
+            
+    def parse_single_year(self, text: str) -> Optional[int]:
+        """
+        Parsear año individual.
+        
+        Args:
+            text: Texto con año individual
+            
+        Returns:
+            Año parseado o None si es inválido
+        """
+        text = text.strip().replace("'", "")
+        
+        try:
+            year_int = int(text)
+            
+            # Si es de 2 dígitos, convertir
+            if 0 <= year_int <= 99:
+                year_int = self.convert_short_year(year_int)
+            
+            # Validar rango
+            if self.is_valid_automotive_year(year_int):
+                return year_int
+            else:
+                logger.warning(f"Año fuera de rango automotriz válido: {year_int}")
+                return None
+                
+        except ValueError:
+            logger.warning(f"No se pudo parsear año: {text}")
+            return None
+            
+    def parse_year_range(self, start_text: str, end_text: str, original: str) -> Optional[YearRange]:
+        """
+        Parsear rango de años.
+        
+        Args:
+            start_text: Texto del año inicial
+            end_text: Texto del año final  
+            original: Texto original completo
+            
+        Returns:
+            YearRange parseado o None si es inválido
+        """
+        start_year = self.parse_single_year(start_text)
+        end_year = self.parse_single_year(end_text)
+        
+        if start_year is None or end_year is None:
+            return None
+            
+        # Detectar formato
+        if len(start_text.replace("'", "")) == 2 and len(end_text.replace("'", "")) == 2:
+            format_type = YearFormat.RANGE_SHORT
+        elif len(start_text.replace("'", "")) == 2 and len(end_text) == 4:
+            format_type = YearFormat.RANGE_MIXED
+        else:
+            format_type = YearFormat.RANGE_FULL
+            
+        return YearRange(
+            start_year=start_year,
+            end_year=end_year,
+            original_text=original,
+            format_detected=format_type
+        )
+        
+    def parse_year_list(self, text: str) -> List[YearRange]:
+        """
+        Parsear lista de años separados por comas.
+        
+        Args:
+            text: Texto con lista de años
+            
+        Returns:
+            Lista de YearRange (cada año individual como rango de 1)
+        """
+        ranges = []
+        parts = [part.strip() for part in text.split(',')]
+        
+        for part in parts:
+            if not part:
+                continue
+                
+            year = self.parse_single_year(part)
+            if year is not None:
+                year_range = YearRange(
+                    start_year=year,
+                    end_year=year,
+                    original_text=part,
+                    format_detected=YearFormat.FULL_YEAR if len(part.replace("'", "")) == 4 else YearFormat.SHORT_YEAR
+                )
+                ranges.append(year_range)
+                
+        return ranges
+        
+    def extract_years_from_text(self, text: str, 
+                               vendor_specific: Optional[str] = None) -> List[YearRange]:
+        """
+        Extraer todos los años/rangos de un texto.
+        
+        Args:
+            text: Texto a procesar
+            vendor_specific: Proveedor específico para usar patrones especiales
+            
+        Returns:
+            Lista de rangos de años encontrados
+        """
+        if not text or not text.strip():
+            return []
+            
+        # Usar cache si está disponible
+        cache_key = f"{text}:{vendor_specific}"
+        if cache_key in self._cache:
+            return self._cache[cache_key].copy()
+            
+        ranges = []
+        text = text.strip()
+        
+        # Aplicar patrón específico del proveedor primero
+        if vendor_specific:
+            pattern_key = f"{vendor_specific.lower()}_format"
+            if pattern_key in self.PATTERNS:
+                matches = self.PATTERNS[pattern_key].findall(text)
+                for match in matches:
+                    # Procesar el contenido extraído recursivamente
+                    sub_ranges = self.extract_years_from_text(match)
+                    ranges.extend(sub_ranges)
+                
+                # Si encontramos algo con patrón específico, usar eso
+                if ranges:
+                    self._cache[cache_key] = ranges
+                    return ranges.copy()
+        
+        # Procesar según formato detectado
+        format_type = self.detect_year_format(text)
+        
+        if format_type == YearFormat.RANGE_FULL:
+            match = self.PATTERNS['range_full'].search(text)
+            if match:
+                year_range = self.parse_year_range(match.group(1), match.group(2), match.group(0))
+                if year_range:
+                    ranges.append(year_range)
+                    
+        elif format_type == YearFormat.RANGE_SHORT:
+            match = self.PATTERNS['range_short'].search(text)
+            if match:
+                year_range = self.parse_year_range(match.group(1), match.group(2), match.group(0))
+                if year_range:
+                    ranges.append(year_range)
+                    
+        elif format_type == YearFormat.RANGE_MIXED:
+            match = self.PATTERNS['range_mixed'].search(text)
+            if match:
+                year_range = self.parse_year_range(match.group(1), match.group(2), match.group(0))
+                if year_range:
+                    ranges.append(year_range)
+                    
+        elif format_type == YearFormat.LIST_MIXED:
+            match = self.PATTERNS['list_comma'].search(text)
+            if match:
+                list_ranges = self.parse_year_list(match.group(0))
+                ranges.extend(list_ranges)
+                
+        elif format_type in [YearFormat.FULL_YEAR, YearFormat.SHORT_YEAR]:
+            # Buscar todos los años individuales
+            if format_type == YearFormat.FULL_YEAR:
+                matches = self.PATTERNS['full_single'].findall(text)
+            else:
+                matches = self.PATTERNS['short_single'].findall(text)
+                
+            for match in matches:
+                year = self.parse_single_year(match)
+                if year is not None:
+                    year_range = YearRange(
+                        start_year=year,
+                        end_year=year,
+                        original_text=match,
+                        format_detected=format_type
+                    )
+                    ranges.append(year_range)
+        
+        # Cache y retorna
+        self._cache[cache_key] = ranges
+        return ranges.copy()
+        
+    def expand_all_years(self, text: str, 
+                        vendor_specific: Optional[str] = None) -> List[int]:
+        """
+        Expandir todos los años/rangos de un texto a lista de años individuales.
+        
+        Args:
+            text: Texto a procesar
+            vendor_specific: Proveedor específico
+            
+        Returns:
+            Lista ordenada y única de años individuales
+        """
+        ranges = self.extract_years_from_text(text, vendor_specific)
+        all_years = set()
+        
+        for year_range in ranges:
+            all_years.update(year_range.expand())
+            
+        return sorted(list(all_years))
+        
+    def consolidate_ranges(self, ranges: List[YearRange]) -> List[YearRange]:
+        """
+        Consolidar rangos solapados o adyacentes.
+        
+        Args:
+            ranges: Lista de rangos a consolidar
+            
+        Returns:
+            Lista consolidada de rangos
+        """
+        if not ranges:
+            return []
+            
+        # Ordenar por año de inicio
+        sorted_ranges = sorted(ranges, key=lambda r: r.start_year)
+        consolidated = [sorted_ranges[0]]
+        
+        for current in sorted_ranges[1:]:
+            last = consolidated[-1]
+            
+            # Si son adyacentes o solapados, consolidar
+            if current.start_year <= last.end_year + 1:
+                # Expandir el rango existente
+                consolidated[-1] = YearRange(
+                    start_year=last.start_year,
+                    end_year=max(last.end_year, current.end_year),
+                    original_text=f"{last.original_text}, {current.original_text}",
+                    format_detected=YearFormat.RANGE_FULL
+                )
+            else:
+                # Agregar como rango separado
+                consolidated.append(current)
+                
+        return consolidated
+        
+    def validate_year_compatibility(self, vehicle_years: List[int], 
+                                   part_years: List[int]) -> Dict[str, Any]:
+        """
+        Validar compatibilidad entre años de vehículo y parte.
+        
+        Args:
+            vehicle_years: Años del vehículo
+            part_years: Años de la parte
+            
+        Returns:
+            Diccionario con información de compatibilidad
+        """
+        vehicle_set = set(vehicle_years)
+        part_set = set(part_years)
+        
+        compatible_years = vehicle_set & part_set
+        vehicle_only = vehicle_set - part_set
+        part_only = part_set - vehicle_set
+        
+        return {
+            'compatible_years': sorted(list(compatible_years)),
+            'vehicle_only_years': sorted(list(vehicle_only)),
+            'part_only_years': sorted(list(part_only)),
+            'compatibility_ratio': len(compatible_years) / len(vehicle_set) if vehicle_set else 0,
+            'is_fully_compatible': len(vehicle_only) == 0,
+            'has_extra_coverage': len(part_only) > 0
+        }
+        
+    def get_decade_summary(self, years: List[int]) -> Dict[str, Any]:
+        """
+        Obtener resumen por década de una lista de años.
+        
+        Args:
+            years: Lista de años
+            
+        Returns:
+            Diccionario con estadísticas por década
+        """
+        if not years:
+            return {}
+            
+        decades = {}
+        for year in years:
+            decade = (year // 10) * 10
+            decade_key = f"{decade}s"
+            
+            if decade_key not in decades:
+                decades[decade_key] = {
+                    'decade_start': decade,
+                    'years': [],
+                    'count': 0,
+                    'year_range': {'min': year, 'max': year}
+                }
+            
+            decades[decade_key]['years'].append(year)
+            decades[decade_key]['count'] += 1
+            decades[decade_key]['year_range']['min'] = min(decades[decade_key]['year_range']['min'], year)
+            decades[decade_key]['year_range']['max'] = max(decades[decade_key]['year_range']['max'], year)
+        
+        # Ordenar años dentro de cada década
+        for decade_info in decades.values():
+            decade_info['years'].sort()
+            
+        return decades
+        
+    def clear_cache(self) -> None:
+        """Limpiar cache de procesamiento."""
+        self._cache.clear()
+        
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Obtener estadísticas del cache."""
+        return {
+            'cached_entries': len(self._cache),
+            'memory_usage_estimate': sum(len(str(k)) + len(str(v)) for k, v in self._cache.items())
+        }
+
+
+# Instancia global para uso conveniente
+_global_year_processor: Optional[YearProcessor] = None
+
+
+def get_year_processor() -> YearProcessor:
+    """Obtener instancia global del procesador de años."""
+    global _global_year_processor
+    if _global_year_processor is None:
+        _global_year_processor = YearProcessor()
+    return _global_year_processor
+
+
+def expand_years(text: str, vendor_specific: Optional[str] = None) -> List[int]:
+    """
+    Función de conveniencia para expandir años desde texto.
+    
+    Args:
+        text: Texto con años/rangos
+        vendor_specific: Proveedor específico (opcional)
+        
+    Returns:
+        Lista de años individuales
+    """
+    return get_year_processor().expand_all_years(text, vendor_specific)
+
+
+def parse_years(text: str, vendor_specific: Optional[str] = None) -> List[YearRange]:
+    """
+    Función de conveniencia para parsear rangos de años.
+    
+    Args:
+        text: Texto con años/rangos
+        vendor_specific: Proveedor específico (opcional)
+        
+    Returns:
+        Lista de rangos de años
+    """
+    return get_year_processor().extract_years_from_text(text, vendor_specific)
+
+
+def convert_short_year(short_year: int) -> int:
+    """
+    Función de conveniencia para convertir año corto.
+    
+    Args:
+        short_year: Año de 2 dígitos
+        
+    Returns:
+        Año de 4 dígitos
+    """
+    return get_year_processor().convert_short_year(short_year)
+
+
+if __name__ == "__main__":
+    # Modo de prueba/diagnóstico
+    from .logging_setup import setup_logging
+    
+    setup_logging(level="DEBUG")
+    
+    processor = YearProcessor()
+    
+    # Casos de prueba
+    test_cases = [
+        # Años individuales
+        "2010",
+        "15",
+        "'15",
+        
+        # Rangos completos
+        "2010-2015",
+        "2010~2015", 
+        "2010/2015",
+        
+        # Rangos cortos
+        "10-15",
+        "'10-'15",
+        "10~15",
+        
+        # Rangos mixtos  
+        "10-2015",
+        "'10-2015",
+        
+        # Listas
+        "2010,2012,2015",
+        "10,12,15",
+        "'10,'12,'15",
+        
+        # Formatos específicos de proveedores
+        "[2003-2008]",
+        "(10-15)",
+        "Year: 2010-2015",
+        "Model 10-15 type",
+        
+        # Casos complejos
+        "Compatible with 2010,2012,2015-2018 models",
+        "Fits '03-'08 and 2010+ vehicles",
+        
+        # Casos edge
+        "",
+        "No years here",
+        "abc-def",
+        "00-29",  # Prueba regla de siglos
+        "30-99",  # Prueba regla de siglos
+    ]
+    
+    print("=== Prueba de procesamiento de años ===\n")
+    
+    for i, test_text in enumerate(test_cases, 1):
+        print(f"{i:2d}. Input: '{test_text}'")
+        
+        # Detectar formato
+        format_detected = processor.detect_year_format(test_text)
+        print(f"    Formato: {format_detected.value}")
+        
+        # Extraer rangos
+        ranges = processor.extract_years_from_text(test_text)
+        if ranges:
+            print(f"    Rangos: {len(ranges)} encontrados")
+            for j, year_range in enumerate(ranges):
+                expanded = year_range.expand()
+                print(f"      {j+1}. {year_range.start_year}-{year_range.end_year} → {expanded}")
+        else:
+            print("    Rangos: Ninguno encontrado")
+            
+        # Expandir todos
+        expanded_years = processor.expand_all_years(test_text)
+        if expanded_years:
+            print(f"    Expandido: {expanded_years}")
+        else:
+            print("    Expandido: []")
+            
+        print()
+    
+    # Mostrar estadísticas del cache
+    cache_stats = processor.get_cache_stats()
+    print(f"Cache: {cache_stats['cached_entries']} entradas")
+    
+    # Prueba de consolidación
+    print("\n=== Prueba de consolidación de rangos ===")
+    test_ranges = [
+        YearRange(2010, 2012, "2010-2012", YearFormat.RANGE_FULL),
+        YearRange(2013, 2015, "2013-2015", YearFormat.RANGE_FULL),
+        YearRange(2020, 2020, "2020", YearFormat.FULL_YEAR),
+        YearRange(2021, 2021, "2021", YearFormat.FULL_YEAR),
+        YearRange(2025, 2028, "2025-2028", YearFormat.RANGE_FULL)
+    ]
+    
+    consolidated = processor.consolidate_ranges(test_ranges)
+    print(f"Original: {len(test_ranges)} rangos")
+    print(f"Consolidado: {len(consolidated)} rangos")
+    for rng in consolidated:
+        print(f"  {rng.start_year}-{rng.end_year} (original: '{rng.original_text}')")
+    
+    print("\nPrueba completada.")
+
+
+============================================
+ESTADISTICAS DE GENERACION
+============================================
+Archivos procesados: 39
+Errores encontrados: 0
+TamaÃ±o total del memory.txt: 192074 caracteres
+Generado el: 2025-08-13 22:56:49
+
+TIPOS DE ARCHIVO INCLUIDOS:
+.py, .yaml, .yml, .md, .txt, .toml, .spec, .ps1
+
+ARCHIVOS EXCLUIDOS:
+run.bat, build_exe.bat, install_runtime.ps1, tree.txt, memory.txt
+
+DIRECTORIOS EXCLUIDOS:
+dist, build, __pycache__, .git, vendor, .venv
+
+============================================
+FIN DE LA MEMORIA DE DESARROLLO
+============================================

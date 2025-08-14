@@ -1,0 +1,209 @@
+Proyecto “ImagenesPDF” – Propuesta Técnica (actualizada multi-catálogo)
+A. Arquitectura (vista rápida)
+• Core (vendor-agnostic): tablas normalizadas para pieza, variantes, vehículos, años expandidos, OEM, empaque, certificaciones, medios (imágenes/video), compatibilidades, histórico e incidencias.
+• Adaptadores por proveedor: módulos que leen PDF y mapean sus campos → core.
+o adapters/depo, adapters/yuto, adapters/hushan, adapters/<futuros>.
+• Catálogo de mapeos/config (YAML/JSON): diccionarios de colores → homologación, alias de “features” (p.ej., with_keyhole, smart_key_sensor), taxonomía de tipos de partes.
+• Entrega: Excel maestro (hojas relacionadas + “Ficha de oferta”), CSV espejo, imágenes en jerarquía y en carpeta plana, logs y reportes.
+• Ejecución: app Windows .exe (PyInstaller) + run.bat (sin límites artificiales).
+B. Reglas clave ya integradas
+• Años abreviados (’00–’29 → 2000–2029; ’30–’99 → 1930–1999) y años expandidos por item: [2003–2008] → 2003,2004,2005,2006,2007,2008.
+• Compatibilidades con tabla propia (y también años expandidos de compatibilidad).
+• Histórico de cambios (B) + multimedia (imágenes hoy; listo para video/audio).
+• Homologación por color del texto del código (rosado=homologado, azul=no homologado).
+• LD/RD (volante), side (L/R), bulbs normalizados, packs (PCS/CFT/N.W./G.W.), market/availability (incluye TBA / Non-US si aplica).
+• Doble guardado de imágenes: ruta jerárquica y copia “\_flat”.
+C. Esquema relacional (≥ 3FN) — resumen final
+Dimensiones
+• dim_supplier(supplier_id, name)
+• dim_country(country_code, name)
+• dim_maker(maker_code, name)
+• dim_product_type(product_type_code, name, parent_code NULL) (jerarquía: LIGHTING > HEAD_LAMP / TAIL_LAMP; BODY > DOOR_HANDLE …)
+• dim_side(side_code[L/R/N], name)
+• dim_drive(drive_code[LD/RD], name)
+• dim_classification(class_code[U/A/W/B/-], desc)
+• dim_certification(cert_code[S/E/Q/C/D/(blank)], desc)
+• dim_base_color(base_code[1..9], desc)
+• dim_socket_feature(socket_code[Z/O/T/D/N/B/S/-], desc)
+• dim_lens_i(lens_i[C/R/Y/S/B/G/A/L], desc)
+• dim_lens_j(lens_j[C/R/Y/S/B/G/A/O/D/2/3/6], desc)
+• dim_bulb(bulb_code, name)
+• dim_feature(feature_code, name, category) (LED, puddle_lamp, heated, with_keyhole, smart_key_sensor, …)
+• dim_highlight_status(pdf_text_color, homologation_status[homologado/no_homologado/non_us/tba], supplier_id NULL) (permite reglas por proveedor)
+Catálogos / índice
+• catalogs(catalog_id, supplier_id→dim_supplier, title, edition, notes)
+• pdfs(pdf_id, catalog_id→catalogs, file_name, path, sha256 UNIQUE, created_at, modified_at, processed_at)
+• vehicle_index(vehicle_id, maker_code→dim_maker, model_name, variant_name NULL, body_style NULL, year_from, year_to, page)
+• vehicle_years(vehicle_id→vehicle_index, year, PK(vehicle_id,year))
+Ítems y relaciones
+• items(item_id, supplier_id→dim_supplier, supplier_sku NULL, -- p.ej., YUTO/HUSHAN near_oem NULL, -- p.ej., 212-11U4-EM2 (DEPO) variant_code NULL, side_code→dim_side, drive_code→dim_drive, maker_code→dim_maker, product_type_code→dim_product_type, country_code→dim_country, class_code→dim_classification, cert_code→dim_certification, base_code NULL→dim_base_color, socket_code NULL→dim_socket_feature, lens_i NULL→dim_lens_i, lens_j NULL→dim_lens_j, with_motor_flag BOOL, elec_flag BOOL, bulbs_raw TEXT, pcs_default INT, cft_default NUMERIC(10,2), nw_kg NUMERIC(10,2) NULL, gw_kg NUMERIC(10,2) NULL, market_region NULL, availability NULL, homologation_color NULL→dim_highlight_status.pdf_text_color, -- rosa/azul etc. vehicle_id NULL→vehicle_index, page INT, pdf_id→pdfs, notes TEXT, status TEXT DEFAULT 'ok', UNIQUE(supplier_id, COALESCE(near_oem,'#'), COALESCE(supplier_sku,'#'), variant_code, side_code, drive_code, pdf_id) )
+• item_years(item_id→items, year, PK(item_id,year)) (copiado de vehicle_years)
+• item_oem(item_id→items, oem_code, side_code→dim_side NULL, role[main/related], PK(item_id,oem_code,COALESCE(side_code,'-')))
+• item_pack(item_id→items, pack_variant[DEFAULT/A/U/…], pcs INT, cft NUMERIC, nw_kg NUMERIC NULL, gw_kg NUMERIC NULL, PK(item_id,pack_variant))
+• item_bulb(item_id→items, bulb_code→dim_bulb, present_flag SMALLINT, PK(item_id,bulb_code))
+• item_feature(item_id→items, feature_code→dim_feature, value_bool BOOL DEFAULT TRUE, value_text TEXT NULL, PK(item_id,feature_code))
+• item_compat(item_id→items, maker_code, model_name, year_from, year_to, source_oem, PK(item_id,maker_code,model_name,year_from,year_to,source_oem))
+• item_compat_years(item_id→items, maker_code, model_name, year, source_oem, PK(item_id,maker_code,model_name,year,source_oem))
+Multimedia e histórico
+• media_files(media_id, media_type['image','video','audio','doc'], file_path, flat_copy_path, sha256, width_px INT NULL, height_px INT NULL, dpi INT NULL, duration_ms INT NULL, created_at)
+• item_media(item_id→items, media_id→media_files, role['primary','secondary','manual','installation','packaging','oem-proof'], PK(item_id,media_id))
+• issues(issue_id, item_id→items, field, value, problem, page, suggestion, created_at)
+• history(hist_id, item_id→items, field, old_value, new_value, pdf_id→pdfs, changed_at) (incluye cambios en medios y empaques)
+Nota: mantenemos 3FN para todo lo común; la tabla item_feature permite sumar atributos específicos por proveedor sin romper la normalización del núcleo.
+D. Pipeline de extracción (ETL)
+
+1. Ingesta (metadatos + hash).
+2. Índice de vehículos → vehicle_index + expansión vehicle_years.
+3. Detección de bloques por página y parsing (adaptador proveedor):
+   o DEPO: códigos A-J + addenda, OEM por lado, bulbs, ELEC/MOTOR, PCS/CFT, color del texto (rosa/azul).
+   o YUTO: R/L, RHD/LHD, features (LED/puddle/heat), PCS/CFT/NW/GW, “USA type…”.
+   o HUSHAN: acabados, keyhole/sensor, subpiezas, PCS/CFT/NW/GW.
+4. Clasificación de color del texto (span fill → HSL; raster fallback).
+5. Recorte de imágenes del bloque (una por variante) → PNG 1200 DPI (jerárquico + “\_flat”).
+6. Normalización hacia dim*\* y poblar relaciones (item*\*).
+7. Expansión de años por ítem (item_years).
+8. Validaciones + issues.
+9. Writer: Excel maestro + CSV espejo + reporte.
+10. Versionado: diffs a history.
+    E. Interfaz de nuevos adaptadores (para “otros catálogos”)
+    • map_product_type() → dim_product_type.
+    • parse_block() → devuelve un dict estándar (near_oem/supplier_sku, side/drive, features, packs, bulbs, oems, market/availability, media_bbox).
+    • map_features() → dim_feature + item_feature.
+    • color_policy() → mapea colores del texto a dim_highlight_status (por supplier).
+    • vehicle_link() → resuelve vehicle_id y años.
+    F. Entregables
+    • Excel maestro con todas las hojas (normalizadas + vistas de oferta) y validaciones.
+    • CSV espejo por hoja.
+    • Imágenes (dos estructuras).
+    • Logs/Reporte (resumen, errores, métricas).
+    G. Operación
+    • CLI sin límites: selección por proveedor/marca, rango de páginas, modo OCR auto/manual, reproceso selectivo.
+    • Ejecución en modo admin (como pediste), ideal para corridas puntuales de actualización de kardex.
+
+---
+
+Cierre
+• DEPO nos dio el esqueleto: gracias a la capa de adaptadores y las tablas item_feature/item_attribute (normalizadas), cualquier catálogo de autopartes que liste códigos/compatibilidades/paquetes/medidas entra en la misma base.
+• Los tres modelos (DEPO, YUTO, HUSHAN) quedan confirmados y compatibles.
+• La propuesta anterior queda actualizada para contemplar otros catálogos futuros sin re-diseñar la base.
+¿Quieres que te deje también un script de carga a PostgreSQL (DDL + índices + llaves foráneas) y una plantilla Excel ya con todas estas hojas vinculadas (la “master.xlsx” definitiva) para que el equipo empiece a poblar de inmediato?
+
+📂 PROYECTO: SISTEMA DE GESTIÓN MULTIMEDIA PARA E-COMMERCE
+Versión: 1.5
+Fecha: Agosto 2024
+Objetivo: Implementar un sistema robusto para manejar imágenes, videos, documentos 3D y reseñas con multimedia en un e-commerce, garantizando alta performance, seguridad y escalabilidad.
+
+---
+
+📝 DOCUMENTO DE REQUERIMIENTOS
+🔹 1. Alcance
+Desarrollar un módulo que permita:
+• Subir, almacenar y asociar multimedia a productos.
+• Gestionar reseñas con fotos/videos de clientes, incluyendo validación y retroalimentación.
+• Optimizar el rendimiento en despliegue (CDN, lazy loading, formatos modernos).
+• Integrar analíticas de uso y engagement.
+
+---
+
+🔹 2. Requerimientos Técnicos
+📌 Backend
+ID Requerimiento Prioridad
+BE-01 API REST para subida de archivos (imágenes, videos, PDFs, 3D) con validación de formato/tamaño. Alta
+BE-02 Procesamiento automático: compresión de imágenes (WebP), thumbnails, extracción de metadatos (FFmpeg). Alta
+BE-03 Almacenamiento en AWS S3 + CloudFront (o Cloudinary) con URLs HTTPS. Alta
+BE-04 Base de datos PostgreSQL con tablas Multimedia, Producto_Multimedia, Reseñas_Cliente. Alta
+BE-05 Sistema de moderación para marcar multimedia en reseñas como "validada". Media
+BE-06 Endpoints para interacciones ("me gusta", "reportar") en reseñas. Media
+📌 Frontend
+ID Requerimiento Prioridad
+FE-01 Componente <MediaGallery> con zoom, vista 360° (Three.js) y navegación por thumbnails. Alta
+FE-02 Reproductor de videos adaptable (HTML5 para self-hosted, embed para YouTube/Vimeo). Alta
+FE-03 Visualizador de PDFs en modal (PDF.js). Media
+FE-04 Botones de interacción en reseñas ("Útil", "Reportar", "Compartir"). Alta
+FE-05 Badge "Multimedia verificada" para contenido moderado. Media
+📌 DevOps
+ID Requerimiento Prioridad
+DEV-01 Configuración de CDN (CloudFront) con cache TTL de 24h. Alta
+DEV-02 Cronjob para limpieza de archivos no asociados a productos (cada 30 días). Media
+DEV-03 Monitoreo de ancho de banda y almacenamiento (AWS CloudWatch). Media
+
+---
+
+🔹 3. Esquema de Base de Datos
+📊 Tabla Multimedia
+sql
+CREATE TABLE Multimedia (
+id BIGSERIAL PRIMARY KEY,
+tipo*recurso VARCHAR(20) NOT NULL, -- 'imagen', 'video', 'pdf', '3d'
+subtipo VARCHAR(20) NOT NULL, -- 'webp', 'mp4', 'youtube', 'glb'
+url_principal VARCHAR(512) NOT NULL,
+derivados JSONB, -- { "miniaturas": {"small": "url"}, "watermark": "url" }
+metadatos JSONB NOT NULL, -- { "alt_text": "descripción", "duracion": 30 }
+estado VARCHAR(15) DEFAULT 'activo', -- 'activo', 'pendiente', 'eliminado'
+visibilidad VARCHAR(15) DEFAULT 'publico', -- 'publico', 'privado'
+fecha_subida TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+owner_id BIGINT -- FK a Usuarios
+);
+📊 Tabla Producto_Multimedia
+sql
+CREATE TABLE Producto_Multimedia (
+producto_id BIGINT NOT NULL, -- FK a Productos
+multimedia_id BIGINT NOT NULL, -- FK a Multimedia
+orden_visual INT NOT NULL,
+rol_uso VARCHAR(20), -- 'portada', 'galeria', 'especificaciones'
+PRIMARY KEY (producto_id, multimedia_id)
+);
+📊 Tabla Reseñas_Cliente
+sql
+CREATE TABLE Reseñas_Cliente (
+id BIGSERIAL PRIMARY KEY,
+producto_id BIGINT NOT NULL, -- FK a Productos
+usuario_id BIGINT NOT NULL, -- FK a Usuarios
+rating SMALLINT CHECK (rating BETWEEN 1 AND 5),
+comentario TEXT,
+multimedia_id BIGINT, -- FK a Multimedia (NULLABLE)
+multimedia_valida BOOLEAN DEFAULT FALSE,
+likes_multimedia INT DEFAULT 0,
+reportes_multimedia INT DEFAULT 0,
+es*útil INT DEFAULT 0,
+fecha_creacion TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+---
+
+🔹 4. Plan de Implementación
+Fase 1: Core Multimedia (2 semanas)
+• BE-01, BE-02, BE-04 (API de subida + BD).
+• FE-01, FE-02 (Galería + reproductor de video).
+• DEV-01 (Configuración de CDN).
+Fase 2: Reseñas y Moderación (1 semana)
+• BE-05, BE-06 (Validación de reseñas + interacciones).
+• FE-04, FE-05 (Botones de interacción + badges).
+Fase 3: Optimización y Analítica (1 semana)
+• DEV-02, DEV-03 (Limpieza + monitoreo).
+• Dashboard de métricas (vistas_multimedia, reseñas más útiles).
+
+---
+
+🔹 5. Stack Tecnológico
+Área Tecnología
+Backend Node.js (Express) / Python (Django) + PostgreSQL.
+Frontend React + Three.js (3D) + Swiper.js (galerías).
+Almacenamiento AWS S3 + CloudFront (CDN).
+Procesamiento Sharp (imágenes), FFmpeg (videos), PDF.js (documentos).
+Analítica Metabase o Google Data Studio (para dashboards).
+
+---
+
+🔹 6. Entregables
+✅ Código Fuente: Repositorio Git con backend + frontend.
+✅ Documentación: API (Swagger), esquema de BD, manual de despliegue.
+✅ Dashboard de Métricas: Reseñas más útiles, multimedia más vista.
+✅ Pruebas de Carga: Reporte de performance con 10k solicitudes simultáneas.
+
+---
+
+🔹 7. Métricas de Éxito
+• Tiempo de carga multimedia: <1s en dispositivos móviles (4G).
+• Conversión: Aumento del 15% en ventas de productos con reseñas validadas.
+• Retención: 80% de usuarios interactúa con multimedia (zoom, videos).

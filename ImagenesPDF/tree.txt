@@ -1,0 +1,76 @@
+﻿Estructura del proyecto ImagenesPDF
+==================================
+Generado: 2025-08-13 10:20:12
+Modo sobrescritura: False
+Ruta base: D:\imagenespdf\ImagenesPDF
+
+ImagenesPDF/|-- build - Archivos temporales de construccion
+|-- dist - Archivos de distribucion (.exe, .msi)
+|-- input - Directorio de entrada
+|   +-- pdfs - PDFs a procesar
+|-- out - Directorio de salida
+|   |-- csv - Archivos CSV espejo
+|   |-- images - Imagenes extraidas organizadas
+|   |   +-- _flat - Todas las imagenes en estructura plana
+|   |-- logs - Archivos de log del procesamiento
+|   +-- xlsx - Archivos Excel generados
+|-- src - Codigo fuente del proyecto
+|   +-- imagenespdf - Paquete principal de la aplicacion
+|       |-- adapters - Adaptadores de interfaz por proveedor
+|       |   |-- __init__.py - Archivo de inicializacion del paquete adapters
+|       |   |-- base.py - Interfaz comun para adaptadores
+|       |   |-- depo.py - Adaptador DEPO (usa depo_codec)
+|       |   |-- generic.py - Adaptador generico (usa generic_codec)
+|       |   |-- hushan.py - Adaptador HUSHAN (usa hushan_codec)
+|       |   +-- yuto.py - Adaptador YUTO (usa yuto_codec)
+|       |-- codecs - Decodificadores especificos por proveedor
+|       |   |-- __init__.py - Archivo de inicializacion del paquete codecs
+|       |   |-- depo_codec.py - Decodificador DEPO (A-J + addenda)
+|       |   |-- generic_codec.py - Fallback generico
+|       |   |-- hushan_codec.py - Decodificador HUSHAN (variantes)
+|       |   +-- yuto_codec.py - Decodificador YUTO (sufijos y tokens)
+|       |-- schema - Esquemas y configuraciones YAML
+|       |   |-- dims.yaml - Catalogos iniciales (makers, bulbs, etc.)
+|       |   |-- excel_layout.yaml - Definicion de hojas/columnas/validaciones
+|       |   |-- features.yaml - Taxonomia de features (LED, sensor, keyhole...)
+|       |   +-- vendor_signatures.yaml - Firmas por proveedor para detector
+|       |-- __init__.py - Archivo de inicializacion del paquete
+|       |-- cli.py - CLI principal (Typer) con autodeteccion de proveedor
+|       |-- code_parser.py - Orquesta el parseo de codigos a tokens normalizados
+|       |-- color_classifier.py - Clasificacion rosa/azul del texto del codigo
+|       |-- compat.py - Resolucion de compatibilidades
+|       |-- config.py - Carga de YAML/JSON de mapeos
+|       |-- detector.py - Deteccion de bloques por pagina (si aplica)
+|       |-- image_crop.py - Recorte a PNG 1200 DPI (jerarquico + plano)
+|       |-- indexer.py - Parseo del indice (maker/model/years/page)
+|       |-- ingest.py - Lectura de PDFs, metadatos
+|       |-- logging_setup.py - Logging estructurado
+|       |-- normalizer.py - Normalizacion a dim_* (makers, product_types, etc.)
+|       |-- utils_fs.py - Utilidades de archivos y hashing
+|       |-- validators.py - Validaciones 3FN y de negocio
+|       |-- vendor_detector.py - Detecta proveedor por CONTENIDO del PDF
+|       |-- versioning.py - Diff + historico
+|       |-- writer_csv.py - CSV espejo por hoja (unificado)
+|       |-- writer_excel.py - Escritor del libro Excel maestro (unificado)
+|       +-- years.py - Regla de siglos + expansion de aÃ±os
+|-- vendor - Dependencias externas embebidas
+|   |-- python-embed - Python embebido para distribucion
+|   +-- tesseract - Motor OCR Tesseract portable
+|-- build_exe.bat - Script para empaquetar el .exe
+|-- imagenespdf.spec - Receta PyInstaller (se genera en build)
+|-- install_runtime.ps1 - Instalador de dependencias (Python, VC++ redist, Tesseract)
+|-- pyproject.toml - Configuracion de proyecto Python (opcional)
+|-- README.md - Documentacion principal del proyecto
+|-- requirements.txt - Dependencias de Python
+|-- run.bat - Ejecutador principal del programa
++-- tree.txt
+
+=== ESTADISTICAS ===
+- Directorios: 18
+- Archivos: 42
+
+=== DESCRIPCION GENERAL ===
+Este proyecto procesa catalogos PDF de autopartes, extrayendo codigos,
+imagenes y metadatos para generar archivos Excel y CSV normalizados.
+Soporta multiples proveedores (DEPO, YUTO, HUSHAN) con deteccion automatica.
+
